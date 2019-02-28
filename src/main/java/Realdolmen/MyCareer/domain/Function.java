@@ -78,6 +78,23 @@ public class Function implements Serializable {
         this.description = description;
     }
 
+    /*
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+    }
+
+    public Employee getEmployee2() {
+        return employee2;
+    }
+
+    public void setEmployee2(Employee employee2) {
+        this.employee2 = employee2;
+    } */
+
     public Function() {
     }
 

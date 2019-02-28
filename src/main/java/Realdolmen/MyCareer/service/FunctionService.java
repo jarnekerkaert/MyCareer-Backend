@@ -42,5 +42,11 @@ public class FunctionService implements IFunctionService{
     public void deleteCurrentFunction() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+    
+    @Override
+    public Function save(Function function) {
+        return repository.save(function);
+    } 
     
 }

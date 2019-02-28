@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface IFunctionService {
     // post
-    
+    public Function save(Function function);
     
     // get
         // alle functies in de db
