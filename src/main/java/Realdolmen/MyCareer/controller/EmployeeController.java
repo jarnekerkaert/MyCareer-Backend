@@ -1,5 +1,6 @@
 package Realdolmen.MyCareer.controller;
 
+import Realdolmen.MyCareer.domain.CurrentFunction;
 import Realdolmen.MyCareer.domain.Employee;
 import Realdolmen.MyCareer.domain.Function;
 import Realdolmen.MyCareer.domain.Subklasse1;
@@ -68,19 +69,37 @@ public class EmployeeController {
     }
 // ------------------------------------------------------------------------------------------------------------------------------------------------
     // FUNCTION - POST
-    /*
-    @RequestMapping(value = "/{id}/postfunction", method = RequestMethod.POST)
-    public Function postFunction(@PathVariable("id") Long employeeId, @Valid @RequestBody Function function){
+    
+    @RequestMapping(value = "/postfunction", method = RequestMethod.POST)
+    public Function postCurrentFunction(@Valid @RequestBody CurrentFunction function){
+        /*
         Employee emp = employeeService.findEmployeeById(employeeId);
         // in de body zetten
         //function.setEmployee(emp);
+        List<Function> oudeLijst = emp.getFunctions();
+        System.out.println(oudeLijst);
+        //List<Function> oudeLijst = functionService.findCurrentFunctions(employeeId);
+        oudeLijst.add(function);
+        emp.setFunctions(oudeLijst);
+        employeeService.save(emp);
         return functionService.save(function);
-    } */
+        // enkel 1 functie toevoegen hier, dus enkel 1 functie in db toevoegen
+        // hmmmm, worden de functie-objecten in databank dan wel aangemaakt?
+        */
+        return functionService.save(function);
+    } 
     
     // post een lijst van huidige functies 
     // TODO
+            // for elk element in de lijst die meegegeven wordt moet je een nieuwe functie in db maken
+
     // post een lijst van vorige functies
     // TODO
+    
+    @RequestMapping(value = "/postemployee", method = RequestMethod.POST)
+    public Employee createUser(@Valid @RequestBody Employee employee) {
+        return employeeService.save(employee);
+    }
     
 // ------------------------------------------------------------------------------------------------------------------------------------------------
     // EXTRA - kan misschien nog nuttig zijn voor in de toekomst

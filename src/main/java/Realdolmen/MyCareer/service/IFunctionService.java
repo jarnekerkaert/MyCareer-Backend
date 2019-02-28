@@ -18,7 +18,8 @@ public interface IFunctionService<T extends Function> {
     
     
     // post
-    public Function save(Function function);
+    //public void save(CurrentFunction function);
+    public Function save(CurrentFunction function);
     
     // get
         // alle functies in de db

@@ -57,9 +57,10 @@ public class FunctionService implements IFunctionService<Function>{
     }
     
     @Override
-    public Function save(Function function) {
+    public Function save(CurrentFunction function) {
         //return repository.save(function);
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+//        return currentFunctionRepository.save((CurrentFunction) function);
+        return currentFunctionRepository.save(function);
     } 
 
     @Override

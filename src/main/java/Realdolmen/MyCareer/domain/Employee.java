@@ -49,7 +49,7 @@ public class Employee implements Serializable {
     @Column(name = "cv_filepath")
     private String cv_filepath;
 
-    @Column(name = "birthdate", nullable = false)
+    @Column(name = "birthdate")
     private Date birthdate;
 
     public Long getId() {
@@ -110,6 +110,15 @@ public class Employee implements Serializable {
 
     public Employee() {
     }
+
+    /*
+    public List<Function> getFunctions() {
+        return functions;
+    }
+
+    public void setFunctions(List<Function> functions) {
+        this.functions = functions;
+    }*/
 
     @Override
     public int hashCode() {

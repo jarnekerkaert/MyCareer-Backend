@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface IEmployeeService {
     public Employee findEmployeeById(Long employeeId);
+    public Employee save(Employee emp);
+    
 }
