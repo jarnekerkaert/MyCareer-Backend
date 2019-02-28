@@ -7,7 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
+// later te veranderen naar SterkPunt
 @Entity(name = "subklasse1")
 //@Table(name = "subklasse1")
 public class Subklasse1 extends Superklasse {

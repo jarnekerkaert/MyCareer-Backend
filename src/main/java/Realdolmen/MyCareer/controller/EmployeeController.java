@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 @RequestMapping(value = "/employee")
 public class EmployeeController {
     
-    
     //Autowiring
     @Autowired
     IEmployeeService employeeService;
@@ -68,9 +67,15 @@ public class EmployeeController {
     public List<Function> getPreviousFunctionsOfEmployee(@PathVariable("id") Long employee_id){
         return functionService.findAllPreviousFunctionsOfEmployee(employee_id);
     }
+    
 // ------------------------------------------------------------------------------------------------------------------------------------------------
     // FUNCTION - POST
     
+    /**
+     * POST API call for adding one current function
+     * @param function
+     * @return 
+     */
     @RequestMapping(value = "/postcurrentfunction", method = RequestMethod.POST)
     public Function postCurrentFunction(@Valid @RequestBody CurrentFunction function){
         /*
@@ -90,25 +95,42 @@ public class EmployeeController {
         return functionService.save(function);
     } 
     
+    /**
+     * POST API call for adding one previous function
+     * @param function
+     * @return 
+     */
     @RequestMapping(value = "/postpreviousfunction", method = RequestMethod.POST)
     public Function postPreviousFunction(@Valid @RequestBody PrevFunction function){
         return functionService.save(function);
     } 
     
-    // post een lijst van huidige functies 
-            // for elk element in de lijst die meegegeven wordt moet je een nieuwe functie in db maken
+    /**
+     * POST API call for adding a list of current functions
+     * @param functions
+     * @return 
+     */
     @RequestMapping(value = "/postcurrentfunctions", method = RequestMethod.POST)
     public List<Function> postCurrentFunctions(@Valid @RequestBody List<CurrentFunction> functions){
         return functionService.saveListOfCurrentFunctions(functions);
     } 
 
-    // post een lijst van vorige functies
+    /**
+     * POST API call for adding a list of previous functions
+     * @param functions
+     * @return 
+     */
     @RequestMapping(value = "/postpreviousfunctions", method = RequestMethod.POST)
     public List<Function> postPreviousFunctions(@Valid @RequestBody List<PrevFunction> functions){
         return functionService.saveListOfPrevFunctions(functions);
     } 
     
-    // 1 api call om zowel een lijst van huidige als vorige functies op te slaan
+    /**
+     * POST API call for adding a list of current functions and a list of previous functions
+     * @param currentfunctions
+     * @param prevfunctions
+     * @return 
+     */
     @RequestMapping(value = "/postcurrentandprevfunctions", method = RequestMethod.POST)
     public String postCurrentAndPreviousFunctions(@Valid @RequestBody List<CurrentFunction> currentfunctions, @Valid @RequestBody List<PrevFunction> prevfunctions){
         return functionService.saveTwoListsOfFunctions(currentfunctions, prevfunctions);
@@ -116,6 +138,11 @@ public class EmployeeController {
     
 // ------------------------------------------------------------------------------------------------------------------------------------------------
     // EMPLOYEE - POST - EXTRA
+    /**
+     * Extra POST API call for adding an employee
+     * @param employee
+     * @return 
+     */
     @RequestMapping(value = "/postemployee", method = RequestMethod.POST)
     public Employee createUser(@Valid @RequestBody Employee employee) {
         return employeeService.save(employee);

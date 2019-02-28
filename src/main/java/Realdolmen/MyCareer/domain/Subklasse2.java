@@ -7,7 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
+// later te veranderen naar GroeiPunt
 @Entity(name = "subklasse2")
 //@Table(name = "subklasse2")
 public class Subklasse2 extends Superklasse {

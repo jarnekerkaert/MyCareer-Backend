@@ -37,10 +37,7 @@ public abstract class Function
     
     @Column(name = "title", nullable = false)
     private String title;
-    @Column(name = "start")
-    private Date start;
-    @Column(name = "ending")
-    private Date ending;
+
     @Column(name = "description")
     private String description;
 
@@ -60,21 +57,7 @@ public abstract class Function
         this.title = title;
     }
 
-    public Date getStart() {
-        return start;
-    }
-
-    public void setStart(Date start) {
-        this.start = start;
-    }
-
-    public Date getEnding() {
-        return ending;
-    }
-
-    public void setEnding(Date ending) {
-        this.ending = ending;
-    }
+  
 
     public String getDescription() {
         return description;
