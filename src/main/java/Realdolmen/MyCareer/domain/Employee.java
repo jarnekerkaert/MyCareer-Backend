@@ -27,8 +27,9 @@ public class Employee implements Serializable {
     @OneToMany(mappedBy = "employee")
     private List<Function> functions =  new ArrayList<>();
     
+    /*
      @OneToMany(mappedBy = "employee2")
-    private List<Function> previous_functions =  new ArrayList<>();
+    private List<Function> previous_functions =  new ArrayList<>(); */
 
     @Column(name = "firstname", nullable = false)
     private String firstname;

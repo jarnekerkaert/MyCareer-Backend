@@ -9,5 +9,5 @@ import java.util.List;
 public interface ISubklasseService<T extends Superklasse> {
      public T findSubklasseById(Long id);
      public List<Subklasse1> findAll1();
-      public List<Subklasse2> findAll2();
+     public List<Subklasse2> findAll2();
 }

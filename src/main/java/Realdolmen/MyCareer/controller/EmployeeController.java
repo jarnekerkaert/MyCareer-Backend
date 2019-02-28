@@ -21,6 +21,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 @RequestMapping(value = "/employee")
 public class EmployeeController {
     
+    
+    //Autowiring
     @Autowired
     IEmployeeService employeeService;
     
@@ -30,41 +32,94 @@ public class EmployeeController {
     @Autowired
     ISubklasseService subklasseService;
     
-    @RequestMapping(value = "/test", method = RequestMethod.GET)
-    public String test(Model model) {
-        return "test";
-    }
+// ------------------------------------------------------------------------------------------------------------------------------------------------
     
+    // EMPLOYEE - GET
+    /**
+     * returns the information of the employee
+     * @param employeeId
+     * @return 
+     */
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public Employee getEmployee(@PathVariable("id") Long employeeId) {
         return employeeService.findEmployeeById(employeeId);
     }
-    
-    @RequestMapping(value = "/{id}/functions", method = RequestMethod.GET)
-    public List<Function> getFunctionsOfEmployee(@PathVariable("id") Long employeeId){
-        return functionService.findByEmployee_id(employeeId);
+// ------------------------------------------------------------------------------------------------------------------------------------------------
+    // FUNCTION - GET
+        
+    /**
+     * returns all the current functions of the given employee
+     * @param employee_id
+     * @return 
+     */
+    @RequestMapping(value = "/allcurrentfunctionsofemployee/{id}", method = RequestMethod.GET)
+    public List<Function> getCurrentFunctionsOfEmployee(@PathVariable("id") Long employee_id){
+        return functionService.findAllCurrentFunctionsOfEmployee(employee_id);
     }
+    
+     /**
+     * returns all the previous functions of the given employee
+     * @param employee_id
+     * @return 
+     */
+    @RequestMapping(value = "/allpreviousfunctionsofemployee/{id}", method = RequestMethod.GET)
+    public List<Function> getPreviousFunctionsOfEmployee(@PathVariable("id") Long employee_id){
+        return functionService.findAllPreviousFunctionsOfEmployee(employee_id);
+    }
+// ------------------------------------------------------------------------------------------------------------------------------------------------
+    // FUNCTION - POST
     /*
-    @RequestMapping(value = "/{id}/functions", method = RequestMethod.POST)
+    @RequestMapping(value = "/{id}/postfunction", method = RequestMethod.POST)
     public Function postFunction(@PathVariable("id") Long employeeId, @Valid @RequestBody Function function){
         Employee emp = employeeService.findEmployeeById(employeeId);
-        function.setEmployee(emp);
+        // in de body zetten
+        //function.setEmployee(emp);
         return functionService.save(function);
-        
     } */
     
-    @RequestMapping(value = "/{id}/subklasse", method = RequestMethod.GET)
-    public Superklasse getSubklasse1s(@PathVariable("id") Long subklasseId){
-        return subklasseService.findSubklasseById(subklasseId);
+    // post een lijst van huidige functies 
+    // TODO
+    // post een lijst van vorige functies
+    // TODO
+    
+// ------------------------------------------------------------------------------------------------------------------------------------------------
+    // EXTRA - kan misschien nog nuttig zijn voor in de toekomst
+    
+    /**
+     * returns all the current functions that are stored in the database
+     * @return 
+     */
+    @RequestMapping(value = "/allcurrentfunctions", method = RequestMethod.GET)
+    public List<Subklasse1> getCurrentFunctions(){
+        return functionService.findAllCurrentFunctions();
     }
     
-    @RequestMapping(value = "/allsubs1", method = RequestMethod.GET)
-    public List<Subklasse1> getSubklasse1s(){
-        return subklasseService.findAll1();
+    /**
+     * returns all the previous functions that are stored in the database
+     * @return 
+     */
+    @RequestMapping(value = "/allpreviousfunctions", method = RequestMethod.GET)
+    public List<Subklasse1> getPreviousFunctions(){
+        return functionService.findAllPreviousFunctions();
     }
     
-    @RequestMapping(value = "/allsubs2", method = RequestMethod.GET)
-    public List<Subklasse1> getSubklasse2s(){
-        return subklasseService.findAll2();
-    }
+//    @RequestMapping(value = "/{id}/functions", method = RequestMethod.GET)
+//    public List<Function> getFunctionsOfEmployee(@PathVariable("id") Long employeeId){
+//        return functionService.findByEmployee_id(employeeId);
+//    }
+    
+//    @RequestMapping(value = "/{id}/subklasse", method = RequestMethod.GET)
+//    public Superklasse getSubklasse1s(@PathVariable("id") Long subklasseId){
+//        return subklasseService.findSubklasseById(subklasseId);
+//    }
+//    
+//    @RequestMapping(value = "/allsubs1", method = RequestMethod.GET)
+//    public List<Subklasse1> getSubklasse1s(){
+//        return subklasseService.findAll1();
+//    }
+//    
+//    @RequestMapping(value = "/allsubs2", method = RequestMethod.GET)
+//    public List<Subklasse1> getSubklasse2s(){
+//        return subklasseService.findAll2();
+//    }
 }

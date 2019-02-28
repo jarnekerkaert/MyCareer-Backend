@@ -8,13 +8,18 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "function")
-public class Function implements Serializable {
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+public abstract class Function 
+        //implements Serializable 
+{
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -25,9 +30,10 @@ public class Function implements Serializable {
     @JoinColumn(name="employee_id")
     private Employee employee;
     
+    /*
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="employee_id_previous")
-    private Employee employee2;
+    private Employee employee2; */
     
     @Column(name = "title", nullable = false)
     private String title;
@@ -77,23 +83,6 @@ public class Function implements Serializable {
     public void setDescription(String description) {
         this.description = description;
     }
-
-    /*
-    public Employee getEmployee() {
-        return employee;
-    }
-
-    public void setEmployee(Employee employee) {
-        this.employee = employee;
-    }
-
-    public Employee getEmployee2() {
-        return employee2;
-    }
-
-    public void setEmployee2(Employee employee2) {
-        this.employee2 = employee2;
-    } */
 
     public Function() {
     }
