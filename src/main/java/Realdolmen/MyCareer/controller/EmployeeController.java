@@ -3,6 +3,7 @@ package Realdolmen.MyCareer.controller;
 import Realdolmen.MyCareer.domain.CurrentFunction;
 import Realdolmen.MyCareer.domain.Employee;
 import Realdolmen.MyCareer.domain.Function;
+import Realdolmen.MyCareer.domain.PrevFunction;
 import Realdolmen.MyCareer.domain.Subklasse1;
 import Realdolmen.MyCareer.domain.Superklasse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,7 +71,7 @@ public class EmployeeController {
 // ------------------------------------------------------------------------------------------------------------------------------------------------
     // FUNCTION - POST
     
-    @RequestMapping(value = "/postfunction", method = RequestMethod.POST)
+    @RequestMapping(value = "/postcurrentfunction", method = RequestMethod.POST)
     public Function postCurrentFunction(@Valid @RequestBody CurrentFunction function){
         /*
         Employee emp = employeeService.findEmployeeById(employeeId);
@@ -89,13 +90,32 @@ public class EmployeeController {
         return functionService.save(function);
     } 
     
+    @RequestMapping(value = "/postpreviousfunction", method = RequestMethod.POST)
+    public Function postPreviousFunction(@Valid @RequestBody PrevFunction function){
+        return functionService.save(function);
+    } 
+    
     // post een lijst van huidige functies 
-    // TODO
             // for elk element in de lijst die meegegeven wordt moet je een nieuwe functie in db maken
+    @RequestMapping(value = "/postcurrentfunctions", method = RequestMethod.POST)
+    public List<Function> postCurrentFunctions(@Valid @RequestBody List<CurrentFunction> functions){
+        return functionService.saveListOfCurrentFunctions(functions);
+    } 
 
     // post een lijst van vorige functies
-    // TODO
+    @RequestMapping(value = "/postpreviousfunctions", method = RequestMethod.POST)
+    public List<Function> postPreviousFunctions(@Valid @RequestBody List<PrevFunction> functions){
+        return functionService.saveListOfPrevFunctions(functions);
+    } 
     
+    // 1 api call om zowel een lijst van huidige als vorige functies op te slaan
+    @RequestMapping(value = "/postcurrentandprevfunctions", method = RequestMethod.POST)
+    public String postCurrentAndPreviousFunctions(@Valid @RequestBody List<CurrentFunction> currentfunctions, @Valid @RequestBody List<PrevFunction> prevfunctions){
+        return functionService.saveTwoListsOfFunctions(currentfunctions, prevfunctions);
+    } 
+    
+// ------------------------------------------------------------------------------------------------------------------------------------------------
+    // EMPLOYEE - POST - EXTRA
     @RequestMapping(value = "/postemployee", method = RequestMethod.POST)
     public Employee createUser(@Valid @RequestBody Employee employee) {
         return employeeService.save(employee);

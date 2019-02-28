@@ -58,10 +58,13 @@ public class FunctionService implements IFunctionService<Function>{
     
     @Override
     public Function save(CurrentFunction function) {
-        //return repository.save(function);
-//        return currentFunctionRepository.save((CurrentFunction) function);
         return currentFunctionRepository.save(function);
     } 
+    
+    @Override
+    public Function save(PrevFunction function) {
+        return prevFunctionRepository.save(function);
+    }
 
     @Override
     public List<CurrentFunction> findAllCurrentFunctions() {
@@ -82,5 +85,24 @@ public class FunctionService implements IFunctionService<Function>{
     public List<Function> findAllPreviousFunctionsOfEmployee(Long employeeId) {
         return prevFunctionRepository.findByEmployee_id(employeeId);
     }
+
+    @Override
+    public List<CurrentFunction> saveListOfCurrentFunctions(List<CurrentFunction> functions) {
+        return currentFunctionRepository.saveAll(functions);
+    }
+
+    @Override
+    public List<PrevFunction> saveListOfPrevFunctions(List<PrevFunction> functions) {
+        return prevFunctionRepository.saveAll(functions);
+    }
+
+    @Override
+    public String saveTwoListsOfFunctions(List<CurrentFunction> currentfunctions, List<PrevFunction> prevfunctions) {
+        currentFunctionRepository.saveAll(currentfunctions);
+        prevFunctionRepository.saveAll(prevfunctions);
+        return "gelukt";
+    }
+
+
     
 }
