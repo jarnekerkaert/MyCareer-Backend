@@ -100,9 +100,6 @@ public class FunctionService implements IFunctionService<Function>{
     public String saveTwoListsOfFunctions(List<CurrentFunction> currentfunctions, List<PrevFunction> prevfunctions) {
         currentFunctionRepository.saveAll(currentfunctions);
         prevFunctionRepository.saveAll(prevfunctions);
-        return "gelukt";
+        return "success";
     }
-
-
-    
 }

@@ -131,10 +131,18 @@ public class EmployeeController {
      * @param prevfunctions
      * @return 
      */
+    
+    /*
     @RequestMapping(value = "/postcurrentandprevfunctions", method = RequestMethod.POST)
     public String postCurrentAndPreviousFunctions(@Valid @RequestBody List<CurrentFunction> currentfunctions, @Valid @RequestBody List<PrevFunction> prevfunctions){
         return functionService.saveTwoListsOfFunctions(currentfunctions, prevfunctions);
-    } 
+    } */
+    
+    /*
+    @RequestMapping(value = "/postcurrentandprevfunctionstest", method = RequestMethod.POST)
+    public String postCurrentAndPreviousFunctionsTest(@RequestBody List<List<Function>> json){
+        return functionService.saveTwoListsOfFunctions(json.get(0), json.get(1));
+    } */
     
 // ------------------------------------------------------------------------------------------------------------------------------------------------
     // EMPLOYEE - POST - EXTRA
