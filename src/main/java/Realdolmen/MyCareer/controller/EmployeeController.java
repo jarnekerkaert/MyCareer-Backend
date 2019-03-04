@@ -3,9 +3,12 @@ package Realdolmen.MyCareer.controller;
 import Realdolmen.MyCareer.domain.CurrentFunction;
 import Realdolmen.MyCareer.domain.Employee;
 import Realdolmen.MyCareer.domain.Function;
+import Realdolmen.MyCareer.domain.FunctionListWrapper;
 import Realdolmen.MyCareer.domain.PrevFunction;
-import Realdolmen.MyCareer.domain.Subklasse1;
-import Realdolmen.MyCareer.domain.Superklasse;
+import Realdolmen.MyCareer.domain.StrongQuality;
+import Realdolmen.MyCareer.domain.Quality;
+import Realdolmen.MyCareer.domain.QualityListWrapper;
+import Realdolmen.MyCareer.domain.WeakQuality;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,10 +17,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import Realdolmen.MyCareer.service.IEmployeeService;
 import Realdolmen.MyCareer.service.IFunctionService;
-import Realdolmen.MyCareer.service.ISubklasseService;
 import java.util.List;
 import javax.validation.Valid;
 import org.springframework.web.bind.annotation.RequestBody;
+import Realdolmen.MyCareer.service.IQualityService;
 
 @RestController
 @RequestMapping(value = "/employee")
@@ -31,7 +34,7 @@ public class EmployeeController {
     IFunctionService functionService;
     
     @Autowired
-    ISubklasseService subklasseService;
+    IQualityService qualityService;
     
 // ------------------------------------------------------------------------------------------------------------------------------------------------
     
@@ -133,26 +136,77 @@ public class EmployeeController {
     
     /**
      * POST API call for adding a list of current functions and a list of previous functions
-     * @param currentfunctions the employee_id should be in each of the functions
-     * @param prevfunctions the employee_id should be in each of the functions
+     * the employee_id should be in each of the functions
+     * @param json the given body should be an object that consists of two lists with the names currentfunctions and prevfunctions
+     * currentfunctions is a list of current functions, prevfunctions is a list of prev functions
+     * @return 
+     */
+    @RequestMapping(value = "/functions", method = RequestMethod.POST)
+    public String postCurrentAndPreviousFunctions(@RequestBody FunctionListWrapper json){
+        return functionService.saveTwoListsOfFunctions(json.getCurrentfunctions(), json.getPrevfunctions());
+    } 
+    
+    
+// ------------------------------------------------------------------------------------------------------------------------------------------------
+    
+    // QUALITY - POST
+    
+    /**
+     * POST API call 
+     * for adding one weak quality
+     * @param quality the foreign key employee_id should be in the quality
+     * @return 
+     */
+    @RequestMapping(value = "/weakquality", method = RequestMethod.POST)
+    public Quality postWeakQuality(@Valid @RequestBody WeakQuality quality){
+        return qualityService.save(quality);
+    } 
+    
+    /**
+     * POST API call 
+     * for adding one strong quality
+     * @param quality the foreign key employee_id should be in the quality
      * @return 
      */
     
-    /*
-    @RequestMapping(value = "/postcurrentandprevfunctions", method = RequestMethod.POST)
-    public String postCurrentAndPreviousFunctions(@Valid @RequestBody List<CurrentFunction> currentfunctions, @Valid @RequestBody List<PrevFunction> prevfunctions){
-        return functionService.saveTwoListsOfFunctions(currentfunctions, prevfunctions);
-        //postCurrentFunctions(currentfunctions);
-        //postPreviousFunctions(prevfunctions);
-        //return "success";
-    } */
+    @RequestMapping(value = "/strongquality", method = RequestMethod.POST)
+    public Quality postStrongQuality(@Valid @RequestBody StrongQuality quality){
+        return qualityService.save(quality);
+    } 
     
-    /*
-    @RequestMapping(value = "/postcurrentandprevfunctionstest", method = RequestMethod.POST)
-    public String postCurrentAndPreviousFunctionsTest(@RequestBody List<List<Function>> json){
-        return functionService.saveTwoListsOfFunctions(json.get(0), json.get(1));
-    } */
+     /**
+     * POST API call 
+     * for adding a list of strong qualities
+     * @param qualities the employee_id should be in each of the qualities
+     * @return 
+     */
+    @RequestMapping(value = "/strongqualities", method = RequestMethod.POST)
+    public List<Quality> postStrongQualities(@Valid @RequestBody List<StrongQuality> qualities){
+        return qualityService.saveListOfStrongQualities(qualities);
+    } 
+
+    /**
+     * POST API call 
+     * for adding a list of weak qualities
+     * @param qualities the employee_id should be in each of the qualities
+     * @return 
+     */
+    @RequestMapping(value = "/weakqualities", method = RequestMethod.POST)
+    public List<Quality> postWeakQualities(@Valid @RequestBody List<WeakQuality> qualities){
+        return qualityService.saveListOfWeakQualities(qualities);
+    } 
     
+     /**
+     * POST API call for adding a list of strong qualities and a list of weak qualities
+     * the employee_id should be in each of the functions
+     * @param json the given body should be an object that consists of two lists with the names strongqualities and weakqualities
+     * strongqualities is a list of strong qualities, weakqualities is a list of weak qualities
+     * @return 
+     */
+    @RequestMapping(value = "/qualities", method = RequestMethod.POST)
+    public String postStrongAndWeakQualities(@RequestBody QualityListWrapper json){
+        return qualityService.saveTwoListsOfQualities(json.getStrongqualities(), json.getWeakqualities());
+    } 
 // ------------------------------------------------------------------------------------------------------------------------------------------------
     // EMPLOYEE - POST - EXTRA
     /**
@@ -177,7 +231,7 @@ public class EmployeeController {
      * @return 
      */
     @RequestMapping(value = "/allcurrentfunctions", method = RequestMethod.GET)
-    public List<Subklasse1> getCurrentFunctions(){
+    public List<StrongQuality> getCurrentFunctions(){
         return functionService.findAllCurrentFunctions();
     }
     
@@ -188,7 +242,7 @@ public class EmployeeController {
      * @return 
      */
     @RequestMapping(value = "/allpreviousfunctions", method = RequestMethod.GET)
-    public List<Subklasse1> getPreviousFunctions(){
+    public List<StrongQuality> getPreviousFunctions(){
         return functionService.findAllPreviousFunctions();
     }
     

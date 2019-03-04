@@ -6,7 +6,6 @@ import Realdolmen.MyCareer.domain.Function;
 import Realdolmen.MyCareer.domain.PrevFunction;
 import Realdolmen.MyCareer.service.EmployeeService;
 import Realdolmen.MyCareer.service.IFunctionService;
-import Realdolmen.MyCareer.service.ISubklasseService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.ArrayList;
@@ -46,6 +45,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import Realdolmen.MyCareer.service.IQualityService;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(EmployeeController.class)
@@ -61,7 +61,7 @@ public class EmployeeControllerTest {
     IFunctionService functionService;
 
     @MockBean
-    ISubklasseService subklasseService;
+    IQualityService subklasseService;
 
     private Employee empDummy;
     private CurrentFunction currentfunction;

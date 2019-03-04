@@ -4,8 +4,8 @@ package Realdolmen.MyCareer.service;
 import Realdolmen.MyCareer.domain.CurrentFunction;
 import Realdolmen.MyCareer.domain.Function;
 import Realdolmen.MyCareer.domain.PrevFunction;
-import Realdolmen.MyCareer.domain.Subklasse1;
-import Realdolmen.MyCareer.domain.Subklasse2;
+import Realdolmen.MyCareer.domain.StrongQuality;
+import Realdolmen.MyCareer.domain.WeakQuality;
 import java.util.List;
 
 public interface IFunctionService<T extends Function> {

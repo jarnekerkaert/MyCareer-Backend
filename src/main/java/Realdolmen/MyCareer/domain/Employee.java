@@ -33,6 +33,9 @@ public class Employee implements Serializable {
     @OneToMany(mappedBy = "employee")
     private List<Function> functions =  new ArrayList<>();
     
+    @OneToMany(mappedBy = "employee")
+    private List<Quality> qualities =  new ArrayList<>();
+    
     /*
      @OneToMany(mappedBy = "employee2")
     private List<Function> previous_functions =  new ArrayList<>(); */
