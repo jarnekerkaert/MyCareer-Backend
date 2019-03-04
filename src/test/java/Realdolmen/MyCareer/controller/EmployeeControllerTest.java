@@ -3,7 +3,11 @@ package Realdolmen.MyCareer.controller;
 import Realdolmen.MyCareer.domain.CurrentFunction;
 import Realdolmen.MyCareer.domain.Employee;
 import Realdolmen.MyCareer.domain.Function;
+import Realdolmen.MyCareer.domain.FunctionListWrapper;
 import Realdolmen.MyCareer.domain.PrevFunction;
+import Realdolmen.MyCareer.domain.QualityListWrapper;
+import Realdolmen.MyCareer.domain.StrongQuality;
+import Realdolmen.MyCareer.domain.WeakQuality;
 import Realdolmen.MyCareer.service.EmployeeService;
 import Realdolmen.MyCareer.service.IFunctionService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -46,6 +50,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import Realdolmen.MyCareer.service.IQualityService;
+import static org.hamcrest.CoreMatchers.containsString;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(EmployeeController.class)
@@ -61,13 +66,17 @@ public class EmployeeControllerTest {
     IFunctionService functionService;
 
     @MockBean
-    IQualityService subklasseService;
+    IQualityService qualityService;
 
     private Employee empDummy;
     private CurrentFunction currentfunction;
     private PrevFunction prevfunction;
     private List<CurrentFunction> listCurrentfunctions;
     private List<PrevFunction> listPrevfunctions;
+    private FunctionListWrapper functionWrapper;
+    private List<StrongQuality> listStrongQualities;
+    private List<WeakQuality> listWeakQualities;
+    private QualityListWrapper qualityWrapper;
 
     public EmployeeControllerTest() {
     }
@@ -116,9 +125,33 @@ public class EmployeeControllerTest {
         listPrevfunctions = new ArrayList<>();
         listPrevfunctions.add(prevfunction);
         listPrevfunctions.add(prevfunction2);
+        
+        // to post a list of current and previous functions
+        functionWrapper = new FunctionListWrapper();
+        functionWrapper.setCurrentfunctions(listCurrentfunctions);
+        functionWrapper.setPrevfunctions(listPrevfunctions);
+        
+        // to post a list of strong and weak qualities
+        qualityWrapper = new QualityListWrapper();
+        listStrongQualities = new ArrayList<>();
+        listWeakQualities = new ArrayList<>();
+        
+        StrongQuality strongquality1 = new StrongQuality();
+        strongquality1.setDescription("description strong");
+        listStrongQualities.add(strongquality1);
+        
+        WeakQuality weakquality1 = new WeakQuality();
+        weakquality1.setDescription("description weak");
+        listWeakQualities.add(weakquality1);
+        
+        qualityWrapper.setStrongqualities(listStrongQualities);
+        qualityWrapper.setWeakqualities(listWeakQualities);
+        
     }
-
+    
+// ----------------------------------------------------------------------------------------------------------------------------------------------
     // EMPLOYEE - GET
+    
     /**
      * Test for the GET API call getEmployee(Long employee_id) with an existing employee_id
      * @throws Exception 
@@ -151,10 +184,12 @@ public class EmployeeControllerTest {
         mvc.perform(get("/employee/25663")
                 .accept(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
-                .andExpect(content().string(""));
+                .andExpect(content().string("Employee not found with id : '25663'"));
     }
 
+// ----------------------------------------------------------------------------------------------------------------------------------------------    
     // FUNCTION - POST
+    
     /**
      * Test for adding a current function
      * @throws Exception 
@@ -241,23 +276,29 @@ public class EmployeeControllerTest {
                 //.andExpect(jsonPath("$[1].id", is(2)))
                ;
     }
-    /*
+    
+    /**
+     * Test for adding a list of current functions and a list of previous functions
+     * @throws Exception 
+     */
     @Test
-    public void postTwoListsOfCurrentAndPreviousFunctions() throws Exception {
-        String uri = "/employee/postcurrentandprevfunctions";
+    public void postListsOfCurrentAndPreviousFunctions() throws Exception {
+        String uri = "/employee/functions";
 
         given(functionService.saveTwoListsOfFunctions(listCurrentfunctions,listPrevfunctions)).willReturn("success"); 
         
         mvc.perform(post(uri)
                 .contentType(APPLICATION_JSON)
-                //.content(mapToJson(listCurrentfunctions))
-                //.content(mapToJson(listPrevfunctions)))
+                .content(mapToJson(functionWrapper))
                 )
                 .andExpect(status().isOk())
+                .andExpect(content().string(containsString("success")));
                ;
-    }*/
+    }
+    
+// ----------------------------------------------------------------------------------------------------------------------------------------------
 
-    // HULPMETHODES
+    // HELPMETHODS
     /**
      * Method to convert objects to JSON's
      * @param obj an object is given as a parameter and this object will be
@@ -276,5 +317,28 @@ public class EmployeeControllerTest {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+    
+// ----------------------------------------------------------------------------------------------------------------------------------------------
+    // QUALITY - POST
+    
+        
+    /**
+     * Test for adding a list of strong qualities and a list of weak qualities
+     * @throws Exception 
+     */
+    @Test
+    public void postListsOfStrongAndWeakQualities() throws Exception {
+        String uri = "/employee/qualities";
+
+        given(qualityService.saveTwoListsOfQualities(listStrongQualities,listWeakQualities)).willReturn("success"); 
+        
+        mvc.perform(post(uri)
+                .contentType(APPLICATION_JSON)
+                .content(mapToJson(qualityWrapper))
+                )
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString("success")));
+               ;
     }
 }

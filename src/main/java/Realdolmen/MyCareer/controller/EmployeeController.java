@@ -9,6 +9,7 @@ import Realdolmen.MyCareer.domain.StrongQuality;
 import Realdolmen.MyCareer.domain.Quality;
 import Realdolmen.MyCareer.domain.QualityListWrapper;
 import Realdolmen.MyCareer.domain.WeakQuality;
+import Realdolmen.MyCareer.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -45,8 +46,23 @@ public class EmployeeController {
      * @return 
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public Employee getEmployee(@PathVariable("id") Long employeeId) {
-        return employeeService.findEmployeeById(employeeId);
+    public Object getEmployee(@PathVariable("id") Long employeeId) {
+    // public Employee getEmployee(@PathVariable("id") Long employeeId) {
+        //return employeeService.findEmployeeById(employeeId);
+        
+        try{
+            Employee employee = employeeService.findEmployeeById(employeeId);
+            if(employee != null){
+                return employee;
+            }
+            else{
+                throw new ResourceNotFoundException("Employee", "id", employeeId);
+                // return "Employee not found!";
+            }
+        }
+        catch (ResourceNotFoundException e) {
+            return e.getMessage();
+        }
     }
 // ------------------------------------------------------------------------------------------------------------------------------------------------
     // FUNCTION - GET
@@ -77,6 +93,7 @@ public class EmployeeController {
     // FUNCTION - POST
     
     /**
+     * Extra
      * POST API call 
      * for adding one current function
      * @param function the foreign key employee_id should be in the function
@@ -84,24 +101,11 @@ public class EmployeeController {
      */
     @RequestMapping(value = "/postcurrentfunction", method = RequestMethod.POST)
     public Function postCurrentFunction(@Valid @RequestBody CurrentFunction function){
-        /*
-        Employee emp = employeeService.findEmployeeById(employeeId);
-        // in de body zetten
-        //function.setEmployee(emp);
-        List<Function> oudeLijst = emp.getFunctions();
-        System.out.println(oudeLijst);
-        //List<Function> oudeLijst = functionService.findCurrentFunctions(employeeId);
-        oudeLijst.add(function);
-        emp.setFunctions(oudeLijst);
-        employeeService.save(emp);
-        return functionService.save(function);
-        // enkel 1 functie toevoegen hier, dus enkel 1 functie in db toevoegen
-        // hmmmm, worden de functie-objecten in databank dan wel aangemaakt?
-        */
         return functionService.save(function);
     } 
     
     /**
+     * Extra
      * POST API call 
      * for adding one previous function
      * @param function the foreign key employee_id should be in the function
@@ -113,6 +117,7 @@ public class EmployeeController {
     } 
     
     /**
+     * Extra
      * POST API call 
      * for adding a list of current functions
      * @param functions the employee_id should be in each of the functions
@@ -124,6 +129,7 @@ public class EmployeeController {
     } 
 
     /**
+     * Extra
      * POST API call 
      * for adding a list of previous functions
      * @param functions the employee_id should be in each of the functions
@@ -135,6 +141,7 @@ public class EmployeeController {
     } 
     
     /**
+     * Extra
      * POST API call for adding a list of current functions and a list of previous functions
      * the employee_id should be in each of the functions
      * @param json the given body should be an object that consists of two lists with the names currentfunctions and prevfunctions
