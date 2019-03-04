@@ -64,7 +64,9 @@ public abstract class Function
         this.title = title;
     }
 
-  
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+    }
 
     public String getDescription() {
         return description;

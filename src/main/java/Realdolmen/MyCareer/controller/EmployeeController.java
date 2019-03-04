@@ -99,8 +99,10 @@ public class EmployeeController {
      * @param function the foreign key employee_id should be in the function
      * @return 
      */
-    @RequestMapping(value = "/postcurrentfunction", method = RequestMethod.POST)
-    public Function postCurrentFunction(@Valid @RequestBody CurrentFunction function){
+    @RequestMapping(value = "/postcurrentfunction/{id}", method = RequestMethod.POST)
+    public Function postCurrentFunction(@PathVariable("id") Long employee_id, @Valid @RequestBody CurrentFunction function){
+        Employee emp = employeeService.findEmployeeById(employee_id);
+        emp.addFunction(function);
         return functionService.save(function);
     } 
     
@@ -111,8 +113,10 @@ public class EmployeeController {
      * @param function the foreign key employee_id should be in the function
      * @return 
      */
-    @RequestMapping(value = "/postpreviousfunction", method = RequestMethod.POST)
-    public Function postPreviousFunction(@Valid @RequestBody PrevFunction function){
+    @RequestMapping(value = "/postpreviousfunction/{id}", method = RequestMethod.POST)
+    public Function postPreviousFunction(@PathVariable("id") Long employee_id, @Valid @RequestBody PrevFunction function){
+        Employee emp = employeeService.findEmployeeById(employee_id);
+        emp.addFunction(function);
         return functionService.save(function);
     } 
     
@@ -123,8 +127,10 @@ public class EmployeeController {
      * @param functions the employee_id should be in each of the functions
      * @return 
      */
-    @RequestMapping(value = "/postcurrentfunctions", method = RequestMethod.POST)
-    public List<Function> postCurrentFunctions(@Valid @RequestBody List<CurrentFunction> functions){
+    @RequestMapping(value = "/postcurrentfunctions/{id}", method = RequestMethod.POST)
+    public List<Function> postCurrentFunctions(@PathVariable("id") Long employee_id,@Valid @RequestBody List<CurrentFunction> functions){
+        Employee emp = employeeService.findEmployeeById(employee_id);
+        emp.addCurrentFunctions(functions);
         return functionService.saveListOfCurrentFunctions(functions);
     } 
 
@@ -135,8 +141,10 @@ public class EmployeeController {
      * @param functions the employee_id should be in each of the functions
      * @return 
      */
-    @RequestMapping(value = "/postpreviousfunctions", method = RequestMethod.POST)
-    public List<Function> postPreviousFunctions(@Valid @RequestBody List<PrevFunction> functions){
+    @RequestMapping(value = "/postpreviousfunctions/{id}", method = RequestMethod.POST)
+    public List<Function> postPreviousFunctions(@PathVariable("id") Long employee_id,@Valid @RequestBody List<PrevFunction> functions){
+        Employee emp = employeeService.findEmployeeById(employee_id);
+        emp.addPrevFunctions(functions);
         return functionService.saveListOfPrevFunctions(functions);
     } 
     
@@ -148,8 +156,11 @@ public class EmployeeController {
      * currentfunctions is a list of current functions, prevfunctions is a list of prev functions
      * @return 
      */
-    @RequestMapping(value = "/functions", method = RequestMethod.POST)
-    public String postCurrentAndPreviousFunctions(@RequestBody FunctionListWrapper json){
+    @RequestMapping(value = "/functions/{id}", method = RequestMethod.POST)
+    public String postCurrentAndPreviousFunctions(@PathVariable("id") Long employee_id,@RequestBody FunctionListWrapper json){
+        Employee emp = employeeService.findEmployeeById(employee_id);
+        emp.addCurrentFunctions(json.getCurrentfunctions());
+        emp.addPrevFunctions(json.getPrevfunctions());
         return functionService.saveTwoListsOfFunctions(json.getCurrentfunctions(), json.getPrevfunctions());
     } 
     
@@ -164,8 +175,10 @@ public class EmployeeController {
      * @param quality the foreign key employee_id should be in the quality
      * @return 
      */
-    @RequestMapping(value = "/weakquality", method = RequestMethod.POST)
-    public Quality postWeakQuality(@Valid @RequestBody WeakQuality quality){
+    @RequestMapping(value = "/weakquality/{id}", method = RequestMethod.POST)
+    public Quality postWeakQuality(@PathVariable("id") Long employee_id,@Valid @RequestBody WeakQuality quality){
+        Employee emp = employeeService.findEmployeeById(employee_id);
+        emp.addWeakQuality(quality);
         return qualityService.save(quality);
     } 
     
@@ -176,8 +189,10 @@ public class EmployeeController {
      * @return 
      */
     
-    @RequestMapping(value = "/strongquality", method = RequestMethod.POST)
-    public Quality postStrongQuality(@Valid @RequestBody StrongQuality quality){
+    @RequestMapping(value = "/strongquality/{id}", method = RequestMethod.POST)
+    public Quality postStrongQuality(@PathVariable("id") Long employee_id,@Valid @RequestBody StrongQuality quality){
+        Employee emp = employeeService.findEmployeeById(employee_id);
+        emp.addStrongQuality(quality);
         return qualityService.save(quality);
     } 
     
@@ -187,8 +202,10 @@ public class EmployeeController {
      * @param qualities the employee_id should be in each of the qualities
      * @return 
      */
-    @RequestMapping(value = "/strongqualities", method = RequestMethod.POST)
-    public List<Quality> postStrongQualities(@Valid @RequestBody List<StrongQuality> qualities){
+    @RequestMapping(value = "/strongqualities/{id}", method = RequestMethod.POST)
+    public List<Quality> postStrongQualities(@PathVariable("id") Long employee_id,@Valid @RequestBody List<StrongQuality> qualities){
+        Employee emp = employeeService.findEmployeeById(employee_id);
+        emp.addStrongQualities(qualities);
         return qualityService.saveListOfStrongQualities(qualities);
     } 
 
@@ -198,8 +215,10 @@ public class EmployeeController {
      * @param qualities the employee_id should be in each of the qualities
      * @return 
      */
-    @RequestMapping(value = "/weakqualities", method = RequestMethod.POST)
-    public List<Quality> postWeakQualities(@Valid @RequestBody List<WeakQuality> qualities){
+    @RequestMapping(value = "/weakqualities/{id}", method = RequestMethod.POST)
+    public List<Quality> postWeakQualities(@PathVariable("id") Long employee_id,@Valid @RequestBody List<WeakQuality> qualities){
+        Employee emp = employeeService.findEmployeeById(employee_id);
+        emp.addWeakQualities(qualities);
         return qualityService.saveListOfWeakQualities(qualities);
     } 
     
@@ -210,8 +229,11 @@ public class EmployeeController {
      * strongqualities is a list of strong qualities, weakqualities is a list of weak qualities
      * @return 
      */
-    @RequestMapping(value = "/qualities", method = RequestMethod.POST)
-    public String postStrongAndWeakQualities(@RequestBody QualityListWrapper json){
+    @RequestMapping(value = "/qualities/{id}", method = RequestMethod.POST)
+    public String postStrongAndWeakQualities(@PathVariable("id") Long employee_id,@RequestBody QualityListWrapper json){
+        Employee emp = employeeService.findEmployeeById(employee_id);
+        emp.addStrongQualities(json.getStrongqualities());
+        emp.addWeakQualities(json.getWeakqualities());
         return qualityService.saveTwoListsOfQualities(json.getStrongqualities(), json.getWeakqualities());
     } 
 // ------------------------------------------------------------------------------------------------------------------------------------------------

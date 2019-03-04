@@ -119,15 +119,73 @@ public class Employee implements Serializable {
 
     public Employee() {
     }
+    
+     public void addFunction(Function f){
+        f.setEmployee(this);
+        functions.add(f);
+    }
+    
+     /*
+    public void addFunctions(List<Function> f){
+        f.forEach(x -> x.setEmployee(this));
+        functions.addAll(f);
+    }*/
+    
+    public void addCurrentFunction(CurrentFunction f){
+        f.setEmployee(this);
+        functions.add(f);
+    }
+    
+    public void addCurrentFunctions(List<CurrentFunction> f){
+        f.forEach(x -> x.setEmployee(this));
+        functions.addAll(f);
+    }
+    
+    public void addPrevFunction(PrevFunction f){
+        f.setEmployee(this);
+        functions.add(f);
+    }
+    
+    public void addPrevFunctions(List<PrevFunction> f){
+        f.forEach(x -> x.setEmployee(this));
+        functions.addAll(f);
+    }
 
-    /*
     public List<Function> getFunctions() {
         return functions;
     }
 
     public void setFunctions(List<Function> functions) {
         this.functions = functions;
-    }*/
+    }
+
+    public List<Quality> getQualities() {
+        return qualities;
+    }
+
+    public void setQualities(List<Quality> qualities) {
+        this.qualities = qualities;
+    }
+    
+     public void addStrongQuality(StrongQuality q){
+        q.setEmployee(this);
+        qualities.add(q);
+    }
+    
+    public void addStrongQualities(List<StrongQuality> q){
+        q.forEach(x -> x.setEmployee(this));
+        qualities.addAll(q);
+    }
+    
+    public void addWeakQuality(WeakQuality q){
+        q.setEmployee(this);
+        qualities.add(q);
+    }
+    
+    public void addWeakQualities(List<WeakQuality> q){
+        q.forEach(x -> x.setEmployee(this));
+        qualities.addAll(q);
+    }
 
     @Override
     public int hashCode() {

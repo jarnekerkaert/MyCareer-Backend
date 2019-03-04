@@ -50,4 +50,7 @@ public abstract class Quality
         this.id = id;
     }
 
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+    }
 }
