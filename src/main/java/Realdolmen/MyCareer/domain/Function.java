@@ -102,5 +102,5 @@ public abstract class Function
     @Override
     public String toString() {
         return "Realdolmen.MyCareer.domain.Function[ id=" + id + " ]";
-    }
+    } 
 }

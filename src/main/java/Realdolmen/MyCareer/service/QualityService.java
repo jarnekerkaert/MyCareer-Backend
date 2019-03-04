@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import Realdolmen.MyCareer.repositories.StrongQualityRepository;
 import Realdolmen.MyCareer.repositories.WeakQualityRepository;
+import java.util.Optional;
 
 @Service
 public class QualityService implements IQualityService<Quality>{
@@ -21,13 +22,13 @@ public class QualityService implements IQualityService<Quality>{
     private WeakQualityRepository weakQualityRepository;
 
     @Override
-    public List<StrongQuality> findAllStrongQualitiesOfEmployee(Long employeeId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public List<Quality> findAllStrongQualitiesOfEmployee(Long employeeId) {
+        return strongQualityRepository.findByEmployee_id(employeeId);
     }
 
     @Override
-    public List<WeakQuality> findAllWeakQualitiesOfEmployee(Long employeeId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public List<Quality> findAllWeakQualitiesOfEmployee(Long employeeId) {
+        return weakQualityRepository.findByEmployee_id(employeeId);
     }
 
     @Override
@@ -55,6 +56,26 @@ public class QualityService implements IQualityService<Quality>{
         strongQualityRepository.saveAll(strongqualities);
         weakQualityRepository.saveAll(weakqualities);
         return "success";
+    }
+
+    @Override
+    public void deleteStrongQuality(StrongQuality quality) {
+        strongQualityRepository.delete(quality);
+    }
+
+    @Override
+    public void deleteWeakQuality(WeakQuality quality) {
+        weakQualityRepository.delete(quality);
+    }
+
+    @Override
+    public Optional<StrongQuality> findStrongQualityById(Long id) {
+        return strongQualityRepository.findById(id);
+    }
+
+    @Override
+    public Optional<WeakQuality> findWeakQualityById(Long id) {
+        return weakQualityRepository.findById(id);
     }
 
     

@@ -91,17 +91,21 @@ public class EmployeeControllerTest {
         empDummy.setBirthdate(new Date());
         empDummy.setCv_filepath("leeg");
         empDummy.setPassword("plaintext");
+        empDummy.setId(1L);
+        empDummy.setFunctions(new ArrayList<>());
+        empDummy.setQualities(new ArrayList<>());
 
         // to post a current function
         currentfunction = new CurrentFunction();
         currentfunction.setTitle("title1");
         currentfunction.setDescription("description1");
+        currentfunction.setEmployee(empDummy);
 
         // to post a previous function
         prevfunction = new PrevFunction();
         prevfunction.setTitle("abc");
         prevfunction.setDescription("def");
-
+        prevfunction.setEmployee(empDummy);
 
         // TODO uit commentaar zetten en createPreviousFunction testen
         //prevfunction.setStart(new Date());
@@ -112,6 +116,7 @@ public class EmployeeControllerTest {
         CurrentFunction currentfunction2 = new CurrentFunction();
         currentfunction2.setTitle("title2");
         currentfunction2.setDescription("description2");
+        currentfunction2.setEmployee(empDummy);
 
         listCurrentfunctions = new ArrayList<>();
         listCurrentfunctions.add(currentfunction);
@@ -121,6 +126,7 @@ public class EmployeeControllerTest {
         PrevFunction prevfunction2 = new PrevFunction();
         prevfunction2.setTitle("ghi");
         prevfunction2.setDescription("jkl");
+        prevfunction2.setEmployee(empDummy);
 
         listPrevfunctions = new ArrayList<>();
         listPrevfunctions.add(prevfunction);
@@ -138,10 +144,12 @@ public class EmployeeControllerTest {
         
         StrongQuality strongquality1 = new StrongQuality();
         strongquality1.setDescription("description strong");
+        strongquality1.setEmployee(empDummy);
         listStrongQualities.add(strongquality1);
         
         WeakQuality weakquality1 = new WeakQuality();
         weakquality1.setDescription("description weak");
+        weakquality1.setEmployee(empDummy);
         listWeakQualities.add(weakquality1);
         
         qualityWrapper.setStrongqualities(listStrongQualities);
@@ -196,10 +204,10 @@ public class EmployeeControllerTest {
      */
     @Test
     public void createCurrentFunction() throws Exception {
-        String uri = "/employee/postcurrentfunction";
+        String uri = "/employee/postcurrentfunction/1";
 
         given(functionService.save(currentfunction)).willReturn(currentfunction);
-
+        System.out.println(currentfunction);
         mvc.perform(post(uri)
                 .contentType(APPLICATION_JSON)
                 .content(mapToJson(currentfunction)))
@@ -329,7 +337,7 @@ public class EmployeeControllerTest {
      */
     @Test
     public void postListsOfStrongAndWeakQualities() throws Exception {
-        String uri = "/employee/qualities";
+        String uri = "/employee/qualities/1";
 
         given(qualityService.saveTwoListsOfQualities(listStrongQualities,listWeakQualities)).willReturn("success"); 
         
@@ -341,4 +349,7 @@ public class EmployeeControllerTest {
                 .andExpect(content().string(containsString("success")));
                ;
     }
+// ----------------------------------------------------------------------------------------------------------------------------------------------
+    // QUALITY - DELETE
+    
 }

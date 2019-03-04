@@ -5,11 +5,15 @@ import Realdolmen.MyCareer.domain.StrongQuality;
 import Realdolmen.MyCareer.domain.WeakQuality;
 import Realdolmen.MyCareer.domain.Quality;
 import java.util.List;
+import java.util.Optional;
 
 public interface IQualityService<T extends Quality> {
     // get
-    public List<StrongQuality> findAllStrongQualitiesOfEmployee(Long employeeId);
-    public List<WeakQuality> findAllWeakQualitiesOfEmployee(Long employeeId);
+    public List<Quality> findAllStrongQualitiesOfEmployee(Long employeeId);
+    public List<Quality> findAllWeakQualitiesOfEmployee(Long employeeId);
+    
+    public Optional<StrongQuality> findStrongQualityById(Long userId);
+    public Optional<WeakQuality> findWeakQualityById(Long userId);
     
     // post
     public Quality save(StrongQuality quality);
@@ -18,4 +22,7 @@ public interface IQualityService<T extends Quality> {
     public List<WeakQuality> saveListOfWeakQualities(List<WeakQuality> qualities);
     public String saveTwoListsOfQualities(List<StrongQuality> strongqualities, List<WeakQuality> weakqualities);
     
+    // delete
+    public void deleteStrongQuality(StrongQuality quality);
+    public void deleteWeakQuality(WeakQuality quality);
 }
