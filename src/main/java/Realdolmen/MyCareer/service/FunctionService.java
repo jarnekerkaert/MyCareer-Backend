@@ -37,17 +37,7 @@ public class FunctionService implements IFunctionService<Function>{
     }
 
     @Override
-    public List<Function> findOldFunctions(Long employeeId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public List<Function> findCurrentFunctions(Long employeeId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void deleteOldFunction() {
+    public void deletePrevFunction() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

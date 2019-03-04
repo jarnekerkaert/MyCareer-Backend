@@ -24,6 +24,12 @@ public class Employee implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    /**
+     * Employee has a list of functions
+     * Function is an abstract class, his subclasses are CurrentFunction and PrevFunction
+     * Technically an employee has two lists of functions: current functions and previous functions
+     * We work with inheritance, so we are using one list of functions
+     */
     @OneToMany(mappedBy = "employee")
     private List<Function> functions =  new ArrayList<>();
     

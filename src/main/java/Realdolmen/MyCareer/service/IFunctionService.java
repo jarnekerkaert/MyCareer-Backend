@@ -10,15 +10,14 @@ import java.util.List;
 
 public interface IFunctionService<T extends Function> {
     
+    // get
     public List<CurrentFunction> findAllCurrentFunctions();
     public List<PrevFunction> findAllPreviousFunctions();
     
     public List<Function> findAllCurrentFunctionsOfEmployee(Long employeeId);
     public List<Function> findAllPreviousFunctionsOfEmployee(Long employeeId);
     
-    
     // post
-    //public void save(CurrentFunction function);
     public Function save(CurrentFunction function);
     public Function save(PrevFunction function);
     public List<CurrentFunction> saveListOfCurrentFunctions(List<CurrentFunction> functions);
@@ -31,12 +30,8 @@ public interface IFunctionService<T extends Function> {
         // alle functies van de meegegeven werknemer
         public List<Function> findByEmployee_id(Long employeeId);
     
-        public List<Function> findOldFunctions(Long employeeId);
-        public List<Function> findCurrentFunctions(Long employeeId);
-    
     // delete
-    public void deleteOldFunction();
+    public void deletePrevFunction();
     public void deleteCurrentFunction();
-    
     
 }

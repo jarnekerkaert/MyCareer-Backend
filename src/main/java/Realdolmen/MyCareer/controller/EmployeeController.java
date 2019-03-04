@@ -49,6 +49,7 @@ public class EmployeeController {
     // FUNCTION - GET
         
     /**
+     * GET API call
      * returns all the current functions of the given employee
      * @param employee_id
      * @return 
@@ -59,6 +60,7 @@ public class EmployeeController {
     }
     
      /**
+     * GET API call
      * returns all the previous functions of the given employee
      * @param employee_id
      * @return 
@@ -72,8 +74,9 @@ public class EmployeeController {
     // FUNCTION - POST
     
     /**
-     * POST API call for adding one current function
-     * @param function
+     * POST API call 
+     * for adding one current function
+     * @param function the foreign key employee_id should be in the function
      * @return 
      */
     @RequestMapping(value = "/postcurrentfunction", method = RequestMethod.POST)
@@ -96,8 +99,9 @@ public class EmployeeController {
     } 
     
     /**
-     * POST API call for adding one previous function
-     * @param function
+     * POST API call 
+     * for adding one previous function
+     * @param function the foreign key employee_id should be in the function
      * @return 
      */
     @RequestMapping(value = "/postpreviousfunction", method = RequestMethod.POST)
@@ -106,8 +110,9 @@ public class EmployeeController {
     } 
     
     /**
-     * POST API call for adding a list of current functions
-     * @param functions
+     * POST API call 
+     * for adding a list of current functions
+     * @param functions the employee_id should be in each of the functions
      * @return 
      */
     @RequestMapping(value = "/postcurrentfunctions", method = RequestMethod.POST)
@@ -116,8 +121,9 @@ public class EmployeeController {
     } 
 
     /**
-     * POST API call for adding a list of previous functions
-     * @param functions
+     * POST API call 
+     * for adding a list of previous functions
+     * @param functions the employee_id should be in each of the functions
      * @return 
      */
     @RequestMapping(value = "/postpreviousfunctions", method = RequestMethod.POST)
@@ -127,8 +133,8 @@ public class EmployeeController {
     
     /**
      * POST API call for adding a list of current functions and a list of previous functions
-     * @param currentfunctions
-     * @param prevfunctions
+     * @param currentfunctions the employee_id should be in each of the functions
+     * @param prevfunctions the employee_id should be in each of the functions
      * @return 
      */
     
@@ -136,6 +142,9 @@ public class EmployeeController {
     @RequestMapping(value = "/postcurrentandprevfunctions", method = RequestMethod.POST)
     public String postCurrentAndPreviousFunctions(@Valid @RequestBody List<CurrentFunction> currentfunctions, @Valid @RequestBody List<PrevFunction> prevfunctions){
         return functionService.saveTwoListsOfFunctions(currentfunctions, prevfunctions);
+        //postCurrentFunctions(currentfunctions);
+        //postPreviousFunctions(prevfunctions);
+        //return "success";
     } */
     
     /*
@@ -147,7 +156,9 @@ public class EmployeeController {
 // ------------------------------------------------------------------------------------------------------------------------------------------------
     // EMPLOYEE - POST - EXTRA
     /**
-     * Extra POST API call for adding an employee
+     * Extra 
+     * POST API call 
+     * for adding an employee
      * @param employee
      * @return 
      */
@@ -160,6 +171,8 @@ public class EmployeeController {
     // EXTRA - kan misschien nog nuttig zijn voor in de toekomst
     
     /**
+     * Extra
+     * GET API call
      * returns all the current functions that are stored in the database
      * @return 
      */
@@ -169,6 +182,8 @@ public class EmployeeController {
     }
     
     /**
+     * Extra
+     * GET API call
      * returns all the previous functions that are stored in the database
      * @return 
      */

@@ -14,6 +14,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+/**
+ * Function is a superclass, his subclasses are CurrentFunction and PrevFunction
+ * @author NWTBN85
+ */
 @Entity
 @Table(name = "function")
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
@@ -26,6 +30,9 @@ public abstract class Function
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
+    /**
+     * Each function has a foreign key: employee_id, so each function is linked to exactly one employee_id
+     */
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="employee_id")
     private Employee employee;

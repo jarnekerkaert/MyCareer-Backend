@@ -119,6 +119,10 @@ public class EmployeeControllerTest {
     }
 
     // EMPLOYEE - GET
+    /**
+     * Test for the GET API call getEmployee(Long employee_id) with an existing employee_id
+     * @throws Exception 
+     */
     @Test
     // TODO check datum
     public void givenEmployee_whenGetEmployee_thenReturnJson() throws Exception {
@@ -137,6 +141,10 @@ public class EmployeeControllerTest {
                 ;
     }
 
+    /**
+     * Test for the GET API call getEmployee(Long employee_id) with an nonexisting employee_id
+     * @throws Exception 
+     */
     @Test
     public void employeeNotFound() throws Exception {
         //mvc.perform(get("/employee/25663").accept(MediaType.APPLICATION_JSON_VALUE)).andExpect(status().isNotFound());        
@@ -147,6 +155,10 @@ public class EmployeeControllerTest {
     }
 
     // FUNCTION - POST
+    /**
+     * Test for adding a current function
+     * @throws Exception 
+     */
     @Test
     public void createCurrentFunction() throws Exception {
         String uri = "/employee/postcurrentfunction";
@@ -162,6 +174,10 @@ public class EmployeeControllerTest {
                 .andExpect(jsonPath("title", is(currentfunction.getTitle())));
     }
 
+    /**
+     * Test for adding a previous function
+     * @throws Exception 
+     */
     @Test
     // TODO: datums checken !!
     public void createPreviousFunction() throws Exception {
@@ -180,6 +196,10 @@ public class EmployeeControllerTest {
                 .andExpect(jsonPath("title", is(prevfunction.getTitle())));
     }
 
+    /**
+     * Test for adding a list of current functions
+     * @throws Exception 
+     */
     @Test
     public void postListOfCurrentFunctions() throws Exception {
         String uri = "/employee/postcurrentfunctions";
@@ -199,6 +219,10 @@ public class EmployeeControllerTest {
                ;
     }
     
+    /**
+     *  Test for adding a list of previous functions
+     * @throws Exception 
+     */
     @Test
     public void postListOfPreviousFunctions() throws Exception {
         String uri = "/employee/postpreviousfunctions";
@@ -235,8 +259,7 @@ public class EmployeeControllerTest {
 
     // HULPMETHODES
     /**
-     * To convert objects to JSON's
-     *
+     * Method to convert objects to JSON's
      * @param obj an object is given as a parameter and this object will be
      * converted to a JSON
      * @return

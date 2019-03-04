@@ -10,12 +10,16 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+/**
+ * Security Configuration, for Spring Security
+ * @author NWTBN85
+ */
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 
     @Override
     protected void configure(HttpSecurity http) throws Exception{
-        http.cors().and().csrf().disable();
+        http.cors().and().csrf().disable(); // csrf has to be disabled in order for our POST requests to work
     }
 
     @Bean
