@@ -4,6 +4,10 @@ package Realdolmen.MyCareer.exception;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+/**
+ * Exception that can be used in case where the resource that is requested is not found
+ * @author NWTBN85
+ */
 @ResponseStatus(value = HttpStatus.NOT_FOUND)
 public class ResourceNotFoundException extends RuntimeException {
 
