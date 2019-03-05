@@ -5,6 +5,7 @@ import Realdolmen.MyCareer.domain.Employee;
 import Realdolmen.MyCareer.domain.Function;
 import Realdolmen.MyCareer.domain.FunctionListWrapper;
 import Realdolmen.MyCareer.domain.PrevFunction;
+import Realdolmen.MyCareer.domain.Quality;
 import Realdolmen.MyCareer.domain.QualityListWrapper;
 import Realdolmen.MyCareer.domain.StrongQuality;
 import Realdolmen.MyCareer.domain.WeakQuality;
@@ -92,8 +93,15 @@ public class EmployeeControllerTest {
         empDummy.setCv_filepath("leeg");
         empDummy.setPassword("plaintext");
         empDummy.setId(1L);
-        empDummy.setFunctions(new ArrayList<>());
-        empDummy.setQualities(new ArrayList<>());
+        
+        List<Function> functionListTest = new ArrayList<>();
+        List<Quality> qualityListTest = new ArrayList<>();
+        
+        //empDummy.setFunctions(new ArrayList<>());
+        //empDummy.setQualities(new ArrayList<>());
+        
+        empDummy.setFunctions(functionListTest);
+        empDummy.setQualities(qualityListTest);
 
         // to post a current function
         currentfunction = new CurrentFunction();
@@ -206,7 +214,9 @@ public class EmployeeControllerTest {
     public void createCurrentFunction() throws Exception {
         String uri = "/employee/postcurrentfunction/1";
 
+        createEmployee();
         given(functionService.save(currentfunction)).willReturn(currentfunction);
+        
         System.out.println(currentfunction);
         mvc.perform(post(uri)
                 .contentType(APPLICATION_JSON)
@@ -224,8 +234,9 @@ public class EmployeeControllerTest {
     @Test
     // TODO: datums checken !!
     public void createPreviousFunction() throws Exception {
-        String uri = "/employee/postpreviousfunction";
+        String uri = "/employee/postpreviousfunction/1";
 
+        createEmployee();
         given(functionService.save(prevfunction)).willReturn(prevfunction);
 
         mvc.perform(post(uri)
@@ -245,8 +256,9 @@ public class EmployeeControllerTest {
      */
     @Test
     public void postListOfCurrentFunctions() throws Exception {
-        String uri = "/employee/postcurrentfunctions";
+        String uri = "/employee/postcurrentfunctions/1";
 
+        createEmployee();
         given(functionService.saveListOfCurrentFunctions(listCurrentfunctions)).willReturn(listCurrentfunctions); // returnt eigenlijk een array van current functions
 
         mvc.perform(post(uri)
@@ -268,8 +280,9 @@ public class EmployeeControllerTest {
      */
     @Test
     public void postListOfPreviousFunctions() throws Exception {
-        String uri = "/employee/postpreviousfunctions";
+        String uri = "/employee/postpreviousfunctions/1";
 
+        createEmployee();
         given(functionService.saveListOfPrevFunctions(listPrevfunctions)).willReturn(listPrevfunctions); // returnt eigenlijk een array van previous functions
 
         mvc.perform(post(uri)
@@ -291,8 +304,9 @@ public class EmployeeControllerTest {
      */
     @Test
     public void postListsOfCurrentAndPreviousFunctions() throws Exception {
-        String uri = "/employee/functions";
+        String uri = "/employee/functions/1";
 
+        createEmployee();
         given(functionService.saveTwoListsOfFunctions(listCurrentfunctions,listPrevfunctions)).willReturn("success"); 
         
         mvc.perform(post(uri)
@@ -327,9 +341,12 @@ public class EmployeeControllerTest {
         }
     }
     
+    private void createEmployee(){
+        given(service.findEmployeeById(1L)).willReturn(empDummy);
+    }
+    
 // ----------------------------------------------------------------------------------------------------------------------------------------------
     // QUALITY - POST
-    
         
     /**
      * Test for adding a list of strong qualities and a list of weak qualities
@@ -339,6 +356,8 @@ public class EmployeeControllerTest {
     public void postListsOfStrongAndWeakQualities() throws Exception {
         String uri = "/employee/qualities/1";
 
+        //given(service.findEmployeeById(1L)).willReturn(empDummy);
+        createEmployee();
         given(qualityService.saveTwoListsOfQualities(listStrongQualities,listWeakQualities)).willReturn("success"); 
         
         mvc.perform(post(uri)

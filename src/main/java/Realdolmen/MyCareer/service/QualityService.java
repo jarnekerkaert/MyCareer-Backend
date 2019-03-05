@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import Realdolmen.MyCareer.repositories.StrongQualityRepository;
 import Realdolmen.MyCareer.repositories.WeakQualityRepository;
 import java.util.Optional;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class QualityService implements IQualityService<Quality>{
@@ -52,6 +53,7 @@ public class QualityService implements IQualityService<Quality>{
     }
 
     @Override
+    @Transactional
     public String saveTwoListsOfQualities(List<StrongQuality> strongqualities, List<WeakQuality> weakqualities) {
         strongQualityRepository.saveAll(strongqualities);
         weakQualityRepository.saveAll(weakqualities);
