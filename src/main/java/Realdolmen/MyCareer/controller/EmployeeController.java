@@ -57,6 +57,44 @@ public class EmployeeController {
     }
 // ------------------------------------------------------------------------------------------------------------------------------------------------
     // FUNCTION - GET
+     
+    @RequestMapping(value = "/functions", method = RequestMethod.GET)
+    public List<Function> getFunctions(){
+        return functionService.findAll();
+    }
+    /*
+    @RequestMapping(value = "/currentfunctions", method = RequestMethod.GET)
+    public List<Function> getCurrentFunctions(){
+        return functionService.findAllCurrentFunctions();
+    }*/
+    
+    @RequestMapping(value = "/currentfunctions", method = RequestMethod.GET)
+    public List<Function> getCurrentFunctions(){
+        return functionService.findAllCurrentFunctions();
+    }
+    
+    @RequestMapping(value = "/prevfunctions", method = RequestMethod.GET)
+    public List<Function> getPreviousFunctions(){
+        return functionService.findAllPrevFunctions();
+    }
+    
+    @RequestMapping(value = "/{id}/currentfunctions", method = RequestMethod.GET)
+    public List<Function> getCurrentFunctionsOfEmployee(@PathVariable("id") Long employeeId){
+        Employee employee = employeeService.findEmployeeById(employeeId);
+        if(employee == null){
+            throw new ResourceNotFoundException("Employee", "id", employeeId);
+        }
+        return functionService.findCurrentFunctions(employeeId);
+    }
+    
+    @RequestMapping(value = "/{id}/prevfunctions", method = RequestMethod.GET)
+    public List<Function> getPreviousFunctionsOfEmployee(@PathVariable("id") Long employeeId){
+        Employee employee = employeeService.findEmployeeById(employeeId);
+        if(employee == null){
+            throw new ResourceNotFoundException("Employee", "id", employeeId);
+        }
+        return functionService.findPrevFunctions(employeeId);
+    }
         
     /**
      * GET API call
@@ -64,6 +102,7 @@ public class EmployeeController {
      * @param employee_id
      * @return 
      */
+     /*
     @RequestMapping(value = "/allcurrentfunctionsofemployee/{id}", method = RequestMethod.GET)
     public List<Function> getCurrentFunctionsOfEmployee(@PathVariable("id") Long employee_id){
         Employee emp = employeeService.findEmployeeById(employee_id);
@@ -71,7 +110,7 @@ public class EmployeeController {
             throw new ResourceNotFoundException("Employee", "id", employee_id);
          }
         return functionService.findAllCurrentFunctionsOfEmployee(employee_id);
-    }
+    }*/
     
      /**
      * GET API call
@@ -79,6 +118,7 @@ public class EmployeeController {
      * @param employee_id
      * @return 
      */
+     /*
     @RequestMapping(value = "/allpreviousfunctionsofemployee/{id}", method = RequestMethod.GET)
     public List<Function> getPreviousFunctionsOfEmployee(@PathVariable("id") Long employee_id){
         Employee emp = employeeService.findEmployeeById(employee_id);
@@ -86,7 +126,7 @@ public class EmployeeController {
             throw new ResourceNotFoundException("Employee", "id", employee_id);
          }
         return functionService.findAllPreviousFunctionsOfEmployee(employee_id);
-    }
+    }*/
     
 // ------------------------------------------------------------------------------------------------------------------------------------------------
     // FUNCTION - POST
@@ -178,6 +218,7 @@ public class EmployeeController {
      * currentfunctions is a list of current functions, prevfunctions is a list of prev functions
      * @return 
      */
+     /*
     @RequestMapping(value = "/functions/{id}", method = RequestMethod.POST)
     public void postCurrentAndPreviousFunctions(@PathVariable("id") Long employee_id,@RequestBody FunctionListWrapper json){
         Employee emp = employeeService.findEmployeeById(employee_id);
@@ -189,6 +230,18 @@ public class EmployeeController {
             throw new ResourceNotFoundException("Employee", "id", employee_id);
          }
         functionService.saveTwoListsOfFunctions(json.getCurrentfunctions(), json.getPrevfunctions());
+    } */
+    
+    @RequestMapping(value = "/{id}/functions", method = RequestMethod.POST)
+    public void postFunctions(@PathVariable("id") Long employee_id,@RequestBody List<Function> functions){
+        Employee emp = employeeService.findEmployeeById(employee_id);
+        if(emp != null){
+            emp.addFunctions(functions);
+        }
+        else{
+            throw new ResourceNotFoundException("Employee", "id", employee_id);
+         }
+        functionService.saveFunctions(functions);
     } 
 
 // ------------------------------------------------------------------------------------------------------------------------------------------------
@@ -390,10 +443,11 @@ public class EmployeeController {
      * returns all the current functions that are stored in the database
      * @return 
      */
+    /*
     @RequestMapping(value = "/allcurrentfunctions", method = RequestMethod.GET)
     public List<StrongQuality> getCurrentFunctions(){
         return functionService.findAllCurrentFunctions();
-    }
+    }*/
     
     /**
      * Extra
@@ -401,10 +455,11 @@ public class EmployeeController {
      * returns all the previous functions that are stored in the database
      * @return 
      */
+    /*
     @RequestMapping(value = "/allpreviousfunctions", method = RequestMethod.GET)
     public List<StrongQuality> getPreviousFunctions(){
         return functionService.findAllPreviousFunctions();
-    }
+    }*/
     
 //    @RequestMapping(value = "/{id}/functions", method = RequestMethod.GET)
 //    public List<Function> getFunctionsOfEmployee(@PathVariable("id") Long employeeId){

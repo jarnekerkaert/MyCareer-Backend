@@ -125,11 +125,11 @@ public class Employee implements Serializable {
         functions.add(f);
     }
     
-     /*
+     
     public void addFunctions(List<Function> f){
         f.forEach(x -> x.setEmployee(this));
         functions.addAll(f);
-    }*/
+    }
     
     public void addCurrentFunction(CurrentFunction f){
         f.setEmployee(this);

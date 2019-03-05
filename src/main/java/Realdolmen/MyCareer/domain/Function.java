@@ -20,8 +20,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "function")
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public abstract class Function 
+public class Function 
         //implements Serializable 
 {
 
@@ -47,6 +46,27 @@ public abstract class Function
 
     @Column(name = "description")
     private String description;
+    
+    @Column(name = "start")
+    private Date start;
+    @Column(name = "ending")
+    private Date ending;
+    
+     public Date getStart() {
+        return start;
+    }
+
+    public void setStart(Date start) {
+        this.start = start;
+    }
+
+    public Date getEnding() {
+        return ending;
+    }
+
+    public void setEnding(Date ending) {
+        this.ending = ending;
+    }
 
     public Long getId() {
         return id;
@@ -67,6 +87,12 @@ public abstract class Function
     public void setEmployee(Employee employee) {
         this.employee = employee;
     }
+
+//    public Employee getEmployee() {
+//        return employee;
+//    }
+    
+    
 
     public String getDescription() {
         return description;

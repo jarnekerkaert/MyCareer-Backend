@@ -4,10 +4,12 @@ package Realdolmen.MyCareer.service;
 import Realdolmen.MyCareer.domain.CurrentFunction;
 import Realdolmen.MyCareer.domain.Function;
 import Realdolmen.MyCareer.domain.PrevFunction;
-import Realdolmen.MyCareer.repositories.CurrentFunctionRepository;
+//import Realdolmen.MyCareer.repositories.CurrentFunctionRepository;
 import Realdolmen.MyCareer.repositories.FunctionRepository;
-import Realdolmen.MyCareer.repositories.PrevFunctionRepository;
+import java.util.ArrayList;
+//import Realdolmen.MyCareer.repositories.PrevFunctionRepository;
 import java.util.List;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,22 +21,43 @@ public class FunctionService implements IFunctionService<Function>{
     @Autowired
     private FunctionRepository repository; */
     
-    @Autowired
-    private CurrentFunctionRepository currentFunctionRepository;
+//    @Autowired
+//    private CurrentFunctionRepository currentFunctionRepository;
+//    
+//    @Autowired
+//    private PrevFunctionRepository prevFunctionRepository;
     
-    @Autowired
-    private PrevFunctionRepository prevFunctionRepository;
+    @Autowired 
+    private FunctionRepository repository;
     
     @Override
     public List<Function> findAll() {
-        //return repository.findAll();
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return repository.findAll();
+    }
+    
+    @Override
+    public List<Function> findAllCurrentFunctions() {
+        return repository.findAll().stream().filter( f -> f.getEnding() == null).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Function> findAllPrevFunctions() {
+        return repository.findAll().stream().filter( f -> f.getEnding() != null).collect(Collectors.toList());
+    }
+    
+    @Override
+    public List<Function> findCurrentFunctions(Long employeeId) {
+        return repository.findByEmployee_id(employeeId).stream().filter( f -> f.getEnding() == null).collect(Collectors.toList());
+    }
+    
+    @Override
+    public List<Function> findPrevFunctions(Long employeeId) {
+        return repository.findByEmployee_id(employeeId).stream().filter( f -> f.getEnding() != null).collect(Collectors.toList());
     }
 
     @Override
     public List<Function> findByEmployee_id(Long employeeId) {
-        //return repository.findByEmployee_id(employeeId);
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return repository.findByEmployee_id(employeeId);
     }
 
     @Override
@@ -47,6 +70,8 @@ public class FunctionService implements IFunctionService<Function>{
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
+    
+    /*
     @Override
     public Function save(CurrentFunction function) {
         return currentFunctionRepository.save(function);
@@ -92,5 +117,19 @@ public class FunctionService implements IFunctionService<Function>{
     public void saveTwoListsOfFunctions(List<CurrentFunction> currentfunctions, List<PrevFunction> prevfunctions) {
         currentFunctionRepository.saveAll(currentfunctions);
         prevFunctionRepository.saveAll(prevfunctions);
+    }*/
+
+    @Transactional
+    @Override
+    public void saveFunctions(List<Function> functions) {
+        repository.saveAll(functions);
     }
+
+
+
+
+
+
+
+
 }

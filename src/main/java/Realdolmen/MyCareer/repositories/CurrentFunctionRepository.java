@@ -1,4 +1,4 @@
-
+/*
 package Realdolmen.MyCareer.repositories;
 
 import Realdolmen.MyCareer.domain.CurrentFunction;
@@ -13,4 +13,4 @@ public interface CurrentFunctionRepository extends FunctionBaseRepository<Curren
      @Override
      public List<Function> findByEmployee_id(Long employee_id);
 
-}
+}*/

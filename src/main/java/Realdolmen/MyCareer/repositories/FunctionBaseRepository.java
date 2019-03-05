@@ -1,4 +1,4 @@
-
+/*
 package Realdolmen.MyCareer.repositories;
 
 import Realdolmen.MyCareer.domain.Function;
@@ -12,3 +12,4 @@ public interface FunctionBaseRepository <T extends Function> extends JpaReposito
     public List<Function> findByEmployee_id(Long employee_id);
     //public Function save(Function function);
 }
+*/

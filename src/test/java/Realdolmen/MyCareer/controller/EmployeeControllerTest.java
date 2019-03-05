@@ -83,6 +83,9 @@ public class EmployeeControllerTest {
     private QualityListWrapper qualityWrapper;
     private WeakQuality weakquality1;
     private StrongQuality strongquality1;
+    private List<Function> listFunctions;
+    private List<Function> listCurrentFunctions;
+    private List<Function> listPrevFunctions;
 
     public EmployeeControllerTest() {
     }
@@ -98,15 +101,6 @@ public class EmployeeControllerTest {
         empDummy.setCv_filepath("leeg");
         empDummy.setPassword("plaintext");
         empDummy.setId(1L);
-        
-        List<Function> functionListTest = new ArrayList<>();
-        List<Quality> qualityListTest = new ArrayList<>();
-        
-        //empDummy.setFunctions(new ArrayList<>());
-        //empDummy.setQualities(new ArrayList<>());
-        
-        empDummy.setFunctions(functionListTest);
-        empDummy.setQualities(qualityListTest);
 
         // to post a current function
         currentfunction = new CurrentFunction();
@@ -170,6 +164,30 @@ public class EmployeeControllerTest {
         qualityWrapper.setStrongqualities(listStrongQualities);
         qualityWrapper.setWeakqualities(listWeakQualities);
         
+        // post list of functions:
+        listFunctions = new ArrayList<>();
+        listCurrentFunctions = new ArrayList<>();
+        listPrevFunctions = new ArrayList<>();
+        Function f1 = new Function();
+        f1.setTitle("title1");
+        f1.setDescription("description1");
+        f1.setEmployee(empDummy);
+        Function f2 = new Function();
+        f2.setTitle("title2");
+        f2.setDescription("description2");
+        f2.setEmployee(empDummy);
+        Function f3 = new Function();
+        f3.setTitle("title3");
+        f3.setDescription("description3");
+        f3.setStart(new Date());
+        f3.setEnding(new Date());
+        f3.setEmployee(empDummy);
+        listFunctions.add(f1);
+        listFunctions.add(f2);
+        listFunctions.add(f3);
+        listCurrentFunctions.add(f1);
+        listCurrentFunctions.add(f2);
+        listPrevFunctions.add(f3);
     }
     
 // ----------------------------------------------------------------------------------------------------------------------------------------------
@@ -347,14 +365,15 @@ public class EmployeeControllerTest {
      */
     @Test
     public void postListsOfCurrentAndPreviousFunctions() throws Exception {
-        String uri = "/employee/functions/1";
+        String uri = "/employee/1/functions";
 
         createEmployee();
         //given(functionService.saveTwoListsOfFunctions(listCurrentfunctions,listPrevfunctions)).willReturn(); 
         
         mvc.perform(post(uri)
                 .contentType(APPLICATION_JSON)
-                .content(mapToJson(functionWrapper))
+                //.content(mapToJson(functionWrapper))
+                .content(mapToJson(listFunctions))
                 )
                 .andExpect(status().isOk())
                 //.andExpect(content().string(containsString("success")));
@@ -363,14 +382,15 @@ public class EmployeeControllerTest {
     
     @Test
     public void postListsOfCurrentAndPreviousFunctionsBadEmployee() throws Exception {
-        String uri = "/employee/functions/155";
+        String uri = "/employee/155/functions";
 
         createEmployee();
         //given(functionService.saveTwoListsOfFunctions(listCurrentfunctions,listPrevfunctions)).willReturn(); 
         
         mvc.perform(post(uri)
                 .contentType(APPLICATION_JSON)
-                .content(mapToJson(functionWrapper))
+                .content(mapToJson(listFunctions))
+                //.content(mapToJson(functionWrapper))
                 )
                 .andExpect(status().isNotFound())
                 //.andExpect(content().string(containsString("success")));
@@ -385,14 +405,14 @@ public class EmployeeControllerTest {
 
         createEmployee();
         
-        //functionService.save(currentfunction);
-        //given(functionService.save(currentfunction)).willReturn(currentfunction); 
+        //functionService.saveFunctions(listFunctions);
+        given(functionService.findCurrentFunctions(1L)).willReturn(listCurrentFunctions); 
 
-        mvc.perform(get("/employee/allcurrentfunctionsofemployee/1")
+        mvc.perform(get("/employee/1/currentfunctions")
                 .contentType(APPLICATION_JSON))
                 .andExpect(status().isOk())
-                //.andExpect(jsonPath("$[0].title", is("title1")))
-                //.andExpect(jsonPath("$[0].description", is("description1")))
+                .andExpect(jsonPath("$[0].title", is("title1")))
+                .andExpect(jsonPath("$[0].description", is("description1")))
                 ;
     }
     
@@ -401,7 +421,7 @@ public class EmployeeControllerTest {
 
         createEmployee();
 
-        mvc.perform(get("/employee/allcurrentfunctionsofemployee/1555")
+        mvc.perform(get("/employee/1555/currentfunctions")
                 .contentType(APPLICATION_JSON))
                 .andExpect(status().isNotFound())
                 ;
@@ -411,10 +431,14 @@ public class EmployeeControllerTest {
     public void getPreviousFunctionsOfEmployee() throws Exception {
 
         createEmployee();
+        
+        given(functionService.findPrevFunctions(1L)).willReturn(listPrevFunctions); 
 
-        mvc.perform(get("/employee/allpreviousfunctionsofemployee/1")
+        mvc.perform(get("/employee/1/prevfunctions")
                 .contentType(APPLICATION_JSON))
                 .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].title", is("title3")))
+                .andExpect(jsonPath("$[0].description", is("description3")))
                 ;
     }
     
@@ -423,7 +447,7 @@ public class EmployeeControllerTest {
 
         createEmployee();
 
-        mvc.perform(get("/employee/allpreviousfunctionsofemployee/1555")
+        mvc.perform(get("/employee/1555/prevfunctions")
                 .contentType(APPLICATION_JSON))
                 .andExpect(status().isNotFound())
                 ;
