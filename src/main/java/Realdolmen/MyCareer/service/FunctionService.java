@@ -10,6 +10,7 @@ import Realdolmen.MyCareer.repositories.PrevFunctionRepository;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class FunctionService implements IFunctionService<Function>{
@@ -86,10 +87,10 @@ public class FunctionService implements IFunctionService<Function>{
         return prevFunctionRepository.saveAll(functions);
     }
 
+    @Transactional
     @Override
-    public String saveTwoListsOfFunctions(List<CurrentFunction> currentfunctions, List<PrevFunction> prevfunctions) {
+    public void saveTwoListsOfFunctions(List<CurrentFunction> currentfunctions, List<PrevFunction> prevfunctions) {
         currentFunctionRepository.saveAll(currentfunctions);
         prevFunctionRepository.saveAll(prevfunctions);
-        return "success";
     }
 }

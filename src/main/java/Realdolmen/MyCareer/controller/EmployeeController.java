@@ -46,23 +46,14 @@ public class EmployeeController {
      * @return 
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public Object getEmployee(@PathVariable("id") Long employeeId) {
-    // public Employee getEmployee(@PathVariable("id") Long employeeId) {
-        //return employeeService.findEmployeeById(employeeId);
-        
-        try{
+     public Employee getEmployee(@PathVariable("id") Long employeeId) {
             Employee employee = employeeService.findEmployeeById(employeeId);
             if(employee != null){
                 return employee;
             }
             else{
                 throw new ResourceNotFoundException("Employee", "id", employeeId);
-                // return "Employee not found!";
             }
-        }
-        catch (ResourceNotFoundException e) {
-            return e.getMessage();
-        }
     }
 // ------------------------------------------------------------------------------------------------------------------------------------------------
     // FUNCTION - GET
@@ -75,16 +66,10 @@ public class EmployeeController {
      */
     @RequestMapping(value = "/allcurrentfunctionsofemployee/{id}", method = RequestMethod.GET)
     public List<Function> getCurrentFunctionsOfEmployee(@PathVariable("id") Long employee_id){
-        Employee emp;
-        try{
-            emp = employeeService.findEmployeeById(employee_id);
-           if(emp == null){
+        Employee emp = employeeService.findEmployeeById(employee_id);
+        if(emp == null){
             throw new ResourceNotFoundException("Employee", "id", employee_id);
          }
-        } catch (ResourceNotFoundException e) {
-            //return e.getMessage();
-            return null;
-        }
         return functionService.findAllCurrentFunctionsOfEmployee(employee_id);
     }
     
@@ -96,16 +81,10 @@ public class EmployeeController {
      */
     @RequestMapping(value = "/allpreviousfunctionsofemployee/{id}", method = RequestMethod.GET)
     public List<Function> getPreviousFunctionsOfEmployee(@PathVariable("id") Long employee_id){
-        Employee emp;
-        try{
-        emp = employeeService.findEmployeeById(employee_id);
+        Employee emp = employeeService.findEmployeeById(employee_id);
         if(emp == null){
             throw new ResourceNotFoundException("Employee", "id", employee_id);
          }
-        } catch (ResourceNotFoundException e) {
-            //return e.getMessage();
-            return null;
-        }
         return functionService.findAllPreviousFunctionsOfEmployee(employee_id);
     }
     
@@ -119,23 +98,18 @@ public class EmployeeController {
      * @param function the foreign key employee_id should be in the function
      * @return 
      */
+    /*
     @RequestMapping(value = "/postcurrentfunction/{id}", method = RequestMethod.POST)
     public Function postCurrentFunction(@PathVariable("id") Long employee_id, @Valid @RequestBody CurrentFunction function){
-        Employee emp;
-        try{
-        emp = employeeService.findEmployeeById(employee_id);
+        Employee emp = employeeService.findEmployeeById(employee_id);
         if(emp != null){
             emp.addFunction(function);
         }
         else{
             throw new ResourceNotFoundException("Employee", "id", employee_id);
          }
-        } catch (ResourceNotFoundException e) {
-            //return e.getMessage();
-            return null;
-        }
         return functionService.save(function);
-    } 
+    } */
     
     /**
      * Extra
@@ -144,23 +118,18 @@ public class EmployeeController {
      * @param function the foreign key employee_id should be in the function
      * @return 
      */
+    /*
     @RequestMapping(value = "/postpreviousfunction/{id}", method = RequestMethod.POST)
     public Function postPreviousFunction(@PathVariable("id") Long employee_id, @Valid @RequestBody PrevFunction function){
-        Employee emp;
-        try{
-        emp = employeeService.findEmployeeById(employee_id);
+        Employee emp = employeeService.findEmployeeById(employee_id);
         if(emp != null){
             emp.addFunction(function);
         }
         else{
             throw new ResourceNotFoundException("Employee", "id", employee_id);
          }
-        } catch (ResourceNotFoundException e) {
-            //return e.getMessage();
-            return null;
-        }
         return functionService.save(function);
-    } 
+    } */
     
     /**
      * Extra
@@ -169,23 +138,18 @@ public class EmployeeController {
      * @param functions the employee_id should be in each of the functions
      * @return 
      */
+    /*
     @RequestMapping(value = "/postcurrentfunctions/{id}", method = RequestMethod.POST)
     public List<Function> postCurrentFunctions(@PathVariable("id") Long employee_id,@Valid @RequestBody List<CurrentFunction> functions){
-        Employee emp;
-        try{
-        emp = employeeService.findEmployeeById(employee_id);
+        Employee emp = employeeService.findEmployeeById(employee_id);
         if(emp != null){
             emp.addCurrentFunctions(functions);
         }
         else{
             throw new ResourceNotFoundException("Employee", "id", employee_id);
          }
-        } catch (ResourceNotFoundException e) {
-            //return e.getMessage();
-            return null;
-        }
         return functionService.saveListOfCurrentFunctions(functions);
-    } 
+    } */
 
     /**
      * Extra
@@ -194,26 +158,20 @@ public class EmployeeController {
      * @param functions the employee_id should be in each of the functions
      * @return 
      */
+    /*
     @RequestMapping(value = "/postpreviousfunctions/{id}", method = RequestMethod.POST)
     public List<Function> postPreviousFunctions(@PathVariable("id") Long employee_id,@Valid @RequestBody List<PrevFunction> functions){
-        Employee emp;
-        try{
-        emp = employeeService.findEmployeeById(employee_id);
+        Employee emp = employeeService.findEmployeeById(employee_id);
         if(emp != null){
             emp.addPrevFunctions(functions);
         }
         else{
             throw new ResourceNotFoundException("Quality", "id", employee_id);
          }
-        } catch (ResourceNotFoundException e) {
-            //return e.getMessage();
-            return null;
-        }
         return functionService.saveListOfPrevFunctions(functions);
-    } 
+    } */
     
     /**
-     * Extra
      * POST API call for adding a list of current functions and a list of previous functions
      * the employee_id should be in each of the functions
      * @param json the given body should be an object that consists of two lists with the names currentfunctions and prevfunctions
@@ -221,22 +179,16 @@ public class EmployeeController {
      * @return 
      */
     @RequestMapping(value = "/functions/{id}", method = RequestMethod.POST)
-    public String postCurrentAndPreviousFunctions(@PathVariable("id") Long employee_id,@RequestBody FunctionListWrapper json){
-        Employee emp;
-        try{
-        emp = employeeService.findEmployeeById(employee_id);
+    public void postCurrentAndPreviousFunctions(@PathVariable("id") Long employee_id,@RequestBody FunctionListWrapper json){
+        Employee emp = employeeService.findEmployeeById(employee_id);
         if(emp != null){
-        emp.addCurrentFunctions(json.getCurrentfunctions());
-        emp.addPrevFunctions(json.getPrevfunctions());
+            emp.addCurrentFunctions(json.getCurrentfunctions());
+            emp.addPrevFunctions(json.getPrevfunctions());
         }
         else{
             throw new ResourceNotFoundException("Employee", "id", employee_id);
          }
-        } catch (ResourceNotFoundException e) {
-            //return e.getMessage();
-            return null;
-        }
-        return functionService.saveTwoListsOfFunctions(json.getCurrentfunctions(), json.getPrevfunctions());
+        functionService.saveTwoListsOfFunctions(json.getCurrentfunctions(), json.getPrevfunctions());
     } 
 
 // ------------------------------------------------------------------------------------------------------------------------------------------------
@@ -250,16 +202,10 @@ public class EmployeeController {
      */
     @RequestMapping(value = "/strongqualities/{id}", method = RequestMethod.GET)
     public List<Quality> getStrongQualitiesOfEmployee(@PathVariable("id") Long employee_id){
-        Employee emp;
-        try{
-            emp = employeeService.findEmployeeById(employee_id);
-           if(emp == null){
+        Employee emp = employeeService.findEmployeeById(employee_id);
+        if(emp == null){
             throw new ResourceNotFoundException("Employee", "id", employee_id);
          }
-        } catch (ResourceNotFoundException e) {
-            //return e.getMessage();
-            return null;
-        }
         return qualityService.findAllStrongQualitiesOfEmployee(employee_id);
     }
     
@@ -271,16 +217,10 @@ public class EmployeeController {
      */
     @RequestMapping(value = "/weakqualities/{id}", method = RequestMethod.GET)
     public List<Quality> getWeakQualitiesOfEmployee(@PathVariable("id") Long employee_id){
-        Employee emp;
-        try{
-        emp = employeeService.findEmployeeById(employee_id);
+        Employee emp = employeeService.findEmployeeById(employee_id);
         if(emp == null){
             throw new ResourceNotFoundException("Employee", "id", employee_id);
          }
-        } catch (ResourceNotFoundException e) {
-            //return e.getMessage();
-            return null;
-        }
         return qualityService.findAllWeakQualitiesOfEmployee(employee_id);
     }
     
@@ -294,23 +234,18 @@ public class EmployeeController {
      * @param quality the foreign key employee_id should be in the quality
      * @return 
      */
+    /*
     @RequestMapping(value = "/weakquality/{id}", method = RequestMethod.POST)
     public Quality postWeakQuality(@PathVariable("id") Long employee_id,@Valid @RequestBody WeakQuality quality){
-        Employee emp;
-        try{
-        emp = employeeService.findEmployeeById(employee_id);
+        Employee emp = employeeService.findEmployeeById(employee_id);
         if(emp != null){
             emp.addWeakQuality(quality);
         }
         else{
             throw new ResourceNotFoundException("Employee", "id", employee_id);
          }
-        } catch (ResourceNotFoundException e) {
-            //return e.getMessage();
-            return null;
-        }
         return qualityService.save(quality);
-    } 
+    } */
     
     /**
      * POST API call 
@@ -319,23 +254,18 @@ public class EmployeeController {
      * @return 
      */
     
+    /*
     @RequestMapping(value = "/strongquality/{id}", method = RequestMethod.POST)
     public Quality postStrongQuality(@PathVariable("id") Long employee_id,@Valid @RequestBody StrongQuality quality){
-        Employee emp;
-        try{
-        emp = employeeService.findEmployeeById(employee_id);
+        Employee emp = employeeService.findEmployeeById(employee_id);
         if(emp != null){
             emp.addStrongQuality(quality);
         }
         else{
             throw new ResourceNotFoundException("Employee", "id", employee_id);
          }
-        } catch (ResourceNotFoundException e) {
-            //return e.getMessage();
-            return null;
-        }
         return qualityService.save(quality);
-    } 
+    } */
     
      /**
      * POST API call 
@@ -343,23 +273,18 @@ public class EmployeeController {
      * @param qualities the employee_id should be in each of the qualities
      * @return 
      */
+    /*
     @RequestMapping(value = "/strongqualities/{id}", method = RequestMethod.POST)
     public List<Quality> postStrongQualities(@PathVariable("id") Long employee_id,@Valid @RequestBody List<StrongQuality> qualities){
-        Employee emp;
-        try{
-        emp = employeeService.findEmployeeById(employee_id);
+        Employee emp = employeeService.findEmployeeById(employee_id);
         if(emp != null){
             emp.addStrongQualities(qualities);
         }
         else{
             throw new ResourceNotFoundException("Employee", "id", employee_id);
          }
-        } catch (ResourceNotFoundException e) {
-            //return e.getMessage();
-            return null;
-        }
         return qualityService.saveListOfStrongQualities(qualities);
-    } 
+    } */
 
     /**
      * POST API call 
@@ -367,23 +292,18 @@ public class EmployeeController {
      * @param qualities the employee_id should be in each of the qualities
      * @return 
      */
+    /*
     @RequestMapping(value = "/weakqualities/{id}", method = RequestMethod.POST)
     public List<Quality> postWeakQualities(@PathVariable("id") Long employee_id,@Valid @RequestBody List<WeakQuality> qualities){
-        Employee emp;
-        try{        
-        emp = employeeService.findEmployeeById(employee_id);
+        Employee emp = employeeService.findEmployeeById(employee_id);
         if(emp != null ){
             emp.addWeakQualities(qualities);
         }
         else{
              throw new ResourceNotFoundException("Employee", "id", employee_id);
          }
-        } catch (ResourceNotFoundException e) {
-            //return e.getMessage();
-            return null;
-        }
         return qualityService.saveListOfWeakQualities(qualities);
-    } 
+    } */
     
      /**
      * POST API call for adding a list of strong qualities and a list of weak qualities
@@ -393,10 +313,8 @@ public class EmployeeController {
      * @return 
      */
     @RequestMapping(value = "/qualities/{id}", method = RequestMethod.POST)
-    public String postStrongAndWeakQualities(@PathVariable("id") Long employee_id,@RequestBody QualityListWrapper json){
-        Employee emp;
-        try{
-         emp = employeeService.findEmployeeById(employee_id);
+    public void postStrongAndWeakQualities(@PathVariable("id") Long employee_id,@RequestBody QualityListWrapper json){
+        Employee emp= employeeService.findEmployeeById(employee_id);
          if(emp != null ){
              emp.addStrongQualities(json.getStrongqualities());
              emp.addWeakQualities(json.getWeakqualities());
@@ -404,69 +322,50 @@ public class EmployeeController {
          else{
              throw new ResourceNotFoundException("Employee", "id", employee_id);
          }
-        } catch (ResourceNotFoundException e) {
-            return e.getMessage();
-        }
-        return qualityService.saveTwoListsOfQualities(json.getStrongqualities(), json.getWeakqualities());
+        qualityService.saveTwoListsOfQualities(json.getStrongqualities(), json.getWeakqualities());
     } 
 // ------------------------------------------------------------------------------------------------------------------------------------------------
 
     // QUALITY - DELETE
     @RequestMapping(value="/strongquality/{id}", method = RequestMethod.DELETE)
-    public String deleteQualityV1punt1(@PathVariable("id") Long id){
-        try {
-            StrongQuality quality = (StrongQuality) qualityService.findStrongQualityById(id).orElse(null);
+    public void deleteQualityV1punt1(@PathVariable("id") Long id){
+            StrongQuality quality = (StrongQuality) qualityService.findStrongQualityById(id);
             if (quality != null) {
                 qualityService.deleteStrongQuality(quality);
-                return String.format("Sterk punt %s is succesvol verwijderd!", quality.getDescription());
             } 
             else 
             {
                 throw new ResourceNotFoundException("Sterk punt", "id", id);
             }
-        } catch (ResourceNotFoundException e) {
-            return e.getMessage();
-        }
     }
     
     @RequestMapping(value="/weakquality/{id}", method = RequestMethod.DELETE)
-    public String deleteQualityV1punt2(@PathVariable("id") Long id){
-        try {
-            WeakQuality quality = (WeakQuality) qualityService.findWeakQualityById(id).orElse(null);
+    public void deleteQualityV1punt2(@PathVariable("id") Long id){
+            WeakQuality quality = (WeakQuality) qualityService.findWeakQualityById(id);
             if (quality != null) {
                 qualityService.deleteWeakQuality(quality);
-                return String.format("Groeipunt %s is succesvol verwijderd!", quality.getDescription());
             } 
             else 
             {
                 throw new ResourceNotFoundException("Groeipunt", "id", id);
             }
-        } catch (ResourceNotFoundException e) {
-            return e.getMessage();
-        }
     }
     /*
     @RequestMapping(value="/quality/{id}", method = RequestMethod.DELETE)
     public String deleteQualityV2punt0(@PathVariable("id") Long id){
-        try {
             StrongQuality quality = (StrongQuality) qualityService.findStrongQualityById(id).orElse(null);
             WeakQuality wquality = (WeakQuality) qualityService.findWeakQualityById(id).orElse(null);
             if (quality != null) {
                 qualityService.deleteStrongQuality(quality);
-                return String.format("Sterk punt %s is succesvol verwijderd!", quality.getDescription());
             } 
             else if(wquality != null){
                 qualityService.deleteWeakQuality(wquality);
-                return String.format("Groeipunt %s is succesvol verwijderd!", quality.getDescription());
             }
             else 
             {
                 throw new ResourceNotFoundException("Punt", "id", id);
             }
-        } catch (ResourceNotFoundException e) {
-            return e.getMessage();
-        }
-    }*:
+    }*/
     
 // ------------------------------------------------------------------------------------------------------------------------------------------------
     // EMPLOYEE - POST - EXTRA

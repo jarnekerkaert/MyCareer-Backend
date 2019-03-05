@@ -22,7 +22,7 @@ public interface IFunctionService<T extends Function> {
     public Function save(PrevFunction function);
     public List<CurrentFunction> saveListOfCurrentFunctions(List<CurrentFunction> functions);
     public List<PrevFunction> saveListOfPrevFunctions(List<PrevFunction> functions);
-    public String saveTwoListsOfFunctions(List<CurrentFunction> currentfunctions, List<PrevFunction> prevfunctions);
+    public void saveTwoListsOfFunctions(List<CurrentFunction> currentfunctions, List<PrevFunction> prevfunctions);
     
     // get
         // alle functies in de db

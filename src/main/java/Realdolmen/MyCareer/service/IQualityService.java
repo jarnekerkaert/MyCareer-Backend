@@ -12,15 +12,15 @@ public interface IQualityService<T extends Quality> {
     public List<Quality> findAllStrongQualitiesOfEmployee(Long employeeId);
     public List<Quality> findAllWeakQualitiesOfEmployee(Long employeeId);
     
-    public Optional<StrongQuality> findStrongQualityById(Long userId);
-    public Optional<WeakQuality> findWeakQualityById(Long userId);
+    public StrongQuality findStrongQualityById(Long userId);
+    public WeakQuality findWeakQualityById(Long userId);
     
     // post
     public Quality save(StrongQuality quality);
     public Quality save(WeakQuality quality);
     public List<StrongQuality> saveListOfStrongQualities(List<StrongQuality> qualities);
     public List<WeakQuality> saveListOfWeakQualities(List<WeakQuality> qualities);
-    public String saveTwoListsOfQualities(List<StrongQuality> strongqualities, List<WeakQuality> weakqualities);
+    public void saveTwoListsOfQualities(List<StrongQuality> strongqualities, List<WeakQuality> weakqualities);
     
     // delete
     public void deleteStrongQuality(StrongQuality quality);

@@ -12,4 +12,5 @@ import org.springframework.stereotype.Repository;
 public interface WeakQualityRepository extends QualityBaseRepository<WeakQuality>{
     @Override
     public List<Quality> findByEmployee_id(Long employee_id);
+    public WeakQuality findWeakQualityById(Long id);
 }

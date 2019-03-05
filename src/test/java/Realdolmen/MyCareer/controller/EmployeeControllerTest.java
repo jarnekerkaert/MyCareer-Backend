@@ -51,7 +51,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import Realdolmen.MyCareer.service.IQualityService;
+import static org.hamcrest.CoreMatchers.any;
 import static org.hamcrest.CoreMatchers.containsString;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(EmployeeController.class)
@@ -78,6 +81,8 @@ public class EmployeeControllerTest {
     private List<StrongQuality> listStrongQualities;
     private List<WeakQuality> listWeakQualities;
     private QualityListWrapper qualityWrapper;
+    private WeakQuality weakquality1;
+    private StrongQuality strongquality1;
 
     public EmployeeControllerTest() {
     }
@@ -150,13 +155,15 @@ public class EmployeeControllerTest {
         listStrongQualities = new ArrayList<>();
         listWeakQualities = new ArrayList<>();
         
-        StrongQuality strongquality1 = new StrongQuality();
+        strongquality1 = new StrongQuality();
         strongquality1.setDescription("description strong");
+        strongquality1.setId(16L);
         strongquality1.setEmployee(empDummy);
         listStrongQualities.add(strongquality1);
         
-        WeakQuality weakquality1 = new WeakQuality();
+        weakquality1 = new WeakQuality();
         weakquality1.setDescription("description weak");
+        weakquality1.setId(15L);
         weakquality1.setEmployee(empDummy);
         listWeakQualities.add(weakquality1);
         
@@ -176,7 +183,7 @@ public class EmployeeControllerTest {
     // TODO check datum
     public void givenEmployee_whenGetEmployee_thenReturnJson() throws Exception {
 
-        given(service.findEmployeeById(1L)).willReturn(empDummy);
+        createEmployee();
 
         mvc.perform(get("/employee/1")
                 .contentType(APPLICATION_JSON))
@@ -199,8 +206,9 @@ public class EmployeeControllerTest {
         //mvc.perform(get("/employee/25663").accept(MediaType.APPLICATION_JSON_VALUE)).andExpect(status().isNotFound());        
         mvc.perform(get("/employee/25663")
                 .accept(MediaType.APPLICATION_JSON_VALUE))
-                .andExpect(status().isOk())
-                .andExpect(content().string("Employee not found with id : '25663'"));
+                .andExpect(status().isNotFound())
+                //.andExpect(content().string("Employee not found with id : '25663'"))
+                ;
     }
 
 // ----------------------------------------------------------------------------------------------------------------------------------------------    
@@ -210,6 +218,7 @@ public class EmployeeControllerTest {
      * Test for adding a current function
      * @throws Exception 
      */
+    /*
     @Test
     public void createCurrentFunction() throws Exception {
         String uri = "/employee/postcurrentfunction/1";
@@ -226,11 +235,28 @@ public class EmployeeControllerTest {
                 .andExpect(jsonPath("description", is(currentfunction.getDescription())))
                 .andExpect(jsonPath("title", is(currentfunction.getTitle())));
     }
+    
+    @Test
+    public void createCurrentFunctionBadEmployee() throws Exception {
+        String uri = "/employee/postcurrentfunction/155";
+
+        createEmployee();
+        given(functionService.save(currentfunction)).willReturn(currentfunction);
+        
+        System.out.println(currentfunction);
+        mvc.perform(post(uri)
+                .contentType(APPLICATION_JSON)
+                .content(mapToJson(currentfunction)))
+                //.content(asJsonString(function)))
+                .andExpect(status().isNotFound())
+                ;
+    }*/
 
     /**
      * Test for adding a previous function
      * @throws Exception 
      */
+    /*
     @Test
     // TODO: datums checken !!
     public void createPreviousFunction() throws Exception {
@@ -248,12 +274,28 @@ public class EmployeeControllerTest {
                 .andExpect(jsonPath("start", is(prevfunction.getStart())))
                 .andExpect(jsonPath("ending", is(prevfunction.getEnding())))
                 .andExpect(jsonPath("title", is(prevfunction.getTitle())));
-    }
+    }*/
+    /*
+    @Test
+    // TODO: datums checken !!
+    public void createPreviousFunctionBadEmployee() throws Exception {
+        String uri = "/employee/postpreviousfunction/551";
+
+        createEmployee();
+        given(functionService.save(prevfunction)).willReturn(prevfunction);
+
+        mvc.perform(post(uri)
+                .contentType(APPLICATION_JSON)
+                .content(mapToJson(prevfunction)))
+                //.content(asJsonString(function)))
+                .andExpect(status().isNotFound());
+    }*/
 
     /**
      * Test for adding a list of current functions
      * @throws Exception 
      */
+    /*
     @Test
     public void postListOfCurrentFunctions() throws Exception {
         String uri = "/employee/postcurrentfunctions/1";
@@ -272,12 +314,13 @@ public class EmployeeControllerTest {
                 .andExpect(jsonPath("$[1].description", is("description2")))
                 //.andExpect(jsonPath("$[1].id", is(2)))
                ;
-    }
+    }*/
     
     /**
      *  Test for adding a list of previous functions
      * @throws Exception 
      */
+    /*
     @Test
     public void postListOfPreviousFunctions() throws Exception {
         String uri = "/employee/postpreviousfunctions/1";
@@ -296,7 +339,7 @@ public class EmployeeControllerTest {
                 .andExpect(jsonPath("$[1].description", is("jkl")))
                 //.andExpect(jsonPath("$[1].id", is(2)))
                ;
-    }
+    }*/
     
     /**
      * Test for adding a list of current functions and a list of previous functions
@@ -307,15 +350,83 @@ public class EmployeeControllerTest {
         String uri = "/employee/functions/1";
 
         createEmployee();
-        given(functionService.saveTwoListsOfFunctions(listCurrentfunctions,listPrevfunctions)).willReturn("success"); 
+        //given(functionService.saveTwoListsOfFunctions(listCurrentfunctions,listPrevfunctions)).willReturn(); 
         
         mvc.perform(post(uri)
                 .contentType(APPLICATION_JSON)
                 .content(mapToJson(functionWrapper))
                 )
                 .andExpect(status().isOk())
-                .andExpect(content().string(containsString("success")));
+                //.andExpect(content().string(containsString("success")));
                ;
+    }
+    
+    @Test
+    public void postListsOfCurrentAndPreviousFunctionsBadEmployee() throws Exception {
+        String uri = "/employee/functions/155";
+
+        createEmployee();
+        //given(functionService.saveTwoListsOfFunctions(listCurrentfunctions,listPrevfunctions)).willReturn(); 
+        
+        mvc.perform(post(uri)
+                .contentType(APPLICATION_JSON)
+                .content(mapToJson(functionWrapper))
+                )
+                .andExpect(status().isNotFound())
+                //.andExpect(content().string(containsString("success")));
+               ;
+    }
+// ----------------------------------------------------------------------------------------------------------------------------------------------
+
+    // FUNCTION - GET
+    
+    @Test
+    public void getCurrentFunctionsOfEmployee() throws Exception {
+
+        createEmployee();
+        
+        //functionService.save(currentfunction);
+        //given(functionService.save(currentfunction)).willReturn(currentfunction); 
+
+        mvc.perform(get("/employee/allcurrentfunctionsofemployee/1")
+                .contentType(APPLICATION_JSON))
+                .andExpect(status().isOk())
+                //.andExpect(jsonPath("$[0].title", is("title1")))
+                //.andExpect(jsonPath("$[0].description", is("description1")))
+                ;
+    }
+    
+    @Test
+    public void getCurrentFunctionsOfBadEmployee() throws Exception {
+
+        createEmployee();
+
+        mvc.perform(get("/employee/allcurrentfunctionsofemployee/1555")
+                .contentType(APPLICATION_JSON))
+                .andExpect(status().isNotFound())
+                ;
+    }
+    
+    @Test
+    public void getPreviousFunctionsOfEmployee() throws Exception {
+
+        createEmployee();
+
+        mvc.perform(get("/employee/allpreviousfunctionsofemployee/1")
+                .contentType(APPLICATION_JSON))
+                .andExpect(status().isOk())
+                ;
+    }
+    
+    @Test
+    public void getPreviousFunctionsOfBadEmployee() throws Exception {
+
+        createEmployee();
+
+        mvc.perform(get("/employee/allpreviousfunctionsofemployee/1555")
+                .contentType(APPLICATION_JSON))
+                .andExpect(status().isNotFound())
+                ;
     }
     
 // ----------------------------------------------------------------------------------------------------------------------------------------------
@@ -358,17 +469,42 @@ public class EmployeeControllerTest {
 
         //given(service.findEmployeeById(1L)).willReturn(empDummy);
         createEmployee();
-        given(qualityService.saveTwoListsOfQualities(listStrongQualities,listWeakQualities)).willReturn("success"); 
         
         mvc.perform(post(uri)
                 .contentType(APPLICATION_JSON)
                 .content(mapToJson(qualityWrapper))
                 )
                 .andExpect(status().isOk())
-                .andExpect(content().string(containsString("success")));
+                //.andExpect(content().string(containsString("success")));
                ;
     }
 // ----------------------------------------------------------------------------------------------------------------------------------------------
     // QUALITY - DELETE
     
+    @Test
+    public void deleteWeakQuality() throws Exception {
+        String uri = "/employee/weakquality/15";
+
+        createEmployee();        
+        given(qualityService.findWeakQualityById(15L)).willReturn(weakquality1);
+        
+        mvc.perform(delete(uri)
+                .contentType(APPLICATION_JSON))
+                .andExpect(status().isOk())
+               ;
+        //verify(qualityService, times(1)).deleteWeakQuality(any(WeakQuality.class));
+    }
+    
+    @Test
+    public void deleteStrongQuality() throws Exception {
+        String uri = "/employee/strongquality/16";
+
+        createEmployee();        
+        given(qualityService.findStrongQualityById(16L)).willReturn(strongquality1);
+        
+        mvc.perform(delete(uri)
+                .contentType(APPLICATION_JSON))
+                .andExpect(status().isOk())
+               ;
+    }
 }

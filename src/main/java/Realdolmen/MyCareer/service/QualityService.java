@@ -54,10 +54,9 @@ public class QualityService implements IQualityService<Quality>{
 
     @Override
     @Transactional
-    public String saveTwoListsOfQualities(List<StrongQuality> strongqualities, List<WeakQuality> weakqualities) {
+    public void saveTwoListsOfQualities(List<StrongQuality> strongqualities, List<WeakQuality> weakqualities) {
         strongQualityRepository.saveAll(strongqualities);
         weakQualityRepository.saveAll(weakqualities);
-        return "success";
     }
 
     @Override
@@ -71,13 +70,13 @@ public class QualityService implements IQualityService<Quality>{
     }
 
     @Override
-    public Optional<StrongQuality> findStrongQualityById(Long id) {
-        return strongQualityRepository.findById(id);
+    public StrongQuality findStrongQualityById(Long id) {
+        return (StrongQuality) strongQualityRepository.findStrongQualityById(id);
     }
 
     @Override
-    public Optional<WeakQuality> findWeakQualityById(Long id) {
-        return weakQualityRepository.findById(id);
+    public WeakQuality findWeakQualityById(Long id) {
+        return (WeakQuality) weakQualityRepository.findWeakQualityById(id);
     }
 
     
