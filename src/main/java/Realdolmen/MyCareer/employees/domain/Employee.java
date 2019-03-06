@@ -1,11 +1,7 @@
 package Realdolmen.MyCareer.employees.domain;
 
-import Realdolmen.MyCareer.functions.domain.CurrentFunction;
 import Realdolmen.MyCareer.functions.domain.Function;
-import Realdolmen.MyCareer.functions.domain.PrevFunction;
 import Realdolmen.MyCareer.qualities.domain.Quality;
-//import Realdolmen.MyCareer.qualities.domain.StrongQuality;
-//import Realdolmen.MyCareer.qualities.domain.WeakQuality;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -17,9 +13,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "employee")
@@ -136,26 +129,6 @@ public class Employee implements Serializable {
         f.forEach(x -> x.setEmployee(this));
         functions.addAll(f);
     }
-    
-    public void addCurrentFunction(CurrentFunction f){
-        f.setEmployee(this);
-        functions.add(f);
-    }
-    
-    public void addCurrentFunctions(List<CurrentFunction> f){
-        f.forEach(x -> x.setEmployee(this));
-        functions.addAll(f);
-    }
-    
-    public void addPrevFunction(PrevFunction f){
-        f.setEmployee(this);
-        functions.add(f);
-    }
-    
-    public void addPrevFunctions(List<PrevFunction> f){
-        f.forEach(x -> x.setEmployee(this));
-        functions.addAll(f);
-    }
 
     public List<Function> getFunctions() {
         return functions;
@@ -177,26 +150,6 @@ public class Employee implements Serializable {
         q.forEach(x -> x.setEmployee(this));
         qualities.addAll(q);
     }
-    
-//     public void addStrongQuality(StrongQuality q){
-//        q.setEmployee(this);
-//        qualities.add(q);
-//    }
-//    
-//    public void addStrongQualities(List<StrongQuality> q){
-//        q.forEach(x -> x.setEmployee(this));
-//        qualities.addAll(q);
-//    }
-//    
-//    public void addWeakQuality(WeakQuality q){
-//        q.setEmployee(this);
-//        qualities.add(q);
-//    }
-//    
-//    public void addWeakQualities(List<WeakQuality> q){
-//        q.forEach(x -> x.setEmployee(this));
-//        qualities.addAll(q);
-//    }
 
     @Override
     public int hashCode() {

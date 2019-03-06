@@ -1,26 +1,18 @@
 package Realdolmen.MyCareer.controller;
 
-import Realdolmen.MyCareer.functions.domain.CurrentFunction;
 import Realdolmen.MyCareer.employees.domain.Employee;
 import Realdolmen.MyCareer.functions.domain.Function;
-import Realdolmen.MyCareer.functions.domain.FunctionListWrapper;
-import Realdolmen.MyCareer.functions.domain.PrevFunction;
-import Realdolmen.MyCareer.qualities.domain.QualityListWrapper;
-import Realdolmen.MyCareer.qualities.domain.StrongQuality;
-import Realdolmen.MyCareer.qualities.domain.WeakQuality;
 import Realdolmen.MyCareer.employees.service.EmployeeServiceImpl;
 import Realdolmen.MyCareer.functions.controller.FunctionController;
 import Realdolmen.MyCareer.functions.service.FunctionService;
+import Realdolmen.MyCareer.qualities.domain.Quality;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import static org.hamcrest.core.Is.is;
-import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.runner.RunWith;
@@ -53,9 +45,8 @@ public class FunctionControllerTest {
     FunctionService functionService;
     
     private Employee empDummy;
-    private List<CurrentFunction> listCurrentfunctions;
-    private List<PrevFunction> listPrevfunctions;
-    private StrongQuality strongquality1;
+    private List<Function> listCurrentfunctions;
+    private List<Function> listPrevfunctions;
     private List<Function> listFunctions;
     private List<Function> listCurrentFunctions;
     private List<Function> listPrevFunctions;

@@ -1,12 +1,10 @@
 
 package Realdolmen.MyCareer.qualities.controller;
 
-import Realdolmen.MyCareer.qualities.domain.QualityListWrapper;
 import Realdolmen.MyCareer.qualities.domain.Quality;
 import Realdolmen.MyCareer.employees.domain.Employee;
 import Realdolmen.MyCareer.common.ResourceNotFoundException;
 import Realdolmen.MyCareer.employees.service.EmployeeService;
-import Realdolmen.MyCareer.qualities.domain.QualityType;
 import Realdolmen.MyCareer.qualities.service.QualityService;
 //import Realdolmen.MyCareer.qualities.domain.StrongQuality;
 //import Realdolmen.MyCareer.qualities.domain.WeakQuality;
