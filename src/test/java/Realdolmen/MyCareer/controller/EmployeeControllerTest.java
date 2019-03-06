@@ -1,15 +1,16 @@
 package Realdolmen.MyCareer.controller;
 
-import Realdolmen.MyCareer.domain.CurrentFunction;
-import Realdolmen.MyCareer.domain.Employee;
-import Realdolmen.MyCareer.domain.Function;
-import Realdolmen.MyCareer.domain.FunctionListWrapper;
-import Realdolmen.MyCareer.domain.PrevFunction;
-import Realdolmen.MyCareer.domain.Quality;
-import Realdolmen.MyCareer.domain.QualityListWrapper;
-import Realdolmen.MyCareer.domain.StrongQuality;
-import Realdolmen.MyCareer.domain.WeakQuality;
-import Realdolmen.MyCareer.service.EmployeeServiceImpl;
+import Realdolmen.MyCareer.functions.domain.CurrentFunction;
+import Realdolmen.MyCareer.employees.domain.Employee;
+import Realdolmen.MyCareer.employees.controller.EmployeeController;
+import Realdolmen.MyCareer.functions.domain.Function;
+import Realdolmen.MyCareer.functions.domain.FunctionListWrapper;
+import Realdolmen.MyCareer.functions.domain.PrevFunction;
+import Realdolmen.MyCareer.qualities.domain.Quality;
+import Realdolmen.MyCareer.qualities.domain.QualityListWrapper;
+import Realdolmen.MyCareer.qualities.domain.StrongQuality;
+import Realdolmen.MyCareer.qualities.domain.WeakQuality;
+import Realdolmen.MyCareer.employees.service.EmployeeServiceImpl;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.ArrayList;
@@ -53,8 +54,8 @@ import static org.hamcrest.CoreMatchers.any;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import Realdolmen.MyCareer.service.FunctionService;
-import Realdolmen.MyCareer.service.QualityService;
+import Realdolmen.MyCareer.functions.service.FunctionService;
+import Realdolmen.MyCareer.qualities.service.QualityService;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(EmployeeController.class)
