@@ -1,3 +1,4 @@
+
 package Realdolmen.MyCareer.controller;
 
 import Realdolmen.MyCareer.domain.CurrentFunction;
@@ -10,12 +11,13 @@ import Realdolmen.MyCareer.domain.QualityListWrapper;
 import Realdolmen.MyCareer.domain.StrongQuality;
 import Realdolmen.MyCareer.domain.WeakQuality;
 import Realdolmen.MyCareer.service.EmployeeServiceImpl;
+import Realdolmen.MyCareer.service.FunctionService;
+import Realdolmen.MyCareer.service.QualityService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -23,43 +25,21 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.runner.RunWith;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.test.context.junit4.SpringRunner;
 import static org.mockito.BDDMockito.given;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.MediaType;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
-import static org.hamcrest.core.Is.is;
-import org.json.JSONObject;
-import static org.mockito.BDDMockito.given;
-import static org.springframework.http.MediaType.APPLICATION_JSON;
-import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static org.hamcrest.CoreMatchers.any;
-import static org.hamcrest.CoreMatchers.containsString;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import Realdolmen.MyCareer.service.FunctionService;
-import Realdolmen.MyCareer.service.QualityService;
 
 @RunWith(SpringRunner.class)
-@WebMvcTest(EmployeeController.class)
-public class EmployeeControllerTest {
-
+@WebMvcTest(QualityController.class)
+public class QualityControllerTest {
+    
     @Autowired
     private MockMvc mvc;
 
@@ -67,11 +47,8 @@ public class EmployeeControllerTest {
     private EmployeeServiceImpl service;
 
     @MockBean
-    FunctionService functionService;
-
-    @MockBean
     QualityService qualityService;
-
+    
     private Employee empDummy;
     private CurrentFunction currentfunction;
     private PrevFunction prevfunction;
@@ -86,11 +63,11 @@ public class EmployeeControllerTest {
     private List<Function> listFunctions;
     private List<Function> listCurrentFunctions;
     private List<Function> listPrevFunctions;
-
-    public EmployeeControllerTest() {
+    
+    public QualityControllerTest() {
     }
-
-    @Before
+    
+         @Before
     public void before() {
         // to get employee by id
         empDummy = new Employee();
@@ -190,45 +167,8 @@ public class EmployeeControllerTest {
         listPrevFunctions.add(f3);
     }
     
-// ----------------------------------------------------------------------------------------------------------------------------------------------
-    // EMPLOYEE - GET
     
-    /**
-     * Test for the GET API call getEmployee(Long employeeId) with an existing employeeId
-     * @throws Exception 
-     */
-    @Test
-    // TODO check datum
-    public void givenEmployee_whenGetEmployee_thenReturnJson() throws Exception {
-
-        createEmployee();
-
-        mvc.perform(get("/employees/1")
-                .contentType(APPLICATION_JSON))
-                .andExpect(status().isOk())
-                //.andExpect(content().json("[{'id': 1,'firstname': 'Nathan','lastname': 'Westerlinck}]"));
-                // .andExpect(content().string(containsString("Hello World")));
-                .andExpect(jsonPath("firstname", is(empDummy.getFirstname())))
-                .andExpect(jsonPath("lastname", is(empDummy.getLastname())))
-                .andExpect(jsonPath("email", is(empDummy.getEmail())))
-                .andExpect(jsonPath("cv_filepath", is(empDummy.getCv_filepath()))) //.andExpect(jsonPath("birthdate", is(empDummy.getBirthdate())))
-                ;
-    }
-
-    /**
-     * Test for the GET API call getEmployee(Long employeeId) with an nonexisting employeeId
-     * @throws Exception 
-     */
-    @Test
-    public void employeeNotFound() throws Exception {
-        //mvc.perform(get("/employee/25663").accept(MediaType.APPLICATION_JSON_VALUE)).andExpect(status().isNotFound());        
-        mvc.perform(get("/employees/25663")
-                .accept(MediaType.APPLICATION_JSON_VALUE))
-                .andExpect(status().isNotFound())
-                //.andExpect(content().string("Employee not found with id : '25663'"))
-                ;
-    }
-
+    
 // ----------------------------------------------------------------------------------------------------------------------------------------------
 
     // HELPMETHODS
@@ -254,6 +194,58 @@ public class EmployeeControllerTest {
     
     private void createEmployee(){
         given(service.findEmployeeById(1L)).willReturn(empDummy);
+    }
+    
+    // ----------------------------------------------------------------------------------------------------------------------------------------------
+    // QUALITY - POST
+        
+    /**
+     * Test for adding a list of strong qualities and a list of weak qualities
+     * @throws Exception 
+     */
+    @Test
+    public void postListsOfStrongAndWeakQualities() throws Exception {
+        String uri = "/employees/1/qualities";
+
+        //given(service.findEmployeeById(1L)).willReturn(empDummy);
+        createEmployee();
+        
+        mvc.perform(post(uri)
+                .contentType(APPLICATION_JSON)
+                .content(mapToJson(qualityWrapper))
+                )
+                .andExpect(status().isOk())
+                //.andExpect(content().string(containsString("success")));
+               ;
+    }
+// ----------------------------------------------------------------------------------------------------------------------------------------------
+    // QUALITY - DELETE
+    
+    @Test
+    public void deleteWeakQuality() throws Exception {
+        String uri = "/weakquality/15";
+
+        createEmployee();        
+        given(qualityService.findWeakQualityById(15L)).willReturn(weakquality1);
+        
+        mvc.perform(delete(uri)
+                .contentType(APPLICATION_JSON))
+                .andExpect(status().isOk())
+               ;
+        //verify(qualityService, times(1)).deleteWeakQuality(any(WeakQuality.class));
+    }
+    
+    @Test
+    public void deleteStrongQuality() throws Exception {
+        String uri = "/strongquality/16";
+
+        createEmployee();        
+        given(qualityService.findStrongQualityById(16L)).willReturn(strongquality1);
+        
+        mvc.perform(delete(uri)
+                .contentType(APPLICATION_JSON))
+                .andExpect(status().isOk())
+               ;
     }
     
 }

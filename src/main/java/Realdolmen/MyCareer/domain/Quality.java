@@ -17,9 +17,9 @@ import javax.persistence.Table;
 // later te veranderen naar Punt
 @Entity
 @Table(name = "quality")
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+//@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 //@MappedSuperclass
-public abstract class Quality 
+public class Quality 
       //  implements Serializable
 {
 
@@ -28,7 +28,7 @@ public abstract class Quality
     private Long id;
 
     @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="employee_id")
+    @JoinColumn(name="employeeId")
     private Employee employee;
     
     @Column(name = "description")

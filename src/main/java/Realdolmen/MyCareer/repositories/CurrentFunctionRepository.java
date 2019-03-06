@@ -11,6 +11,6 @@ import org.springframework.stereotype.Repository;
 @Transactional
 public interface CurrentFunctionRepository extends FunctionBaseRepository<CurrentFunction>{
      @Override
-     public List<Function> findByEmployee_id(Long employee_id);
+     public List<Function> findByEmployeeId(Long employeeId);
 
 }*/

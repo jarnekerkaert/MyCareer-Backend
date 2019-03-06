@@ -1,3 +1,4 @@
+/*
 package Realdolmen.MyCareer.repositories;
 
 import Realdolmen.MyCareer.domain.CurrentFunction;
@@ -38,8 +39,8 @@ public class CurrentFunctionRepositoryTest {
     @Autowired
     private EmployeeRepository employeeRepository;
 
-    @Autowired
-    private CurrentFunctionRepository currentFunctionRepository;
+    //@Autowired
+    //private CurrentFunctionRepository currentFunctionRepository;
     
     private Employee emp;
     private Function function;
@@ -72,4 +73,4 @@ public class CurrentFunctionRepositoryTest {
 
 
 
-}
+}*/

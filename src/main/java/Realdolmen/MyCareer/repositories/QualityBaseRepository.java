@@ -10,5 +10,5 @@ import org.springframework.data.repository.NoRepositoryBean;
 public interface QualityBaseRepository<T extends Quality> extends JpaRepository<T, Long>{
     
     public T findQualityById(Long id);
-    public List<Quality> findByEmployee_id(Long employee_id);
+    public List<Quality> findByEmployeeId(Long employeeId);
 }

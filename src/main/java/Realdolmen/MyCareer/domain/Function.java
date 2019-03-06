@@ -30,16 +30,11 @@ public class Function
     private Long id;
     
     /**
-     * Each function has a foreign key: employee_id, so each function is linked to exactly one employee_id
+     * Each function has a foreign key: employeeId, so each function is linked to exactly one employeeId
      */
     @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="employee_id")
+    @JoinColumn(name="employeeId")
     private Employee employee;
-    
-    /*
-    @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="employee_id_previous")
-    private Employee employee2; */
     
     @Column(name = "title", nullable = false)
     private String title;

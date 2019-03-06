@@ -4,132 +4,44 @@ package Realdolmen.MyCareer.service;
 import Realdolmen.MyCareer.domain.CurrentFunction;
 import Realdolmen.MyCareer.domain.Function;
 import Realdolmen.MyCareer.domain.PrevFunction;
-//import Realdolmen.MyCareer.repositories.CurrentFunctionRepository;
-import Realdolmen.MyCareer.repositories.FunctionRepository;
-import java.util.ArrayList;
-//import Realdolmen.MyCareer.repositories.PrevFunctionRepository;
+import Realdolmen.MyCareer.domain.StrongQuality;
+import Realdolmen.MyCareer.domain.WeakQuality;
 import java.util.List;
-import java.util.stream.Collectors;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-@Service
-public class FunctionService implements IFunctionService<Function>{
-
-    /*
-    @Autowired
-    private FunctionRepository repository; */
-    
-//    @Autowired
-//    private CurrentFunctionRepository currentFunctionRepository;
-//    
-//    @Autowired
-//    private PrevFunctionRepository prevFunctionRepository;
-    
-    @Autowired 
-    private FunctionRepository repository;
-    
-    @Override
-    public List<Function> findAll() {
-        return repository.findAll();
-    }
-    
-    @Override
-    public List<Function> findAllCurrentFunctions() {
-        return repository.findAll().stream().filter( f -> f.getEnding() == null).collect(Collectors.toList());
-    }
-
-    @Override
-    public List<Function> findAllPrevFunctions() {
-        return repository.findAll().stream().filter( f -> f.getEnding() != null).collect(Collectors.toList());
-    }
-    
-    @Override
-    public List<Function> findCurrentFunctions(Long employeeId) {
-        return repository.findByEmployee_id(employeeId).stream().filter( f -> f.getEnding() == null).collect(Collectors.toList());
-    }
-    
-    @Override
-    public List<Function> findPrevFunctions(Long employeeId) {
-        return repository.findByEmployee_id(employeeId).stream().filter( f -> f.getEnding() != null).collect(Collectors.toList());
-    }
-
-    @Override
-    public List<Function> findByEmployee_id(Long employeeId) {
-        return repository.findByEmployee_id(employeeId);
-    }
-
-    @Override
-    public void deletePrevFunction() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void deleteCurrentFunction() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
+public interface FunctionService<T extends Function> {
     
     /*
-    @Override
-    public Function save(CurrentFunction function) {
-        return currentFunctionRepository.save(function);
-    } 
+    // get
+    public List<CurrentFunction> findAllCurrentFunctions();
+    public List<PrevFunction> findAllPreviousFunctions();
     
-    @Override
-    public Function save(PrevFunction function) {
-        return prevFunctionRepository.save(function);
-    }
-
-    @Override
-    public List<CurrentFunction> findAllCurrentFunctions() {
-        return currentFunctionRepository.findAll();
-    }
-
-    @Override
-    public List<PrevFunction> findAllPreviousFunctions() {
-        return prevFunctionRepository.findAll();
-    }
-
-    @Override
-    public List<Function> findAllCurrentFunctionsOfEmployee(Long employeeId) {
-        return currentFunctionRepository.findByEmployee_id(employeeId);
-    }
-
-    @Override
-    public List<Function> findAllPreviousFunctionsOfEmployee(Long employeeId) {
-        return prevFunctionRepository.findByEmployee_id(employeeId);
-    }
-
-    @Override
-    public List<CurrentFunction> saveListOfCurrentFunctions(List<CurrentFunction> functions) {
-        return currentFunctionRepository.saveAll(functions);
-    }
-
-    @Override
-    public List<PrevFunction> saveListOfPrevFunctions(List<PrevFunction> functions) {
-        return prevFunctionRepository.saveAll(functions);
-    }
-
-    @Transactional
-    @Override
-    public void saveTwoListsOfFunctions(List<CurrentFunction> currentfunctions, List<PrevFunction> prevfunctions) {
-        currentFunctionRepository.saveAll(currentfunctions);
-        prevFunctionRepository.saveAll(prevfunctions);
-    }*/
-
-    @Transactional
-    @Override
-    public void saveFunctions(List<Function> functions) {
-        repository.saveAll(functions);
-    }
-
-
-
-
-
-
-
-
+    public List<Function> findAllCurrentFunctionsOfEmployee(Long employeeId);
+    public List<Function> findAllPreviousFunctionsOfEmployee(Long employeeId);
+    
+    // post
+    public Function save(CurrentFunction function);
+    public Function save(PrevFunction function);
+    public List<CurrentFunction> saveListOfCurrentFunctions(List<CurrentFunction> functions);
+    public List<PrevFunction> saveListOfPrevFunctions(List<PrevFunction> functions);
+    
+    */
+    // get
+        // alle functies in de db
+        public List<Function> findAll();
+        // alle functies van de meegegeven werknemer
+        public List<Function> findByEmployeeId(Long employeeId);
+  
+        public List<Function> findAllPrevFunctions();
+        public List<Function> findAllCurrentFunctions();
+        
+        public List<Function> findPrevFunctions(Long employeeId);
+        public List<Function> findCurrentFunctions(Long employeeId);
+        
+    // post
+    public void saveFunctions(List<Function> functions);
+        
+    // delete
+    public void deletePrevFunction();
+    public void deleteCurrentFunction();
+    
 }

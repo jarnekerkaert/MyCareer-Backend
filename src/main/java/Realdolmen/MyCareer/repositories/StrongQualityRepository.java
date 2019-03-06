@@ -11,6 +11,6 @@ import org.springframework.stereotype.Repository;
 @Transactional
 public interface StrongQualityRepository extends QualityBaseRepository<StrongQuality>{
     @Override
-    public List<Quality> findByEmployee_id(Long employee_id);
+    public List<Quality> findByEmployeeId(Long employeeId);
     public StrongQuality findStrongQualityById(Long id);
 }
