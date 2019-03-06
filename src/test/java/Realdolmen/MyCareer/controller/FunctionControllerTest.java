@@ -25,6 +25,9 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.runner.RunWith;
 import static org.mockito.BDDMockito.given;
+import org.mockito.Mockito;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -302,7 +305,7 @@ public class FunctionControllerTest {
      * @throws Exception 
      */
     @Test
-    public void postListsOfCurrentAndPreviousFunctions() throws Exception {
+    public void postFunctions() throws Exception {
         String uri = "/employees/1/functions";
 
         createEmployee();
@@ -316,10 +319,22 @@ public class FunctionControllerTest {
                 .andExpect(status().isOk())
                 //.andExpect(content().string(containsString("success")));
                ;
+        
+        verify(functionService, Mockito.times(1)).saveFunctions(listFunctions);
+        
+        given(functionService.findCurrentFunctions(1L)).willReturn(listCurrentFunctions);
+        Function curf1 = (Function) functionService.findCurrentFunctions(1L).get(0);
+        Function curf2 = (Function) functionService.findCurrentFunctions(1L).get(1);
+        
+        given(functionService.findPrevFunctions(1L)).willReturn(listPrevFunctions); 
+        Function prevf = (Function) functionService.findPrevFunctions(1L).get(0);
+        assertEquals(listFunctions.get(0).getTitle(), curf1.getTitle());
+        assertEquals(listFunctions.get(1).getTitle(), curf2.getTitle());
+        assertEquals(listFunctions.get(2).getTitle(), prevf.getTitle());
     }
     
     @Test
-    public void postListsOfCurrentAndPreviousFunctionsBadEmployee() throws Exception {
+    public void postFunctionsBadEmployee() throws Exception {
         String uri = "/employees/155/functions";
 
         createEmployee();
@@ -333,6 +348,8 @@ public class FunctionControllerTest {
                 .andExpect(status().isNotFound())
                 //.andExpect(content().string(containsString("success")));
                ;
+        
+        verify(functionService, never()).saveFunctions(listFunctions);
     }
 // ----------------------------------------------------------------------------------------------------------------------------------------------
 

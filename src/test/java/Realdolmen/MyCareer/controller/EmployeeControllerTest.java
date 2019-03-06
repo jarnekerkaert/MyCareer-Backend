@@ -70,9 +70,6 @@ public class EmployeeControllerTest {
     @MockBean
     FunctionService functionService;
 
-    @MockBean
-    QualityService qualityService;
-
     private Employee empDummy;
     private CurrentFunction currentfunction;
     private PrevFunction prevfunction;
@@ -200,7 +197,7 @@ public class EmployeeControllerTest {
      */
     @Test
     // TODO check datum
-    public void givenEmployee_whenGetEmployee_thenReturnJson() throws Exception {
+    public void getEmployee() throws Exception {
 
         createEmployee();
 

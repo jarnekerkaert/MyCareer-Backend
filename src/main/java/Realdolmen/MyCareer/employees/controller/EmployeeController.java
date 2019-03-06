@@ -34,9 +34,6 @@ public class EmployeeController {
     @Autowired
     FunctionService functionService;
     
-    @Autowired
-    QualityService qualityService;
-    
 // ------------------------------------------------------------------------------------------------------------------------------------------------
     
     // EMPLOYEE - GET
@@ -65,9 +62,10 @@ public class EmployeeController {
      * @param employee
      * @return 
      */
+     /*
     @RequestMapping(method = RequestMethod.POST)
     public Employee createEmployee(@Valid @RequestBody Employee employee) {
         return employeeService.save(employee);
-    }
+    }*/
 
 }
