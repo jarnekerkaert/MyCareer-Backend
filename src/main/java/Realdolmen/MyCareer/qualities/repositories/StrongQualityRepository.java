@@ -1,4 +1,4 @@
-
+/*
 package Realdolmen.MyCareer.qualities.repositories;
 
 import Realdolmen.MyCareer.qualities.repositories.QualityBaseRepository;
@@ -15,3 +15,4 @@ public interface StrongQualityRepository extends QualityBaseRepository<StrongQua
     public List<Quality> findByEmployeeId(Long employeeId);
     public StrongQuality findStrongQualityById(Long id);
 }
+*/

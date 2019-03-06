@@ -13,12 +13,15 @@ import Realdolmen.MyCareer.qualities.domain.WeakQuality;
 import Realdolmen.MyCareer.employees.service.EmployeeServiceImpl;
 import Realdolmen.MyCareer.functions.service.FunctionService;
 import Realdolmen.MyCareer.qualities.controller.QualityController;
+import Realdolmen.MyCareer.qualities.domain.QualityType;
 import Realdolmen.MyCareer.qualities.service.QualityService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import static org.hamcrest.CoreMatchers.any;
+import static org.hamcrest.core.Is.is;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -27,6 +30,10 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.runner.RunWith;
 import static org.mockito.BDDMockito.given;
+import org.mockito.Mockito;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -35,6 +42,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
@@ -50,20 +60,12 @@ public class QualityControllerTest {
     @MockBean
     QualityService qualityService;
     
+    
     private Employee empDummy;
-    private CurrentFunction currentfunction;
-    private PrevFunction prevfunction;
-    private List<CurrentFunction> listCurrentfunctions;
-    private List<PrevFunction> listPrevfunctions;
-    private FunctionListWrapper functionWrapper;
-    private List<StrongQuality> listStrongQualities;
-    private List<WeakQuality> listWeakQualities;
-    private QualityListWrapper qualityWrapper;
-    private WeakQuality weakquality1;
-    private StrongQuality strongquality1;
-    private List<Function> listFunctions;
-    private List<Function> listCurrentFunctions;
-    private List<Function> listPrevFunctions;
+    private List<Quality> listQualities;
+    private List<Quality> listStrongQualities;
+    private List<Quality> listWeakQualities;
+    private Quality q1;
     
     public QualityControllerTest() {
     }
@@ -80,95 +82,85 @@ public class QualityControllerTest {
         empDummy.setPassword("plaintext");
         empDummy.setId(1L);
 
-        // to post a current function
-        currentfunction = new CurrentFunction();
-        currentfunction.setTitle("title1");
-        currentfunction.setDescription("description1");
-        currentfunction.setEmployee(empDummy);
-
-        // to post a previous function
-        prevfunction = new PrevFunction();
-        prevfunction.setTitle("abc");
-        prevfunction.setDescription("def");
-        prevfunction.setEmployee(empDummy);
-
-        // TODO uit commentaar zetten en createPreviousFunction testen
-        //prevfunction.setStart(new Date());
-        //prevfunction.setStart(new Date(2019,8,6));
-        //prevfunction.setEnding(new Date());
-        
-        // to post a list of current functions
-        CurrentFunction currentfunction2 = new CurrentFunction();
-        currentfunction2.setTitle("title2");
-        currentfunction2.setDescription("description2");
-        currentfunction2.setEmployee(empDummy);
-
-        listCurrentfunctions = new ArrayList<>();
-        listCurrentfunctions.add(currentfunction);
-        listCurrentfunctions.add(currentfunction2);
-        
-        // to post a list of previous functions
-        PrevFunction prevfunction2 = new PrevFunction();
-        prevfunction2.setTitle("ghi");
-        prevfunction2.setDescription("jkl");
-        prevfunction2.setEmployee(empDummy);
-
-        listPrevfunctions = new ArrayList<>();
-        listPrevfunctions.add(prevfunction);
-        listPrevfunctions.add(prevfunction2);
-        
-        // to post a list of current and previous functions
-        functionWrapper = new FunctionListWrapper();
-        functionWrapper.setCurrentfunctions(listCurrentfunctions);
-        functionWrapper.setPrevfunctions(listPrevfunctions);
-        
-        // to post a list of strong and weak qualities
-        qualityWrapper = new QualityListWrapper();
+        listQualities = new ArrayList<>();
         listStrongQualities = new ArrayList<>();
         listWeakQualities = new ArrayList<>();
-        
-        strongquality1 = new StrongQuality();
-        strongquality1.setDescription("description strong");
-        strongquality1.setId(16L);
-        strongquality1.setEmployee(empDummy);
-        listStrongQualities.add(strongquality1);
-        
-        weakquality1 = new WeakQuality();
-        weakquality1.setDescription("description weak");
-        weakquality1.setId(15L);
-        weakquality1.setEmployee(empDummy);
-        listWeakQualities.add(weakquality1);
-        
-        qualityWrapper.setStrongqualities(listStrongQualities);
-        qualityWrapper.setWeakqualities(listWeakQualities);
-        
-        // post list of functions:
-        listFunctions = new ArrayList<>();
-        listCurrentFunctions = new ArrayList<>();
-        listPrevFunctions = new ArrayList<>();
-        Function f1 = new Function();
-        f1.setTitle("title1");
-        f1.setDescription("description1");
-        f1.setEmployee(empDummy);
-        Function f2 = new Function();
-        f2.setTitle("title2");
-        f2.setDescription("description2");
-        f2.setEmployee(empDummy);
-        Function f3 = new Function();
-        f3.setTitle("title3");
-        f3.setDescription("description3");
-        f3.setStart(new Date());
-        f3.setEnding(new Date());
-        f3.setEmployee(empDummy);
-        listFunctions.add(f1);
-        listFunctions.add(f2);
-        listFunctions.add(f3);
-        listCurrentFunctions.add(f1);
-        listCurrentFunctions.add(f2);
-        listPrevFunctions.add(f3);
+        q1 = new Quality();
+        q1.setDescription("java");
+//        q1.setType(QualityType.STRONG);
+q1.setType("STRONG");
+        //q1.setEmployee(empDummy);
+        q1.setId(999L);
+        Quality q2 = new Quality();
+        q2.setDescription("unit testing");
+//        q2.setType(QualityType.WEAK);
+q2.setType("WEAK");
+        //q2.setEmployee(empDummy);
+        listQualities.add(q1);
+        listQualities.add(q2);
+        listStrongQualities.add(q1);
+        listWeakQualities.add(q2);
     }
     
+// ----------------------------------------------------------------------------------------------------------------------------------------------
+
+    // QUALITY - GET
     
+    @Test
+    public void getStrongQualitiesOfEmployee() throws Exception {
+
+        createEmployee();
+        
+        given(qualityService.findAllStrongQualities(1L)).willReturn(listStrongQualities); 
+
+        mvc.perform(get("/employees/1/strongqualities")
+                .contentType(APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].description", is("java")))
+                .andExpect(jsonPath("$[0].type", is("STRONG")))
+                ;
+    }
+    
+    @Test
+    public void getStrongQualitiesOfBadEmployee() throws Exception {
+
+        createEmployee();
+        
+        given(qualityService.findAllStrongQualities(1L)).willReturn(listStrongQualities); 
+
+        mvc.perform(get("/employees/1555/strongqualities")
+                .contentType(APPLICATION_JSON))
+                .andExpect(status().isNotFound())
+                ;
+    }
+    
+    @Test
+    public void getWeakQualitiesOfEmployee() throws Exception {
+
+        createEmployee();
+        
+        given(qualityService.findAllWeakQualities(1L)).willReturn(listWeakQualities); 
+
+        mvc.perform(get("/employees/1/weakqualities")
+                .contentType(APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].description", is("unit testing")))
+                .andExpect(jsonPath("$[0].type", is("WEAK")))
+                ;
+    }
+    
+    @Test
+    public void getWeakQualitiesOfBadEmployee() throws Exception {
+
+        createEmployee();
+        
+        given(qualityService.findAllWeakQualities(1L)).willReturn(listWeakQualities); 
+
+        mvc.perform(get("/employees/1555/weakqualities")
+                .contentType(APPLICATION_JSON))
+                .andExpect(status().isNotFound())
+                ;
+    }
     
 // ----------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -205,48 +197,86 @@ public class QualityControllerTest {
      * @throws Exception 
      */
     @Test
-    public void postListsOfStrongAndWeakQualities() throws Exception {
+    public void postQualities() throws Exception {
         String uri = "/employees/1/qualities";
 
-        //given(service.findEmployeeById(1L)).willReturn(empDummy);
+        createEmployee();
+        
+        assertNotEquals(qualityService.findAllStrongQualities(1L), listStrongQualities);
+        assertNotEquals(qualityService.findAllWeakQualities(1L), listWeakQualities);
+        
+        mvc.perform(post(uri)
+                .contentType(APPLICATION_JSON)
+                .content(mapToJson(listQualities))
+                )
+                .andExpect(status().isOk())
+               ;
+        
+        //verify(qualityService, Mockito.times(1)).saveQualities(listQualities);
+        //verify(qualityService, never()).saveQualities(listQualities);
+        
+        given(qualityService.findAllStrongQualities(1L)).willReturn(listStrongQualities);
+        Quality sq = (Quality) qualityService.findAllStrongQualities(1L).get(0);
+        
+        given(qualityService.findAllWeakQualities(1L)).willReturn(listWeakQualities); 
+        Quality wq = (Quality) qualityService.findAllWeakQualities(1L).get(0);
+        assertEquals(listQualities.get(0).getDescription(), sq.getDescription());
+        assertEquals(listQualities.get(1).getDescription(), wq.getDescription());
+        
+        assertEquals(qualityService.findAllStrongQualities(1L), listStrongQualities);
+        assertEquals(qualityService.findAllWeakQualities(1L), listWeakQualities);
+    }
+    
+    @Test
+    public void postQualitiesBadEmployee() throws Exception {
+        String uri = "/employees/155/qualities";
+
         createEmployee();
         
         mvc.perform(post(uri)
                 .contentType(APPLICATION_JSON)
-                .content(mapToJson(qualityWrapper))
+                .content(mapToJson(listQualities))
                 )
-                .andExpect(status().isOk())
-                //.andExpect(content().string(containsString("success")));
+                .andExpect(status().isNotFound())
                ;
+        
+        verify(qualityService, never()).saveQualities(listQualities);
     }
 // ----------------------------------------------------------------------------------------------------------------------------------------------
     // QUALITY - DELETE
     
     @Test
-    public void deleteWeakQuality() throws Exception {
-        String uri = "/weakquality/15";
+    public void deleteQuality() throws Exception {
+        String uri = "/qualities/999";
 
         createEmployee();        
-        given(qualityService.findWeakQualityById(15L)).willReturn(weakquality1);
+        
+        //assertEquals(qualityService.findAllStrongQualities(1L), listStrongQualities);
+        
+        given(qualityService.findQualityById(999L)).willReturn(q1);
         
         mvc.perform(delete(uri)
                 .contentType(APPLICATION_JSON))
                 .andExpect(status().isOk())
                ;
-        //verify(qualityService, times(1)).deleteWeakQuality(any(WeakQuality.class));
+        
+        verify(qualityService, Mockito.times(1)).deleteQuality(q1);
+       
+        //assertNotEquals(qualityService.findAllStrongQualities(1L), listStrongQualities);
     }
     
     @Test
-    public void deleteStrongQuality() throws Exception {
-        String uri = "/strongquality/16";
+    public void deleteBadQuality() throws Exception {
+        String uri = "/qualities/9991";
 
         createEmployee();        
-        given(qualityService.findStrongQualityById(16L)).willReturn(strongquality1);
+        given(qualityService.findQualityById(999L)).willReturn(q1);
         
         mvc.perform(delete(uri)
                 .contentType(APPLICATION_JSON))
-                .andExpect(status().isOk())
+                .andExpect(status().isNotFound())
                ;
+        
+      verify(qualityService, never()).deleteQuality(q1);
     }
-    
 }

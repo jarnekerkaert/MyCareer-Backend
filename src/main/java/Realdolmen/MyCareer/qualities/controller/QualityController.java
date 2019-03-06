@@ -6,9 +6,10 @@ import Realdolmen.MyCareer.qualities.domain.Quality;
 import Realdolmen.MyCareer.employees.domain.Employee;
 import Realdolmen.MyCareer.common.ResourceNotFoundException;
 import Realdolmen.MyCareer.employees.service.EmployeeService;
+import Realdolmen.MyCareer.qualities.domain.QualityType;
 import Realdolmen.MyCareer.qualities.service.QualityService;
-import Realdolmen.MyCareer.qualities.domain.StrongQuality;
-import Realdolmen.MyCareer.qualities.domain.WeakQuality;
+//import Realdolmen.MyCareer.qualities.domain.StrongQuality;
+//import Realdolmen.MyCareer.qualities.domain.WeakQuality;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -42,7 +43,7 @@ public class QualityController {
         if(emp == null){
             throw new ResourceNotFoundException("Employee", "id", employeeId);
          }
-        return qualityService.findAllStrongQualitiesOfEmployee(employeeId);
+        return qualityService.findAllStrongQualities(employeeId);
     }
     
      /**
@@ -57,117 +58,41 @@ public class QualityController {
         if(emp == null){
             throw new ResourceNotFoundException("Employee", "id", employeeId);
          }
-        return qualityService.findAllWeakQualitiesOfEmployee(employeeId);
+        return qualityService.findAllWeakQualities(employeeId);
     }
     
 // ------------------------------------------------------------------------------------------------------------------------------------------------
     
     // QUALITY - POST
     
-    /**
-     * POST API call 
-     * for adding one weak quality
-     * @param quality the foreign key employeeId should be in the quality
-     * @return 
-     */
-    /*
-    @RequestMapping(value = "/weakquality/{id}", method = RequestMethod.POST)
-    public Quality postWeakQuality(@PathVariable("id") Long employeeId,@Valid @RequestBody WeakQuality quality){
-        Employee emp = employeeService.findEmployeeById(employeeId);
-        if(emp != null){
-            emp.addWeakQuality(quality);
-        }
-        else{
-            throw new ResourceNotFoundException("Employee", "id", employeeId);
-         }
-        return qualityService.save(quality);
-    } */
-    
-    /**
-     * POST API call 
-     * for adding one strong quality
-     * @param quality the foreign key employeeId should be in the quality
-     * @return 
-     */
-    
-    /*
-    @RequestMapping(value = "/strongquality/{id}", method = RequestMethod.POST)
-    public Quality postStrongQuality(@PathVariable("id") Long employeeId,@Valid @RequestBody StrongQuality quality){
-        Employee emp = employeeService.findEmployeeById(employeeId);
-        if(emp != null){
-            emp.addStrongQuality(quality);
-        }
-        else{
-            throw new ResourceNotFoundException("Employee", "id", employeeId);
-         }
-        return qualityService.save(quality);
-    } */
-    
      /**
-     * POST API call 
-     * for adding a list of strong qualities
-     * @param qualities the employeeId should be in each of the qualities
-     * @return 
-     */
-    /*
-    @RequestMapping(value = "/strongqualities/{id}", method = RequestMethod.POST)
-    public List<Quality> postStrongQualities(@PathVariable("id") Long employeeId,@Valid @RequestBody List<StrongQuality> qualities){
-        Employee emp = employeeService.findEmployeeById(employeeId);
-        if(emp != null){
-            emp.addStrongQualities(qualities);
-        }
-        else{
-            throw new ResourceNotFoundException("Employee", "id", employeeId);
-         }
-        return qualityService.saveListOfStrongQualities(qualities);
-    } */
-
-    /**
-     * POST API call 
-     * for adding a list of weak qualities
-     * @param qualities the employeeId should be in each of the qualities
-     * @return 
-     */
-    /*
-    @RequestMapping(value = "/weakqualities/{id}", method = RequestMethod.POST)
-    public List<Quality> postWeakQualities(@PathVariable("id") Long employeeId,@Valid @RequestBody List<WeakQuality> qualities){
-        Employee emp = employeeService.findEmployeeById(employeeId);
-        if(emp != null ){
-            emp.addWeakQualities(qualities);
-        }
-        else{
-             throw new ResourceNotFoundException("Employee", "id", employeeId);
-         }
-        return qualityService.saveListOfWeakQualities(qualities);
-    } */
-    
-     /**
-     * POST API call for adding a list of strong qualities and a list of weak qualities
-     * the employeeId should be in each of the functions
-     * @param json the given body should be an object that consists of two lists with the names strongqualities and weakqualities
-     * strongqualities is a list of strong qualities, weakqualities is a list of weak qualities
+     * POST API call for adding a list of qualities
+     * @param qualities the list of qualities
      * @return 
      */
     @RequestMapping(value = "/employees/{id}/qualities", method = RequestMethod.POST)
-    public void postStrongAndWeakQualities(@PathVariable("id") Long employeeId,@RequestBody QualityListWrapper json){
+    public void postQualities(@PathVariable("id") Long employeeId,@RequestBody List<Quality> qualities){
         Employee emp= employeeService.findEmployeeById(employeeId);
          if(emp != null ){
-             emp.addStrongQualities(json.getStrongqualities());
-             emp.addWeakQualities(json.getWeakqualities());
+//             qualities.forEach(q -> q.setType(QualityType.WEAK));
+             emp.addQualities(qualities);
+ 
          }
          else{
              throw new ResourceNotFoundException("Employee", "id", employeeId);
          }
-        qualityService.saveTwoListsOfQualities(json.getStrongqualities(), json.getWeakqualities());
+        qualityService.saveQualities(qualities);
     } 
+    
 // ------------------------------------------------------------------------------------------------------------------------------------------------
 
     // QUALITY - DELETE
-    @RequestMapping(value="/strongquality/{id}", method = RequestMethod.DELETE)
-    public void deleteStrongQuality(@PathVariable("id") Long id){
-            StrongQuality quality = (StrongQuality) qualityService.findStrongQualityById(id);
+    
+    @RequestMapping(value="/qualities/{id}", method = RequestMethod.DELETE)
+    public void deleteQuality(@PathVariable("id") Long id){
+            Quality quality = qualityService.findQualityById(id);
             if (quality != null) {
-                qualityService.deleteStrongQuality(quality);
+                qualityService.deleteQuality(quality);
             } 
             else 
             {
@@ -175,31 +100,4 @@ public class QualityController {
             }
     }
     
-    @RequestMapping(value="/weakquality/{id}", method = RequestMethod.DELETE)
-    public void deleteWeakQuality(@PathVariable("id") Long id){
-            WeakQuality quality = (WeakQuality) qualityService.findWeakQualityById(id);
-            if (quality != null) {
-                qualityService.deleteWeakQuality(quality);
-            } 
-            else 
-            {
-                throw new ResourceNotFoundException("Groeipunt", "id", id);
-            }
-    }
-    /*
-    @RequestMapping(value="/quality/{id}", method = RequestMethod.DELETE)
-    public String deleteQualityV2punt0(@PathVariable("id") Long id){
-            StrongQuality quality = (StrongQuality) qualityService.findStrongQualityById(id).orElse(null);
-            WeakQuality wquality = (WeakQuality) qualityService.findWeakQualityById(id).orElse(null);
-            if (quality != null) {
-                qualityService.deleteStrongQuality(quality);
-            } 
-            else if(wquality != null){
-                qualityService.deleteWeakQuality(wquality);
-            }
-            else 
-            {
-                throw new ResourceNotFoundException("Punt", "id", id);
-            }
-    }*/
 }

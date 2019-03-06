@@ -4,8 +4,8 @@ import Realdolmen.MyCareer.functions.domain.CurrentFunction;
 import Realdolmen.MyCareer.functions.domain.Function;
 import Realdolmen.MyCareer.functions.domain.PrevFunction;
 import Realdolmen.MyCareer.qualities.domain.Quality;
-import Realdolmen.MyCareer.qualities.domain.StrongQuality;
-import Realdolmen.MyCareer.qualities.domain.WeakQuality;
+//import Realdolmen.MyCareer.qualities.domain.StrongQuality;
+//import Realdolmen.MyCareer.qualities.domain.WeakQuality;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -173,25 +173,30 @@ public class Employee implements Serializable {
         this.qualities = qualities;
     }
     
-     public void addStrongQuality(StrongQuality q){
-        q.setEmployee(this);
-        qualities.add(q);
-    }
-    
-    public void addStrongQualities(List<StrongQuality> q){
+    public void addQualities(List<Quality> q){
         q.forEach(x -> x.setEmployee(this));
         qualities.addAll(q);
     }
     
-    public void addWeakQuality(WeakQuality q){
-        q.setEmployee(this);
-        qualities.add(q);
-    }
-    
-    public void addWeakQualities(List<WeakQuality> q){
-        q.forEach(x -> x.setEmployee(this));
-        qualities.addAll(q);
-    }
+//     public void addStrongQuality(StrongQuality q){
+//        q.setEmployee(this);
+//        qualities.add(q);
+//    }
+//    
+//    public void addStrongQualities(List<StrongQuality> q){
+//        q.forEach(x -> x.setEmployee(this));
+//        qualities.addAll(q);
+//    }
+//    
+//    public void addWeakQuality(WeakQuality q){
+//        q.setEmployee(this);
+//        qualities.add(q);
+//    }
+//    
+//    public void addWeakQualities(List<WeakQuality> q){
+//        q.forEach(x -> x.setEmployee(this));
+//        qualities.addAll(q);
+//    }
 
     @Override
     public int hashCode() {

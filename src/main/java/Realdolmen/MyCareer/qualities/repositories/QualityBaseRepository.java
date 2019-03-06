@@ -1,4 +1,4 @@
-
+/*
 package Realdolmen.MyCareer.qualities.repositories;
 
 import Realdolmen.MyCareer.qualities.domain.Quality;
@@ -12,3 +12,4 @@ public interface QualityBaseRepository<T extends Quality> extends JpaRepository<
     public T findQualityById(Long id);
     public List<Quality> findByEmployeeId(Long employeeId);
 }
+*/

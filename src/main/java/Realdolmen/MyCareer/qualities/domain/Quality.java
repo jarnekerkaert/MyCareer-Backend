@@ -5,6 +5,8 @@ import Realdolmen.MyCareer.employees.domain.Employee;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -34,6 +36,11 @@ public class Quality
     
     @Column(name = "description")
     private String description;
+    
+    //@Enumerated(EnumType.STRING)
+    @Column(name = "type")
+    //private QualityType type;
+    private String type;
 
     public String getDescription() {
         return description;
@@ -54,4 +61,23 @@ public class Quality
     public void setEmployee(Employee employee) {
         this.employee = employee;
     }
+
+//    public QualityType getType() {
+//        return type;
+//    }
+//
+//    public void setType(QualityType type) {
+//        this.type = type;
+//    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+    
+    
+    
 }
