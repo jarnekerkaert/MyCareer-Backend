@@ -18,13 +18,13 @@ public class QualityServiceImpl implements QualityService<Quality>{
     @Override
     public List<Quality> findAllStrongQualities(Long employeeId) {
 //         return qualityRepository.findByEmployeeId(employeeId).stream().filter( f -> f.getType()== QualityType.STRONG).collect(Collectors.toList());
-        return qualityRepository.findByEmployeeId(employeeId).stream().filter( f -> f.getType()== "STRONG").collect(Collectors.toList());
+        return qualityRepository.findByEmployeeId(employeeId).stream().filter( f -> f.getType().equals("STRONG")).collect(Collectors.toList());
     }
 
     @Override
     public List<Quality> findAllWeakQualities(Long employeeId) {
 //        return qualityRepository.findByEmployeeId(employeeId).stream().filter( f -> f.getType()== QualityType.WEAK).collect(Collectors.toList());
-        return qualityRepository.findByEmployeeId(employeeId).stream().filter( f -> f.getType()== "WEAK").collect(Collectors.toList());
+        return qualityRepository.findByEmployeeId(employeeId).stream().filter( f -> f.getType().equals("WEAK")).collect(Collectors.toList());
     }
 
     @Override
