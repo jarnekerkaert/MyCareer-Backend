@@ -11,4 +11,5 @@ import org.springframework.stereotype.Repository;
 public interface FunctionRepository extends JpaRepository<Function, Long>{
     List<Function> findAll();
     List<Function> findByEmployeeId(Long employeeId);
+    Function findFunctionById(Long id);
 }

@@ -47,20 +47,20 @@ public class FunctionServiceImpl implements FunctionService<Function>{
         return repository.findByEmployeeId(employeeId);
     }
 
-    @Override
-    public void deletePrevFunction() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void deleteCurrentFunction() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
     @Transactional
     @Override
     public void saveFunctions(List<Function> functions) {
         repository.saveAll(functions);
+    }
+
+    @Override
+    public Function findFunctionById(Long id) {
+        return repository.findFunctionById(id);
+    }
+
+    @Override
+    public void deleteFunction(Function function) {
+        repository.delete(function);
     }
 
 }

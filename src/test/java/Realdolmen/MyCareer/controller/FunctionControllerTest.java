@@ -26,6 +26,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -50,6 +51,7 @@ public class FunctionControllerTest {
     private List<Function> listFunctions;
     private List<Function> listCurrentFunctions;
     private List<Function> listPrevFunctions;
+    private Function f1;
 
     public FunctionControllerTest() {
     }
@@ -70,9 +72,10 @@ public class FunctionControllerTest {
         listFunctions = new ArrayList<>();
         listCurrentFunctions = new ArrayList<>();
         listPrevFunctions = new ArrayList<>();
-        Function f1 = new Function();
+        f1 = new Function();
         f1.setTitle("title1");
         f1.setDescription("description1");
+        f1.setId(777L);
         //f1.setEmployee(empDummy);
         Function f2 = new Function();
         f2.setTitle("title2");
@@ -336,6 +339,44 @@ public class FunctionControllerTest {
                 .contentType(APPLICATION_JSON))
                 .andExpect(status().isNotFound())
                 ;
+    }
+    
+// ----------------------------------------------------------------------------------------------------------------------------------------------
+    // FUNCTION - DELETE
+    
+    @Test
+    public void deleteFunction() throws Exception {
+        String uri = "/functions/777";
+
+        createEmployee();        
+        
+        //assertEquals(functionService.findAllCurrentFunctions(1L), listCurrentFunctions);
+        
+        given(functionService.findFunctionById(777L)).willReturn(f1);
+        
+        mvc.perform(delete(uri)
+                .contentType(APPLICATION_JSON))
+                .andExpect(status().isOk())
+               ;
+        
+        verify(functionService, Mockito.times(1)).deleteFunction(f1);
+       
+        //assertNotEquals(functionService.findAllCurrentFunctions(1L), listCurrentFunctions);
+    }
+    
+    @Test
+    public void deleteBadFunction() throws Exception {
+        String uri = "/functions/7771";
+
+        createEmployee();        
+        given(functionService.findFunctionById(777L)).willReturn(f1);
+        
+        mvc.perform(delete(uri)
+                .contentType(APPLICATION_JSON))
+                .andExpect(status().isNotFound())
+               ;
+        
+      verify(functionService, never()).deleteFunction(f1);
     }
     
 // ----------------------------------------------------------------------------------------------------------------------------------------------

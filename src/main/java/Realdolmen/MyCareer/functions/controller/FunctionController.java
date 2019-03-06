@@ -143,4 +143,20 @@ public class FunctionController {
          }
         functionService.saveFunctions(functions);
     } 
+    
+// ------------------------------------------------------------------------------------------------------------------------------------------------
+
+    // FUNCTION - DELETE
+    
+    @RequestMapping(value="/functions/{id}", method = RequestMethod.DELETE)
+    public void deleteFunction(@PathVariable("id") Long id){
+            Function function = functionService.findFunctionById(id);
+            if (function != null) {
+                functionService.deleteFunction(function);
+            } 
+            else 
+            {
+                throw new ResourceNotFoundException("Functie", "id", id);
+            }
+    }
 }

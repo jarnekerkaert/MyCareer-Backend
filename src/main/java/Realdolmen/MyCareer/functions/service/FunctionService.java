@@ -21,13 +21,13 @@ public interface FunctionService<T extends Function> {
     public List<Function> findPrevFunctions(Long employeeId);
 
     public List<Function> findCurrentFunctions(Long employeeId);
+    
+    public Function findFunctionById(Long id);
 
     // post
     public void saveFunctions(List<Function> functions);
 
     // delete
-    public void deletePrevFunction();
-
-    public void deleteCurrentFunction();
+    public void deleteFunction(Function function);
 
 }

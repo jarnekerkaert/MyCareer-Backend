@@ -5,6 +5,7 @@ import Realdolmen.MyCareer.qualities.domain.Quality;
 import Realdolmen.MyCareer.employees.domain.Employee;
 import Realdolmen.MyCareer.common.ResourceNotFoundException;
 import Realdolmen.MyCareer.employees.service.EmployeeService;
+import Realdolmen.MyCareer.qualities.domain.QualityType;
 import Realdolmen.MyCareer.qualities.service.QualityService;
 //import Realdolmen.MyCareer.qualities.domain.StrongQuality;
 //import Realdolmen.MyCareer.qualities.domain.WeakQuality;
@@ -72,7 +73,7 @@ public class QualityController {
     public void postQualities(@PathVariable("id") Long employeeId,@RequestBody List<Quality> qualities){
         Employee emp= employeeService.findEmployeeById(employeeId);
          if(emp != null ){
-//             qualities.forEach(q -> q.setType(QualityType.WEAK));
+             //qualities.forEach(q -> q.setType(QualityType.WEAK));
              emp.addQualities(qualities);
  
          }
