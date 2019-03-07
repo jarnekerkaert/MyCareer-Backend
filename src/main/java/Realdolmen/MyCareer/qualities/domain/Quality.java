@@ -22,7 +22,6 @@ import javax.persistence.Table;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 @Entity
-@Table(name = "quality")
 @TypeDef(
     name = "pgsql_enum",
     typeClass = PostgreSQLEnumType.class
@@ -36,13 +35,11 @@ public class Quality {
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="employeeId")
     private Employee employee;
-    
-    @Column(name = "description")
+
     private String description;
     
     @Enumerated(EnumType.STRING)
     @Type( type = "pgsql_enum" )
-    @Column(name = "type")
     private QualityType type;
 
     public String getDescription() {

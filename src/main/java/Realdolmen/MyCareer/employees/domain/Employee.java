@@ -1,7 +1,10 @@
 package Realdolmen.MyCareer.employees.domain;
 
+import Realdolmen.MyCareer.ambitions.domain.Ambition;
 import Realdolmen.MyCareer.functions.domain.Function;
 import Realdolmen.MyCareer.qualities.domain.Quality;
+import net.bytebuddy.description.method.ParameterList;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -34,7 +37,9 @@ public class Employee implements Serializable {
     
     @OneToMany(mappedBy = "employee")
     private List<Quality> qualities =  new ArrayList<>();
-    
+
+    @OneToMany(mappedBy = "employee")
+    private List<Ambition> ambitions = new ArrayList<>();
     /*
      @OneToMany(mappedBy = "employee2")
     private List<Function> previous_functions =  new ArrayList<>(); */
@@ -149,6 +154,14 @@ public class Employee implements Serializable {
     public void addQualities(List<Quality> q){
         q.forEach(x -> x.setEmployee(this));
         qualities.addAll(q);
+    }
+
+    public List<Ambition> getAmbitions() {
+        return ambitions;
+    }
+
+    public void setAmbitions(List<Ambition> ambitions) {
+        this.ambitions = ambitions;
     }
 
     @Override

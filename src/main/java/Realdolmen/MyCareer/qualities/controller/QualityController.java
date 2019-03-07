@@ -73,7 +73,6 @@ public class QualityController {
     public void postQualities(@PathVariable("id") Long employeeId,@RequestBody List<Quality> qualities){
         Employee emp= employeeService.findEmployeeById(employeeId);
          if(emp != null ){
-             //qualities.forEach(q -> q.setType(QualityType.WEAK));
              emp.addQualities(qualities);
  
          }

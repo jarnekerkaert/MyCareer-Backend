@@ -21,5 +21,5 @@ import org.hibernate.engine.spi.SharedSessionContractImplementor;
 
 public enum QualityType
 {
-    STRONG,WEAK;
+    WEAK, STRONG;
 }
