@@ -1,7 +1,9 @@
 
 package Realdolmen.MyCareer.qualities.domain;
 
+import Realdolmen.MyCareer.common.PostgreSQLEnumType;
 import Realdolmen.MyCareer.employees.domain.Employee;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,14 +19,15 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Table;
-// later te veranderen naar Punt
+import org.hibernate.annotations.Type;
+import org.hibernate.annotations.TypeDef;
 @Entity
 @Table(name = "quality")
-//@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-//@MappedSuperclass
-public class Quality 
-      //  implements Serializable
-{
+@TypeDef(
+    name = "pgsql_enum",
+    typeClass = PostgreSQLEnumType.class
+)
+public class Quality {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -37,10 +40,10 @@ public class Quality
     @Column(name = "description")
     private String description;
     
-    //@Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.STRING)
+    @Type( type = "pgsql_enum" )
     @Column(name = "type")
-    //private QualityType type;
-    private String type;
+    private QualityType type;
 
     public String getDescription() {
         return description;
@@ -62,22 +65,12 @@ public class Quality
         this.employee = employee;
     }
 
-//    public QualityType getType() {
-//        return type;
-//    }
-//
-//    public void setType(QualityType type) {
-//        this.type = type;
-//    }
-
-    public String getType() {
+    public QualityType getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(QualityType type) {
         this.type = type;
     }
-    
-    
     
 }

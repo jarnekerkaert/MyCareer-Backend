@@ -1,32 +1,25 @@
-
 package Realdolmen.MyCareer.qualities.domain;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.databind.JsonNode;
 import java.io.Serializable;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Types;
+import java.util.Map;
+import java.util.function.Function;
+import static java.util.stream.Collectors.toMap;
+import java.util.stream.Stream;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import org.hibernate.HibernateException;
+import org.hibernate.annotations.TypeDef;
+import org.hibernate.engine.spi.SharedSessionContractImplementor;
 
-//@JsonFormat(shape = JsonFormat.Shape.STRING)
-//@JsonFormat(shape = JsonFormat.Shape.OBJECT)
-public enum QualityType implements Serializable{
+public enum QualityType
+{
     STRONG,WEAK;
-//       STRONG("STRONG"),WEAK("WEAK");
-////    
-////    public String getStatus() {
-////        return this.name();
-////    }
-//    
-//    private String type;
-//    
-//    private QualityType(String type){
-//        this.type = type;
-//    }
-//
-//    public String getType() {
-//        return type;
-//    }
-//
-//    public void setType(String type) {
-//        this.type = type;
-//    }
-    
-    
 }
