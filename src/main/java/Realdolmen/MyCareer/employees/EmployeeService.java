@@ -1,9 +1,6 @@
 
-package Realdolmen.MyCareer.employees.service;
+package Realdolmen.MyCareer.employees;
 
-import Realdolmen.MyCareer.functions.domain.Function;
-import Realdolmen.MyCareer.employees.domain.Employee;
-import java.util.List;
 import java.util.Optional;
 
 public interface EmployeeService {

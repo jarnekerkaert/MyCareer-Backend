@@ -1,7 +1,5 @@
-package Realdolmen.MyCareer.ambitions.service;
+package Realdolmen.MyCareer.ambitions;
 
-import Realdolmen.MyCareer.ambitions.domain.Ambition;
-import Realdolmen.MyCareer.ambitions.repositories.AmbitionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,15 +18,11 @@ public class AmbitionServiceImpl implements AmbitionService<Ambition> {
         return repository.findAll();
     }
 
-//    @Override
-//    public Optional<Ambition> findByEmployeeId(Long employeeId) {
-//        return repository.findByEmployeeId(employeeId);
-//    }
-
     @Override
-    public List<Ambition> findByEmployeeId(Long employeeId) {
+    public List<Optional<Ambition>> findByEmployeeId(Long employeeId) {
         return repository.findByEmployeeId(employeeId);
     }
+
 
     @Transactional
     @Override

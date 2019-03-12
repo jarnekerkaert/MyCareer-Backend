@@ -1,19 +1,14 @@
 package Realdolmen.MyCareer.controller;
 
-import Realdolmen.MyCareer.employees.domain.Employee;
-import Realdolmen.MyCareer.employees.service.EmployeeService;
-import Realdolmen.MyCareer.functions.domain.Function;
-import Realdolmen.MyCareer.employees.service.EmployeeServiceImpl;
-import Realdolmen.MyCareer.functions.controller.FunctionController;
-import Realdolmen.MyCareer.functions.service.FunctionService;
-import Realdolmen.MyCareer.qualities.domain.Quality;
+import Realdolmen.MyCareer.employees.Employee;
+import Realdolmen.MyCareer.employees.EmployeeService;
+import Realdolmen.MyCareer.functions.Function;
+import Realdolmen.MyCareer.functions.FunctionController;
+import Realdolmen.MyCareer.functions.FunctionService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 import static org.hamcrest.core.Is.is;
 
@@ -402,7 +397,7 @@ public class FunctionControllerTest {
     }
 
     private void createEmployee() {
-        given(service.findEmployeeById(1L)).willReturn(empDummy);
+        given(service.findById(1L)).willReturn(Optional.of(empDummy));
     }
 
 }

@@ -1,8 +1,6 @@
 
-package Realdolmen.MyCareer.functions.service;
+package Realdolmen.MyCareer.functions;
 
-import Realdolmen.MyCareer.functions.domain.Function;
-import Realdolmen.MyCareer.functions.repositories.FunctionRepository;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;

@@ -1,55 +1,40 @@
 package Realdolmen.MyCareer.controller;
 
-import Realdolmen.MyCareer.employees.domain.Employee;
-import Realdolmen.MyCareer.employees.controller.EmployeeController;
-import Realdolmen.MyCareer.functions.domain.Function;
-import Realdolmen.MyCareer.qualities.domain.Quality;
-import Realdolmen.MyCareer.employees.service.EmployeeServiceImpl;
+import Realdolmen.MyCareer.employees.Employee;
+import Realdolmen.MyCareer.employees.EmployeeController;
+import Realdolmen.MyCareer.functions.Function;
+import Realdolmen.MyCareer.qualities.Quality;
+import Realdolmen.MyCareer.employees.EmployeeServiceImpl;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.util.ArrayList;
+
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-import org.junit.After;
-import org.junit.AfterClass;
+
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import static java.util.Optional.of;
 import static org.mockito.BDDMockito.given;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
-import org.springframework.test.context.junit4.SpringRunner;
+
 import org.springframework.test.web.servlet.MockMvc;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 import static org.hamcrest.core.Is.is;
-import org.json.JSONObject;
-import static org.mockito.BDDMockito.given;
-import static org.springframework.http.MediaType.APPLICATION_JSON;
-import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static org.hamcrest.CoreMatchers.any;
-import static org.hamcrest.CoreMatchers.containsString;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import Realdolmen.MyCareer.functions.service.FunctionService;
-import Realdolmen.MyCareer.qualities.service.QualityService;
+import Realdolmen.MyCareer.functions.FunctionService;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(EmployeeController.class)
@@ -156,7 +141,7 @@ public class EmployeeControllerTest {
     }
     
     private void createEmployee(){
-        given(service.findEmployeeById(1L)).willReturn(empDummy);
+        given(service.findById(1L)).willReturn(of(empDummy));
     }
     
 }

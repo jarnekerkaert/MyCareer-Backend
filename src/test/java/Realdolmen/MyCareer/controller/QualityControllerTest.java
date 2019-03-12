@@ -1,12 +1,12 @@
 
 package Realdolmen.MyCareer.controller;
 
-import Realdolmen.MyCareer.employees.domain.Employee;
-import Realdolmen.MyCareer.qualities.domain.Quality;
-import Realdolmen.MyCareer.employees.service.EmployeeServiceImpl;
-import Realdolmen.MyCareer.qualities.controller.QualityController;
-import Realdolmen.MyCareer.qualities.domain.QualityType;
-import Realdolmen.MyCareer.qualities.service.QualityService;
+import Realdolmen.MyCareer.employees.Employee;
+import Realdolmen.MyCareer.qualities.Quality;
+import Realdolmen.MyCareer.employees.EmployeeServiceImpl;
+import Realdolmen.MyCareer.qualities.QualityController;
+import Realdolmen.MyCareer.qualities.QualityType;
+import Realdolmen.MyCareer.qualities.QualityService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.ArrayList;

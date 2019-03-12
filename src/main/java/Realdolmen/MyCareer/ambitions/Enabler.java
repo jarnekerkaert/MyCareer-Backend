@@ -1,13 +1,10 @@
-package Realdolmen.MyCareer.ambitions.domain;
+package Realdolmen.MyCareer.ambitions;
 
 import Realdolmen.MyCareer.common.PostgreSQLEnumType;
-import Realdolmen.MyCareer.employees.domain.Employee;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @TypeDef(
         name = "pgsql_enum",

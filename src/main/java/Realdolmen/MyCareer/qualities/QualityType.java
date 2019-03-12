@@ -1,4 +1,4 @@
-package Realdolmen.MyCareer.qualities.domain;
+package Realdolmen.MyCareer.qualities;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonFormat;

@@ -1,12 +1,9 @@
 
-package Realdolmen.MyCareer.qualities.controller;
+package Realdolmen.MyCareer.qualities;
 
-import Realdolmen.MyCareer.qualities.domain.Quality;
-import Realdolmen.MyCareer.employees.domain.Employee;
+import Realdolmen.MyCareer.employees.Employee;
 import Realdolmen.MyCareer.common.ResourceNotFoundException;
-import Realdolmen.MyCareer.employees.service.EmployeeService;
-import Realdolmen.MyCareer.qualities.domain.QualityType;
-import Realdolmen.MyCareer.qualities.service.QualityService;
+import Realdolmen.MyCareer.employees.EmployeeService;
 //import Realdolmen.MyCareer.qualities.domain.StrongQuality;
 //import Realdolmen.MyCareer.qualities.domain.WeakQuality;
 import java.util.List;
@@ -83,12 +80,19 @@ public class QualityController {
         qualityService.saveQualities(qualities);
     }
 
+    // DELETE QUALITIES BY EMPLOYEEID
+
+    @RequestMapping(value="/employees/{id}/qualities", method = RequestMethod.DELETE)
+    public void deleteAllByEmployeeId(@PathVariable("id") Long id){
+        qualityService.deleteByEmployeeId(id);
+    }
+
 // ------------------------------------------------------------------------------------------------------------------------------------------------
 
     // QUALITY - DELETE
 
     @RequestMapping(value="/qualities/{id}", method = RequestMethod.DELETE)
-    public void deleteQuality(@PathVariable("id") Long id){
+    public void deleteById(@PathVariable("id") Long id){
             Quality quality = qualityService.findQualityById(id);
             if (quality != null) {
                 qualityService.deleteQuality(quality);

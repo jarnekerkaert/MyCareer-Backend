@@ -1,9 +1,8 @@
 
-package Realdolmen.MyCareer.qualities.service;
+package Realdolmen.MyCareer.qualities;
 
-import Realdolmen.MyCareer.qualities.domain.Quality;
+import Realdolmen.MyCareer.qualities.Quality;
 import java.util.List;
-import java.util.Optional;
 
 public interface QualityService<T extends Quality> {
 

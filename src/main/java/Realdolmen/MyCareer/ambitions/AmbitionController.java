@@ -1,11 +1,8 @@
-package Realdolmen.MyCareer.ambitions.controller;
+package Realdolmen.MyCareer.ambitions;
 
-import Realdolmen.MyCareer.ambitions.domain.Ambition;
-import Realdolmen.MyCareer.ambitions.service.AmbitionService;
 import Realdolmen.MyCareer.common.ResourceNotFoundException;
-import Realdolmen.MyCareer.employees.domain.Employee;
-import Realdolmen.MyCareer.employees.service.EmployeeService;
-import Realdolmen.MyCareer.functions.domain.Function;
+import Realdolmen.MyCareer.employees.Employee;
+import Realdolmen.MyCareer.employees.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,14 +30,9 @@ public class AmbitionController {
 
     @RequestMapping(value = "/employees/{id}/ambitions", method = RequestMethod.POST)
     public void postAmbitions(@PathVariable("id") Long employeeId,@RequestBody List<Ambition> ambitions){
-        Optional<Employee> emp = employeeService.findById(employeeId);
-
-        if(emp.isPresent()){
-            emp.get().addAmbitions(ambitions);
-        }
-        else{
-            throw new ResourceNotFoundException("Employee", "id", employeeId);
-        }
+        employeeService.findById(employeeId)
+                .map(emp -> new Employee())
+                .orElseThrow(() -> new ResourceNotFoundException("Employee", "id", employeeId));
 
         ambitionService.deleteByEmployeeId(employeeId);
         ambitionService.saveAmbitions(ambitions);

@@ -1,6 +1,5 @@
-package Realdolmen.MyCareer.functions.service;
+package Realdolmen.MyCareer.functions;
 
-import Realdolmen.MyCareer.functions.domain.Function;
 //import Realdolmen.MyCareer.qualities.domain.StrongQuality;
 //import Realdolmen.MyCareer.qualities.domain.WeakQuality;
 import java.util.List;

@@ -1,11 +1,9 @@
 
-package Realdolmen.MyCareer.functions.controller;
+package Realdolmen.MyCareer.functions;
 
-import Realdolmen.MyCareer.functions.domain.Function;
-import Realdolmen.MyCareer.employees.domain.Employee;
+import Realdolmen.MyCareer.employees.Employee;
 import Realdolmen.MyCareer.common.ResourceNotFoundException;
-import Realdolmen.MyCareer.employees.service.EmployeeService;
-import Realdolmen.MyCareer.functions.service.FunctionService;
+import Realdolmen.MyCareer.employees.EmployeeService;
 
 import java.util.List;
 import java.util.Optional;
@@ -35,11 +33,11 @@ public class FunctionController {
      * Returns all the functions that are stored in the database
      * @return
      */
-    /*
+
     @RequestMapping(value = "/functions",method = RequestMethod.GET)
     public List<Function> getFunctions(){
         return functionService.findAll();
-    }*/
+    }
 
     /**
      * Extra
@@ -47,11 +45,11 @@ public class FunctionController {
      * returns all the current functions that are stored in the database
      * @return
      */
-    /*
+
     @RequestMapping(value = "/currentfunctions", method = RequestMethod.GET)
     public List<Function> getCurrentFunctions(){
         return functionService.findAllCurrentFunctions();
-    }*/
+    }
 
     /**
      * Extra
@@ -59,11 +57,11 @@ public class FunctionController {
      * returns all the previous functions that are stored in the database
      * @return
      */
-    /*
+
     @RequestMapping(value = "/prevfunctions", method = RequestMethod.GET)
     public List<Function> getPreviousFunctions(){
         return functionService.findAllPrevFunctions();
-    }*/
+    }
 
     /**
      * GET API call
@@ -74,8 +72,9 @@ public class FunctionController {
      */
     @RequestMapping(value = "/employees/{id}/currentfunctions", method = RequestMethod.GET)
     public List<Function> getCurrentFunctionsOfEmployee(@PathVariable("id") Long employeeId) {
-        Optional<Employee> emp = employeeService.findById(employeeId);
-        if (emp.isPresent()) {
+
+        Employee emp = employeeService.findEmployeeById(employeeId);
+        if (emp == null) {
             throw new ResourceNotFoundException("Employee", "id", employeeId);
         }
         return functionService.findCurrentFunctions(employeeId);
@@ -90,11 +89,17 @@ public class FunctionController {
      */
     @RequestMapping(value = "/employees/{id}/prevfunctions", method = RequestMethod.GET)
     public List<Function> getPreviousFunctionsOfEmployee(@PathVariable("id") Long employeeId) {
-        Optional<Employee> emp = employeeService.findById(employeeId);
-        if (emp.isPresent()) {
+        Employee emp = employeeService.findEmployeeById(employeeId);
+        if (emp == null) {
             throw new ResourceNotFoundException("Employee", "id", employeeId);
         }
         return functionService.findPrevFunctions(employeeId);
+    }
+
+    // DELETE ALL FUNCTIONS BY EMPLOYEEID
+    @RequestMapping(value = "/employees/{id}/functions", method = RequestMethod.DELETE)
+    public void deleteAllByEmployee(@PathVariable("id") Long id) {
+        functionService.deleteByEmployeeId(id);
     }
 
     /**
@@ -140,9 +145,9 @@ public class FunctionController {
      */
     @RequestMapping(value = "/employees/{id}/functions", method = RequestMethod.POST)
     public void postFunctions(@PathVariable("id") Long employeeId, @RequestBody List<Function> functions) {
-        Optional<Employee> emp = employeeService.findById(employeeId);
-        if (emp.isPresent()) {
-            emp.get().addFunctions(functions);
+        Employee emp = employeeService.findEmployeeById(employeeId);
+        if (emp != null) {
+            emp.addFunctions(functions);
         } else {
             throw new ResourceNotFoundException("Employee", "id", employeeId);
         }

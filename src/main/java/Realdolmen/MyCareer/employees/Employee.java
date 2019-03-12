@@ -1,9 +1,8 @@
-package Realdolmen.MyCareer.employees.domain;
+package Realdolmen.MyCareer.employees;
 
-import Realdolmen.MyCareer.ambitions.domain.Ambition;
-import Realdolmen.MyCareer.functions.domain.Function;
-import Realdolmen.MyCareer.qualities.domain.Quality;
-import net.bytebuddy.description.method.ParameterList;
+import Realdolmen.MyCareer.ambitions.Ambition;
+import Realdolmen.MyCareer.functions.Function;
+import Realdolmen.MyCareer.qualities.Quality;
 
 import java.io.Serializable;
 import java.util.ArrayList;

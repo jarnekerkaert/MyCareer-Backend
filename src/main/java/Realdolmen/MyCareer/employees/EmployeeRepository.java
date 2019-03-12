@@ -1,11 +1,7 @@
 
-package Realdolmen.MyCareer.employees.repositories;
+package Realdolmen.MyCareer.employees;
 
-import Realdolmen.MyCareer.employees.domain.Employee;
-import Realdolmen.MyCareer.functions.domain.Function;
-import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 @Repository

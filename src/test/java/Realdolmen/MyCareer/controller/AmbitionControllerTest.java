@@ -1,11 +1,11 @@
 package Realdolmen.MyCareer.controller;
 
-import Realdolmen.MyCareer.ambitions.controller.AmbitionController;
-import Realdolmen.MyCareer.ambitions.domain.Ambition;
-import Realdolmen.MyCareer.ambitions.domain.Term;
-import Realdolmen.MyCareer.ambitions.service.AmbitionService;
-import Realdolmen.MyCareer.employees.domain.Employee;
-import Realdolmen.MyCareer.employees.service.EmployeeService;
+import Realdolmen.MyCareer.ambitions.AmbitionController;
+import Realdolmen.MyCareer.ambitions.Ambition;
+import Realdolmen.MyCareer.ambitions.Term;
+import Realdolmen.MyCareer.ambitions.AmbitionService;
+import Realdolmen.MyCareer.employees.Employee;
+import Realdolmen.MyCareer.employees.EmployeeService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
@@ -21,14 +21,13 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import static java.util.Optional.of;
 import static org.hamcrest.core.Is.is;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
+import static org.mockito.ArgumentMatchers.refEq;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
@@ -122,7 +121,7 @@ public class AmbitionControllerTest {
         mvc.perform(request)
                 .andExpect(status().isOk());
 
-        verify(ambitionService, Mockito.times(1)).saveAmbitions(ambitions);
+        verify(ambitionService, Mockito.times(1)).saveAmbitions(refEq(ambitions));
 
 
     }
@@ -142,6 +141,7 @@ public class AmbitionControllerTest {
 
     private void createEmployee() {
         given(service.findEmployeeById(1L)).willReturn(empDummy);
+        given(service.findById(1L)).willReturn(of(empDummy));
     }
 
 }
