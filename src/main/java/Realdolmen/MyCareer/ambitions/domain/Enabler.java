@@ -19,9 +19,9 @@ public class Enabler {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-
-    @ManyToMany(mappedBy = "enablers")
-    private List<Ambition> ambition = new ArrayList<>();
+//
+//    @ManyToMany(mappedBy = "enablers")
+//    private List<Ambition> ambition = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
     @Type( type = "pgsql_enum" )
@@ -39,14 +39,14 @@ public class Enabler {
     public void setId(long id) {
         this.id = id;
     }
-
-    public List<Ambition> getAmbition() {
-        return ambition;
-    }
-
-    public void setAmbition(List<Ambition> ambition) {
-        this.ambition = ambition;
-    }
+//
+//    public List<Ambition> getAmbition() {
+//        return ambition;
+//    }
+//
+//    public void setAmbition(List<Ambition> ambition) {
+//        this.ambition = ambition;
+//    }
 
     public EnablerType getType() {
         return type;

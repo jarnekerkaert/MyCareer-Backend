@@ -1,6 +1,7 @@
 package Realdolmen.MyCareer.controller;
 
 import Realdolmen.MyCareer.employees.domain.Employee;
+import Realdolmen.MyCareer.employees.service.EmployeeService;
 import Realdolmen.MyCareer.functions.domain.Function;
 import Realdolmen.MyCareer.employees.service.EmployeeServiceImpl;
 import Realdolmen.MyCareer.functions.controller.FunctionController;
@@ -8,24 +9,37 @@ import Realdolmen.MyCareer.functions.service.FunctionService;
 import Realdolmen.MyCareer.qualities.domain.Quality;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+
 import static org.hamcrest.core.Is.is;
+
 import org.junit.Before;
 import org.junit.Test;
+
 import static org.junit.Assert.*;
+
 import org.junit.runner.RunWith;
+
 import static org.mockito.BDDMockito.given;
+
 import org.mockito.Mockito;
+
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+
 import static org.springframework.http.MediaType.APPLICATION_JSON;
+
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -35,28 +49,24 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @WebMvcTest(FunctionController.class)
 public class FunctionControllerTest {
-    
+
     @Autowired
     private MockMvc mvc;
 
     @MockBean
-    private EmployeeServiceImpl service;
+    private EmployeeService service;
 
     @MockBean
     FunctionService functionService;
-    
-    private Employee empDummy;
-    private List<Function> listCurrentfunctions;
-    private List<Function> listPrevfunctions;
-    private List<Function> listFunctions;
-    private List<Function> listCurrentFunctions;
-    private List<Function> listPrevFunctions;
-    private Function f1;
 
-    public FunctionControllerTest() {
-    }
-    
-     @Before
+    private Employee empDummy;
+    private List<Function> listFunctions = new ArrayList<>();
+    private List<Function> listCurrentFunctions = new ArrayList<>();
+    private List<Function> listPrevFunctions = new ArrayList<>();
+    private Function f1 = new Function(), f2 = new Function(),
+            f3 = new Function();
+
+    @Before
     public void before() {
         // to get employee by id
         empDummy = new Employee();
@@ -67,40 +77,32 @@ public class FunctionControllerTest {
         empDummy.setCv_filepath("leeg");
         empDummy.setPassword("plaintext");
         empDummy.setId(1L);
-        
+
         // post list of functions:
-        listFunctions = new ArrayList<>();
-        listCurrentFunctions = new ArrayList<>();
-        listPrevFunctions = new ArrayList<>();
-        f1 = new Function();
         f1.setTitle("title1");
         f1.setDescription("description1");
         f1.setId(777L);
         //f1.setEmployee(empDummy);
-        Function f2 = new Function();
         f2.setTitle("title2");
         f2.setDescription("description2");
         //f2.setEmployee(empDummy);
-        Function f3 = new Function();
         f3.setTitle("title3");
         f3.setDescription("description3");
         f3.setStart(new Date());
         f3.setEnding(new Date());
         //f3.setEmployee(empDummy);
-        listFunctions.add(f1);
-        listFunctions.add(f2);
-        listFunctions.add(f3);
-        listCurrentFunctions.add(f1);
-        listCurrentFunctions.add(f2);
+
+        listFunctions.addAll(Arrays.asList(f1, f2, f3));
+        listCurrentFunctions.addAll(Arrays.asList(f1, f2));
         listPrevFunctions.add(f3);
     }
-    
+
     // ----------------------------------------------------------------------------------------------------------------------------------------------    
     // FUNCTION - POST
-    
+
     /**
      * Test for adding a current function
-     * @throws Exception 
+     * @throws Exception
      */
     /*
     @Test
@@ -138,7 +140,7 @@ public class FunctionControllerTest {
 
     /**
      * Test for adding a previous function
-     * @throws Exception 
+     * @throws Exception
      */
     /*
     @Test
@@ -177,7 +179,7 @@ public class FunctionControllerTest {
 
     /**
      * Test for adding a list of current functions
-     * @throws Exception 
+     * @throws Exception
      */
     /*
     @Test
@@ -199,10 +201,10 @@ public class FunctionControllerTest {
                 //.andExpect(jsonPath("$[1].id", is(2)))
                ;
     }*/
-    
+
     /**
      *  Test for adding a list of previous functions
-     * @throws Exception 
+     * @throws Exception
      */
     /*
     @Test
@@ -224,10 +226,11 @@ public class FunctionControllerTest {
                 //.andExpect(jsonPath("$[1].id", is(2)))
                ;
     }*/
-    
+
     /**
      * Test for adding a list of current functions and a list of previous functions
-     * @throws Exception 
+     *
+     * @throws Exception
      */
     @Test
     public void postFunctions() throws Exception {
@@ -235,101 +238,95 @@ public class FunctionControllerTest {
 
         createEmployee();
         //given(functionService.saveTwoListsOfFunctions(listCurrentfunctions,listPrevfunctions)).willReturn(); 
-        
+
         assertNotEquals(functionService.findCurrentFunctions(1L), listCurrentFunctions);
         assertNotEquals(functionService.findPrevFunctions(1L), listPrevFunctions);
-        
+
         mvc.perform(post(uri)
                 .contentType(APPLICATION_JSON)
-                //.content(mapToJson(functionWrapper))
                 .content(mapToJson(listFunctions))
-                )
-                .andExpect(status().isOk())
-                //.andExpect(content().string(containsString("success")));
-               ;
-        
+        )
+                .andExpect(status().isOk());
+
         verify(functionService, Mockito.times(1)).saveFunctions(listFunctions);
-        
+
         given(functionService.findCurrentFunctions(1L)).willReturn(listCurrentFunctions);
         Function curf1 = (Function) functionService.findCurrentFunctions(1L).get(0);
         Function curf2 = (Function) functionService.findCurrentFunctions(1L).get(1);
-        
-        given(functionService.findPrevFunctions(1L)).willReturn(listPrevFunctions); 
+
+        given(functionService.findPrevFunctions(1L)).willReturn(listPrevFunctions);
         Function prevf = (Function) functionService.findPrevFunctions(1L).get(0);
         assertEquals(listFunctions.get(0).getTitle(), curf1.getTitle());
         assertEquals(listFunctions.get(1).getTitle(), curf2.getTitle());
         assertEquals(listFunctions.get(2).getTitle(), prevf.getTitle());
-        
+
         assertEquals(functionService.findCurrentFunctions(1L), listCurrentFunctions);
         assertEquals(functionService.findPrevFunctions(1L), listPrevFunctions);
     }
-    
+
     @Test
     public void postFunctionsBadEmployee() throws Exception {
         String uri = "/employees/155/functions";
 
         createEmployee();
         //given(functionService.saveTwoListsOfFunctions(listCurrentfunctions,listPrevfunctions)).willReturn(); 
-        
+
         mvc.perform(post(uri)
-                .contentType(APPLICATION_JSON)
-                .content(mapToJson(listFunctions))
+                        .contentType(APPLICATION_JSON)
+                        .content(mapToJson(listFunctions))
                 //.content(mapToJson(functionWrapper))
-                )
-                .andExpect(status().isNotFound())
-                //.andExpect(content().string(containsString("success")));
-               ;
-        
+        ).andExpect(status().isNotFound());
+
         verify(functionService, never()).saveFunctions(listFunctions);
     }
 // ----------------------------------------------------------------------------------------------------------------------------------------------
 
     // FUNCTION - GET
-    
+
     @Test
     public void getCurrentFunctionsOfEmployee() throws Exception {
 
         createEmployee();
-        
+
         //functionService.saveFunctions(listFunctions);
-        given(functionService.findCurrentFunctions(1L)).willReturn(listCurrentFunctions); 
+        given(functionService.findCurrentFunctions(1L)).willReturn(listCurrentFunctions);
 
         mvc.perform(get("/employees/1/currentfunctions")
                 .contentType(APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].title", is("title1")))
                 .andExpect(jsonPath("$[0].description", is("description1")))
-                ;
+        ;
     }
-    
+
     @Test
     public void getCurrentFunctionsOfBadEmployee() throws Exception {
 
         createEmployee();
-        
-        given(functionService.findCurrentFunctions(1L)).willReturn(listCurrentFunctions); 
+
+        given(functionService.findCurrentFunctions(1L)).willReturn(listCurrentFunctions);
 
         mvc.perform(get("/employees/1555/currentfunctions")
                 .contentType(APPLICATION_JSON))
                 .andExpect(status().isNotFound())
-                ;
+        ;
     }
-    
+
     @Test
     public void getPreviousFunctionsOfEmployee() throws Exception {
 
         createEmployee();
-        
-        given(functionService.findPrevFunctions(1L)).willReturn(listPrevFunctions); 
+
+        given(functionService.findPrevFunctions(1L)).willReturn(listPrevFunctions);
 
         mvc.perform(get("/employees/1/prevfunctions")
                 .contentType(APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].title", is("title3")))
                 .andExpect(jsonPath("$[0].description", is("description3")))
-                ;
+        ;
     }
-    
+
     @Test
     public void getPreviousFunctionsOfBadEmployee() throws Exception {
 
@@ -338,54 +335,56 @@ public class FunctionControllerTest {
         mvc.perform(get("/employees/1555/prevfunctions")
                 .contentType(APPLICATION_JSON))
                 .andExpect(status().isNotFound())
-                ;
+        ;
     }
-    
+
 // ----------------------------------------------------------------------------------------------------------------------------------------------
     // FUNCTION - DELETE
-    
+
     @Test
     public void deleteFunction() throws Exception {
         String uri = "/functions/777";
 
-        createEmployee();        
-        
+        createEmployee();
+
         //assertEquals(functionService.findAllCurrentFunctions(1L), listCurrentFunctions);
-        
+
         given(functionService.findFunctionById(777L)).willReturn(f1);
-        
+
         mvc.perform(delete(uri)
                 .contentType(APPLICATION_JSON))
                 .andExpect(status().isOk())
-               ;
-        
+        ;
+
         verify(functionService, Mockito.times(1)).deleteFunction(f1);
-       
+
         //assertNotEquals(functionService.findAllCurrentFunctions(1L), listCurrentFunctions);
     }
-    
+
     @Test
     public void deleteBadFunction() throws Exception {
         String uri = "/functions/7771";
 
-        createEmployee();        
+        createEmployee();
         given(functionService.findFunctionById(777L)).willReturn(f1);
-        
+
         mvc.perform(delete(uri)
                 .contentType(APPLICATION_JSON))
                 .andExpect(status().isNotFound())
-               ;
-        
-      verify(functionService, never()).deleteFunction(f1);
+        ;
+
+        verify(functionService, never()).deleteFunction(f1);
     }
-    
+
 // ----------------------------------------------------------------------------------------------------------------------------------------------
 
     // HELPMETHODS
+
     /**
      * Method to convert objects to JSON's
+     *
      * @param obj an object is given as a parameter and this object will be
-     * converted to a JSON
+     *            converted to a JSON
      * @return
      * @throws JsonProcessingException
      */
@@ -401,9 +400,9 @@ public class FunctionControllerTest {
             throw new RuntimeException(e);
         }
     }
-    
-    private void createEmployee(){
+
+    private void createEmployee() {
         given(service.findEmployeeById(1L)).willReturn(empDummy);
     }
-    
+
 }

@@ -44,11 +44,16 @@ public class QualityServiceImpl implements QualityService<Quality>{
         qualityRepository.delete(quality);
     }
 
+    @Transactional
+    @Override
+    public void deleteByEmployeeId(Long employeeId) {
+        qualityRepository.deleteByEmployeeId(employeeId);
+    }
+
     @Override
     public Quality findQualityById(Long id) {
         return qualityRepository.findQualityById(id);
     }
-    
-    
-    
+
+
 }

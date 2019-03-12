@@ -8,15 +8,17 @@ import java.util.Optional;
 public interface QualityService<T extends Quality> {
 
     // get
-    public List<Quality> findByEmployeeId(Long employeeId);
-    public Quality findQualityById(Long id);
+    List<Quality> findByEmployeeId(Long employeeId);
+    Quality findQualityById(Long id);
     
-    public List<Quality> findAllStrongQualities(Long employeeId);
-    public List<Quality> findAllWeakQualities(Long employeeId);
+    List<Quality> findAllStrongQualities(Long employeeId);
+    List<Quality> findAllWeakQualities(Long employeeId);
     
     // post
-    public void saveQualities(List<Quality> qualities);
+    void saveQualities(List<Quality> qualities);
     
     // delete
-    public void deleteQuality(Quality quality);
+    void deleteQuality(Quality quality);
+
+    void deleteByEmployeeId(Long employeeId);
 }

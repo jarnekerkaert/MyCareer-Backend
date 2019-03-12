@@ -11,4 +11,5 @@ import org.springframework.stereotype.Repository;
 public interface QualityRepository extends JpaRepository<Quality, Long> {
     List<Quality> findByEmployeeId(Long employeeId);
     Quality findQualityById(Long id);
+    void deleteByEmployeeId(Long employeeId);
 }

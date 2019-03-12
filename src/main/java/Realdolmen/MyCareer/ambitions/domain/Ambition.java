@@ -28,13 +28,13 @@ public class Ambition {
     @Type( type = "pgsql_enum" )
     private Term term;
 
-    @ManyToMany
-    @JoinTable(
-            name = "ambition_enabler",
-            joinColumns = @JoinColumn(name = "ambition_id"),
-            inverseJoinColumns = @JoinColumn(name = "enabler_id")
-    )
-    private List<Enabler> enablers = new ArrayList<>();
+//    @ManyToMany
+//    @JoinTable(
+//            name = "ambition_enabler",
+//            joinColumns = @JoinColumn(name = "ambition_id"),
+//            inverseJoinColumns = @JoinColumn(name = "enabler_id")
+//    )
+//    private List<Enabler> enablers = new ArrayList<>();
 
     private String title;
     private String motivation;

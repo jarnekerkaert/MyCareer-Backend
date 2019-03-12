@@ -19,22 +19,22 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class QualityController {
-    
+
     @Autowired
     EmployeeService employeeService;
-    
+
     @Autowired
     QualityService qualityService;
-    
+
 // ------------------------------------------------------------------------------------------------------------------------------------------------
-   
+
     // QUALITY - GET
-    
+
      /**
      * GET API call
      * returns all the strong qualities of the given employee
      * @param employeeId
-     * @return 
+     * @return
      */
     @RequestMapping(value = "/employees/{id}/strongqualities", method = RequestMethod.GET)
     public List<Quality> getStrongQualitiesOfEmployee(@PathVariable("id") Long employeeId){
@@ -44,12 +44,12 @@ public class QualityController {
          }
         return qualityService.findAllStrongQualities(employeeId);
     }
-    
+
      /**
      * GET API call
      * returns all the weak qualities of the given employee
      * @param employeeId
-     * @return 
+     * @return
      */
     @RequestMapping(value = "/employees/{id}/weakqualities", method = RequestMethod.GET)
     public List<Quality> getWeakQualitiesOfEmployee(@PathVariable("id") Long employeeId){
@@ -59,43 +59,44 @@ public class QualityController {
          }
         return qualityService.findAllWeakQualities(employeeId);
     }
-    
+
 // ------------------------------------------------------------------------------------------------------------------------------------------------
-    
+
     // QUALITY - POST
-    
+
      /**
      * POST API call for adding a list of qualities
      * @param qualities the list of qualities
-     * @return 
+     * @return
      */
     @RequestMapping(value = "/employees/{id}/qualities", method = RequestMethod.POST)
     public void postQualities(@PathVariable("id") Long employeeId,@RequestBody List<Quality> qualities){
         Employee emp= employeeService.findEmployeeById(employeeId);
          if(emp != null ){
              emp.addQualities(qualities);
- 
+
          }
          else{
              throw new ResourceNotFoundException("Employee", "id", employeeId);
          }
+        qualityService.deleteByEmployeeId(employeeId);
         qualityService.saveQualities(qualities);
-    } 
-    
+    }
+
 // ------------------------------------------------------------------------------------------------------------------------------------------------
 
     // QUALITY - DELETE
-    
+
     @RequestMapping(value="/qualities/{id}", method = RequestMethod.DELETE)
     public void deleteQuality(@PathVariable("id") Long id){
             Quality quality = qualityService.findQualityById(id);
             if (quality != null) {
                 qualityService.deleteQuality(quality);
-            } 
-            else 
+            }
+            else
             {
                 throw new ResourceNotFoundException("Sterk punt", "id", id);
             }
     }
-    
+
 }

@@ -4,30 +4,36 @@ import Realdolmen.MyCareer.functions.domain.Function;
 //import Realdolmen.MyCareer.qualities.domain.StrongQuality;
 //import Realdolmen.MyCareer.qualities.domain.WeakQuality;
 import java.util.List;
+import java.util.Optional;
 
 public interface FunctionService<T extends Function> {
 
     // get
     // all functions in the database
-    public List<Function> findAll();
+    List<Function> findAll();
     
     // all functions of the given employee
-    public List<Function> findByEmployeeId(Long employeeId);
+    Optional<List<Function>> findByEmployeeId(Long employeeId);
 
-    public List<Function> findAllPrevFunctions();
+    Optional<Function> findById(Long id);
 
-    public List<Function> findAllCurrentFunctions();
+    List<Function> findAllPrevFunctions();
 
-    public List<Function> findPrevFunctions(Long employeeId);
+    List<Function> findAllCurrentFunctions();
 
-    public List<Function> findCurrentFunctions(Long employeeId);
+    List<Function> findPrevFunctions(Long employeeId);
+
+    List<Function> findCurrentFunctions(Long employeeId);
     
-    public Function findFunctionById(Long id);
+    Function findFunctionById(Long id);
 
     // post
-    public void saveFunctions(List<Function> functions);
+    void saveFunctions(List<Function> functions);
+
+    //delete all
+    void deleteByEmployeeId(Long employeeId);
 
     // delete
-    public void deleteFunction(Function function);
+    void deleteFunction(Function function);
 
 }

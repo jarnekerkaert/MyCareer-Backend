@@ -33,10 +33,10 @@ public class Employee implements Serializable {
      * We work with inheritance, so we are using one list of functions
      */
     @OneToMany(mappedBy = "employee")
-    private List<Function> functions =  new ArrayList<>();
-    
+    private List<Function> functions = new ArrayList<>();
+
     @OneToMany(mappedBy = "employee")
-    private List<Quality> qualities =  new ArrayList<>();
+    private List<Quality> qualities = new ArrayList<>();
 
     @OneToMany(mappedBy = "employee")
     private List<Ambition> ambitions = new ArrayList<>();
@@ -123,14 +123,14 @@ public class Employee implements Serializable {
 
     public Employee() {
     }
-    
-     public void addFunction(Function f){
+
+    public void addFunction(Function f) {
         f.setEmployee(this);
         functions.add(f);
     }
-    
-     
-    public void addFunctions(List<Function> f){
+
+
+    public void addFunctions(List<Function> f) {
         f.forEach(x -> x.setEmployee(this));
         functions.addAll(f);
     }
@@ -150,8 +150,8 @@ public class Employee implements Serializable {
     public void setQualities(List<Quality> qualities) {
         this.qualities = qualities;
     }
-    
-    public void addQualities(List<Quality> q){
+
+    public void addQualities(List<Quality> q) {
         q.forEach(x -> x.setEmployee(this));
         qualities.addAll(q);
     }
@@ -161,7 +161,18 @@ public class Employee implements Serializable {
     }
 
     public void setAmbitions(List<Ambition> ambitions) {
+        ambitions.forEach(x -> x.setEmployee(this));
         this.ambitions = ambitions;
+    }
+
+    public void addAmbition(Ambition a) {
+        a.setEmployee(this);
+        ambitions.add(a);
+    }
+
+    public void addAmbitions(List<Ambition> a) {
+        a.forEach(x -> x.setEmployee(this));
+        ambitions.addAll(a);
     }
 
     @Override

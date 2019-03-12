@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import Realdolmen.MyCareer.functions.service.FunctionService;
 
+import java.util.Optional;
+
 @RestController
 @RequestMapping(value = "/employees")
 public class EmployeeController {
@@ -31,9 +33,9 @@ public class EmployeeController {
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public Employee getEmployee(@PathVariable("id") Long employeeId) {
-        Employee employee = employeeService.findEmployeeById(employeeId);
-        if (employee != null) {
-            return employee;
+        Optional<Employee> employee = employeeService.findById(employeeId);
+        if (employee.isPresent()) {
+            return employee.get();
         } else {
             throw new ResourceNotFoundException("Employee", "id", employeeId);
         }
