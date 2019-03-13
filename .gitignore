@@ -25,3 +25,5 @@ HELP.md
 /.nb-gradle/
 /build/
 /nbproject/
+nbactions.xml
+nbproject
