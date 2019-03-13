@@ -1,12 +1,27 @@
 
 package com.realdolmen.mycareer.employees;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import java.util.Optional;
 
-public interface EmployeeService {
-    Employee findEmployeeById(Long employeeId);
+@Service
+public class EmployeeService {
 
-    Optional<Employee> findById(Long employeeId);
+    private final EmployeeRepository repository;
 
-    Employee save(Employee emp);
+    @Autowired
+    EmployeeService(EmployeeRepository repository) {
+        this.repository = repository;
+    }
+
+    public Optional<Employee> findById(Long employeeId) {
+        return repository.findById(employeeId);
+    }
+
+    public void save(Employee emp) {
+        repository.save(emp);
+    }
+
 }

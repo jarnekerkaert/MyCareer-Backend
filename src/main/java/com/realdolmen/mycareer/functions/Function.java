@@ -4,25 +4,18 @@ import com.realdolmen.mycareer.employees.Employee;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.Objects;
 
-/**
- * Function is a superclass, his subclasses are CurrentFunction and PrevFunction
- * @author NWTBN85
- */
 @Entity
 @Table(name = "function")
-public class Function 
-        //implements Serializable 
+public class Function
 {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    
-    /**
-     * Each function has a foreign key: employeeId, so each function is linked to exactly one employeeId
-     */
+
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="employeeId")
     private Employee employee;
@@ -37,36 +30,38 @@ public class Function
     private Date start;
     @Column(name = "ending")
     private Date ending;
-    
-     public Date getStart() {
+
+    Function() { }
+
+    Date getStart() {
         return start;
     }
 
-    public void setStart(Date start) {
+    void setStart(Date start) {
         this.start = start;
     }
 
-    public Date getEnding() {
+    Date getEnding() {
         return ending;
     }
 
-    public void setEnding(Date ending) {
+    void setEnding(Date ending) {
         this.ending = ending;
     }
 
-    public Long getId() {
+    Long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    void setId(Long id) {
         this.id = id;
     }
 
-    public String getTitle() {
+    String getTitle() {
         return title;
     }
 
-    public void setTitle(String title) {
+    void setTitle(String title) {
         this.title = title;
     }
 
@@ -74,45 +69,16 @@ public class Function
         this.employee = employee;
     }
 
-//    public Employee getEmployee() {
-//        return employee;
-//    }
-    
-    
+    boolean isCurrent() {
+        return Objects.isNull(getEnding());
+    }
 
-    public String getDescription() {
+    String getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
+    void setDescription(String description) {
         this.description = description;
     }
 
-    public Function() {
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Function)) {
-            return false;
-        }
-        Function other = (Function) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "Realdolmen.MyCareer.domain.Function[ id=" + id + " ]";
-    } 
 }

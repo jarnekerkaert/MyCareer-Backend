@@ -67,11 +67,6 @@ public class FunctionController {
      */
     @RequestMapping(value = "/employees/{id}/currentfunctions", method = RequestMethod.GET)
     public List<Function> getCurrentFunctionsOfEmployee(@PathVariable("id") Long employeeId) {
-
-        Employee emp = employeeService.findEmployeeById(employeeId);
-        if (emp == null) {
-            throw new ResourceNotFoundException("Employee", "id", employeeId);
-        }
         return functionService.findCurrentFunctions(employeeId);
     }
 
@@ -84,10 +79,9 @@ public class FunctionController {
      */
     @RequestMapping(value = "/employees/{id}/prevfunctions", method = RequestMethod.GET)
     public List<Function> getPreviousFunctionsOfEmployee(@PathVariable("id") Long employeeId) {
-        Employee emp = employeeService.findEmployeeById(employeeId);
-        if (emp == null) {
-            throw new ResourceNotFoundException("Employee", "id", employeeId);
-        }
+        Employee emp = employeeService
+                .findById(employeeId)
+                .orElseThrow(() -> new ResourceNotFoundException("Employee", "id", employeeId));
         return functionService.findPrevFunctions(employeeId);
     }
 
@@ -140,12 +134,15 @@ public class FunctionController {
      */
     @RequestMapping(value = "/employees/{id}/functions", method = RequestMethod.POST)
     public void postFunctions(@PathVariable("id") Long employeeId, @RequestBody List<Function> functions) {
-        Employee emp = employeeService.findEmployeeById(employeeId);
-        if (emp != null) {
-            emp.addFunctions(functions);
-        } else {
-            throw new ResourceNotFoundException("Employee", "id", employeeId);
-        }
+
+        employeeService
+                .findById(employeeId)
+                .map(emp -> {
+                    emp.addFunctions(functions);
+                    return emp;
+                })
+                .orElseThrow(() -> new ResourceNotFoundException("Employee", "id", employeeId));
+
         functionService.deleteByEmployeeId(employeeId);
         functionService.saveFunctions(functions);
     }

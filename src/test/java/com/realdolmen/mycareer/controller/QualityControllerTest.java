@@ -2,7 +2,7 @@
 package com.realdolmen.mycareer.controller;
 
 import com.realdolmen.mycareer.employees.Employee;
-import com.realdolmen.mycareer.employees.EmployeeServiceImpl;
+import com.realdolmen.mycareer.employees.EmployeeService;
 import com.realdolmen.mycareer.qualities.Quality;
 import com.realdolmen.mycareer.qualities.QualityController;
 import com.realdolmen.mycareer.qualities.QualityService;
@@ -22,6 +22,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertEquals;
@@ -42,7 +43,7 @@ public class QualityControllerTest {
     private MockMvc mvc;
 
     @MockBean
-    private EmployeeServiceImpl service;
+    private EmployeeService service;
 
     @MockBean
     QualityService qualityService;
@@ -173,7 +174,7 @@ public class QualityControllerTest {
     }
     
     private void createEmployee(){
-        given(service.findEmployeeById(1L)).willReturn(empDummy);
+        given(service.findById(1L)).willReturn(Optional.of(empDummy));
     }
     
     // ----------------------------------------------------------------------------------------------------------------------------------------------

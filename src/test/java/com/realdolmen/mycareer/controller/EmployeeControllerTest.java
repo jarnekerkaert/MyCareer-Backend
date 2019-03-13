@@ -2,7 +2,7 @@ package com.realdolmen.mycareer.controller;
 
 import com.realdolmen.mycareer.employees.Employee;
 import com.realdolmen.mycareer.employees.EmployeeController;
-import com.realdolmen.mycareer.employees.EmployeeServiceImpl;
+import com.realdolmen.mycareer.employees.EmployeeService;
 import com.realdolmen.mycareer.functions.Function;
 import com.realdolmen.mycareer.functions.FunctionService;
 import com.realdolmen.mycareer.qualities.Quality;
@@ -37,7 +37,7 @@ public class EmployeeControllerTest {
     private MockMvc mvc;
 
     @MockBean
-    private EmployeeServiceImpl service;
+    private EmployeeService service;
 
     @MockBean
     FunctionService functionService;

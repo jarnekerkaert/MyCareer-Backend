@@ -9,9 +9,11 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface FunctionRepository extends JpaRepository<Function, Long>{
-    List<Function> findAll();
-    Optional<List<Function>> findByEmployeeId(Long employeeId);
-    Function findFunctionById(Long id);
+interface FunctionRepository extends JpaRepository<Function, Long>{
+
+    List<Function> findByEmployeeId(Long employeeId);
+
+
+
     void deleteByEmployeeId(Long employeeId);
 }

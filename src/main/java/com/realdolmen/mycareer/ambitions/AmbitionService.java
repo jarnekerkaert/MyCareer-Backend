@@ -1,15 +1,38 @@
 package com.realdolmen.mycareer.ambitions;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 import java.util.Optional;
 
-public interface AmbitionService<T extends Ambition> {
+@Service
+public
+class AmbitionService {
 
-    List<Ambition> findAll();
+    private final AmbitionRepository repository;
 
-    List<Optional<Ambition>> findByEmployeeId(Long employeeId);
+    @Autowired
+    AmbitionService(AmbitionRepository repository) {
+        this.repository = repository;
+    }
 
-    void saveAmbitions(List<Ambition> ambitions);
+    List<Ambition> findAll() {
+        return repository.findAll();
+    }
 
-    void deleteByEmployeeId(Long employeeId);
+    public List<Ambition> findByEmployeeId(Long employeeId) {
+        return repository.findByEmployeeId(employeeId);
+    }
+
+    @Transactional
+    public void saveAmbitions(List<Ambition> ambitions) {
+        repository.saveAll(ambitions);
+    }
+
+    @Transactional
+    void deleteByEmployeeId(Long employeeId) {
+        repository.deleteByEmployeeId(employeeId);
+    }
 }

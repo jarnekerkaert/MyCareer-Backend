@@ -7,11 +7,11 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface AmbitionRepository extends JpaRepository<Ambition, Long> {
+interface AmbitionRepository extends JpaRepository<Ambition, Long> {
 
-    List<Optional<Ambition>> findByEmployeeId(Long employeeId);
+    List<Ambition> findByEmployeeId(Long employeeId);
 
-//    Optional<Ambition> findByEmployeeId(Long employeeId);
+    Optional<Ambition> findById(Long id);
 
     void deleteByEmployeeId(Long employeeId);
 }

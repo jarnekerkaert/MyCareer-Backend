@@ -5,9 +5,9 @@ import com.realdolmen.mycareer.ambitions.AmbitionController;
 import com.realdolmen.mycareer.ambitions.AmbitionService;
 import com.realdolmen.mycareer.ambitions.Term;
 import com.realdolmen.mycareer.employees.Employee;
-import com.realdolmen.mycareer.employees.EmployeeService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.realdolmen.mycareer.employees.EmployeeService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -141,7 +141,6 @@ public class AmbitionControllerTest {
     }
 
     private void createEmployee() {
-        given(service.findEmployeeById(1L)).willReturn(empDummy);
         given(service.findById(1L)).willReturn(of(empDummy));
     }
 

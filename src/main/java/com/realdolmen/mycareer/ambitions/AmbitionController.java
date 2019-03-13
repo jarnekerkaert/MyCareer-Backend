@@ -12,33 +12,39 @@ import java.util.Optional;
 @RestController
 public class AmbitionController {
 
-    @Autowired
-    EmployeeService employeeService;
+    private final EmployeeService employeeService;
+
+    private final AmbitionService ambitionService;
 
     @Autowired
-    AmbitionService ambitionService;
+    public AmbitionController(EmployeeService employeeService, AmbitionService ambitionService) {
+        this.employeeService = employeeService;
+        this.ambitionService = ambitionService;
+    }
 
     @RequestMapping(value = "/ambitions", method = RequestMethod.GET)
-    public List<Ambition> getAmbitions(){
+    public List<Ambition> getAmbitions() {
         return ambitionService.findAll();
     }
 
     @RequestMapping(value = "/employees/{id}/ambitions", method = RequestMethod.GET)
-    public List<Ambition> getAmbitionsEmployee(@PathVariable("id") Long employeeId){
+    public List<Ambition> getAmbitionsEmployee(@PathVariable("id") Long employeeId) {
         return ambitionService.findByEmployeeId(employeeId);
     }
 
     @RequestMapping(value = "/employees/{id}/ambitions", method = RequestMethod.POST)
-    public void postAmbitions(@PathVariable("id") Long employeeId,@RequestBody List<Ambition> ambitions){
-//        employeeService.findById(employeeId)
+    public void postAmbitions(@PathVariable("id") Long employeeId, @RequestBody List<Ambition> ambitions) {
+        Employee emp = employeeService.findById(employeeId)
 //                .map(emp -> {
 //                    emp.setAmbitions(ambitions);
-//                    employeeService.save(emp);
+////                    employeeService.save(emp);
 //                    return emp;
 //                })
-//                .orElseThrow(() -> new ResourceNotFoundException("Employee", "id", employeeId));
+                .orElseThrow(() -> new ResourceNotFoundException("Employee", "id", employeeId));
 
-        Employee emp = employeeService.findEmployeeById(employeeId);
+
+
+//        Employee emp = employeeService.findById(employeeId);
         emp.setAmbitions(ambitions);
 
         ambitionService.deleteByEmployeeId(employeeId);
@@ -49,11 +55,10 @@ public class AmbitionController {
     public Employee updateAmbitions(@PathVariable("id") Long employeeId, List<Ambition> ambitions) {
         Optional<Employee> emp = employeeService.findById(employeeId);
 
-        if(emp.isPresent()){
+        if (emp.isPresent()) {
             emp.get().setAmbitions(ambitions);
             employeeService.save(emp.get());
-        }
-        else{
+        } else {
             throw new ResourceNotFoundException("Employee", "id", employeeId);
         }
         return emp.get();
