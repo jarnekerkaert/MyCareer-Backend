@@ -123,6 +123,19 @@ public class Employee implements Serializable {
     public Employee() {
     }
 
+    public Employee(Employee e) {
+        this.setId(e.getId());
+        this.setEmail(e.getEmail());
+        this.setBirthdate(e.getBirthdate());
+        this.setFirstname(e.getFirstname());
+        this.setLastname(e.getLastname());
+        this.setPassword(e.getPassword());
+        this.setCv_filepath(e.getCv_filepath());
+        this.setAmbitions(e.getAmbitions());
+        this.setFunctions(e.getFunctions());
+        this.setQualities(e.getQualities());
+    }
+
     public void addFunction(Function f) {
         f.setEmployee(this);
         functions.add(f);

@@ -30,9 +30,16 @@ public class AmbitionController {
 
     @RequestMapping(value = "/employees/{id}/ambitions", method = RequestMethod.POST)
     public void postAmbitions(@PathVariable("id") Long employeeId,@RequestBody List<Ambition> ambitions){
-        employeeService.findById(employeeId)
-                .map(emp -> new Employee())
-                .orElseThrow(() -> new ResourceNotFoundException("Employee", "id", employeeId));
+//        employeeService.findById(employeeId)
+//                .map(emp -> {
+//                    emp.setAmbitions(ambitions);
+//                    employeeService.save(emp);
+//                    return emp;
+//                })
+//                .orElseThrow(() -> new ResourceNotFoundException("Employee", "id", employeeId));
+
+        Employee emp = employeeService.findEmployeeById(employeeId);
+        emp.setAmbitions(ambitions);
 
         ambitionService.deleteByEmployeeId(employeeId);
         ambitionService.saveAmbitions(ambitions);
