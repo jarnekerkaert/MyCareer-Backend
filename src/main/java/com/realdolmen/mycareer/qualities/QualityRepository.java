@@ -1,7 +1,7 @@
 
 package com.realdolmen.mycareer.qualities;
 
-import com.realdolmen.mycareer.common.domain.Quality;
+import com.realdolmen.mycareer.domain.Quality;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,6 +1,6 @@
 package com.realdolmen.mycareer.ambitions;
 
-import com.realdolmen.mycareer.common.domain.Ambition;
+import com.realdolmen.mycareer.domain.Ambition;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

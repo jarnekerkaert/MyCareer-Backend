@@ -1,4 +1,4 @@
-package com.realdolmen.mycareer.ambitions;
+package com.realdolmen.mycareer.domain;
 
 public enum EnablerType {
     BOOK, CERTIFICATE, PROJECT, TRAINING, OTHER

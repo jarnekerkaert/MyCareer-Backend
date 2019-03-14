@@ -1,4 +1,4 @@
-package com.realdolmen.mycareer.ambitions;
+package com.realdolmen.mycareer.domain;
 
 import com.realdolmen.mycareer.common.PostgreSQLEnumType;
 import org.hibernate.annotations.Type;

@@ -1,16 +1,19 @@
 package com.realdolmen.mycareer.common.dto;
 
-import com.realdolmen.mycareer.common.domain.Ambition;
-import com.realdolmen.mycareer.common.domain.Employee;
-import com.realdolmen.mycareer.common.domain.Function;
-import com.realdolmen.mycareer.common.domain.Quality;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.realdolmen.mycareer.domain.Ambition;
+import com.realdolmen.mycareer.domain.Employee;
+import com.realdolmen.mycareer.domain.Function;
+import com.realdolmen.mycareer.domain.Quality;
 
 import java.util.Date;
 import java.util.List;
 
 public class EmployeeModel {
 
-    private Long id;
+
     private String firstname;
     private String lastname;
     private String email;
@@ -21,22 +24,17 @@ public class EmployeeModel {
     private List<Quality> qualities;
     private List<Ambition> ambitions;
 
+    public EmployeeModel() {
+
+    }
+
     public EmployeeModel(Employee employee) {
-        this.id = employee.getId();
         this.firstname = employee.getFirstname();
         this.lastname = employee.getLastname();
         this.email = employee.getEmail();
         this.password = employee.getPassword();
         this.cv_filepath = employee.getCv_filepath();
         this.birthdate = employee.getBirthdate();
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getCv_filepath() {

@@ -1,8 +1,8 @@
 //package com.realdolmen.mycareer.controller;
 //
-//import com.realdolmen.mycareer.common.domain.Employee;
+//import com.realdolmen.mycareer.domain.Employee;
 //import com.realdolmen.mycareer.employees.EmployeeService;
-//import com.realdolmen.mycareer.common.domain.Function;
+//import com.realdolmen.mycareer.domain.Function;
 //import com.realdolmen.mycareer.functions.FunctionController;
 //import com.fasterxml.jackson.core.JsonProcessingException;
 //import com.fasterxml.jackson.databind.ObjectMapper;

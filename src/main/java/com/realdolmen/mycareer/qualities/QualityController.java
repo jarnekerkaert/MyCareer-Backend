@@ -2,8 +2,9 @@
 package com.realdolmen.mycareer.qualities;
 
 import com.realdolmen.mycareer.common.ResourceNotFoundException;
-import com.realdolmen.mycareer.common.domain.Employee;
-import com.realdolmen.mycareer.common.domain.Quality;
+import com.realdolmen.mycareer.domain.Ambition;
+import com.realdolmen.mycareer.domain.Employee;
+import com.realdolmen.mycareer.domain.Quality;
 import com.realdolmen.mycareer.employees.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -50,13 +51,12 @@ public class QualityController {
     @Transactional
     @RequestMapping(value = "/employees/{id}/qualities", method = RequestMethod.POST)
     public void postQualities(@PathVariable("id") Long employeeId, @RequestBody List<Quality> qualities) {
-//        employeeService
-//                .findById(employeeId)
-//                .map(emp -> {
-//                    emp.setQualities(qualities);
-//                    return emp;
-//                })
-//                .orElseThrow(() -> new ResourceNotFoundException("Employee", "id", employeeId));
+        qualityService.saveQualities(qualities);
+    }
+
+    @Transactional
+    @RequestMapping(value = "/employees/{id}/qualities", method = RequestMethod.PUT)
+    public void updateQualities(@PathVariable("id") Long employeeId, @RequestBody List<Quality> qualities) {
         qualityService.deleteByEmployeeId(employeeId);
         qualityService.saveQualities(qualities);
     }

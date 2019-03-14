@@ -2,7 +2,7 @@
 package com.realdolmen.mycareer.functions;
 
 
-import com.realdolmen.mycareer.common.domain.Function;
+import com.realdolmen.mycareer.domain.Function;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

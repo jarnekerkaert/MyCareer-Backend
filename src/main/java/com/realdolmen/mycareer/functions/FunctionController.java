@@ -2,8 +2,8 @@
 package com.realdolmen.mycareer.functions;
 
 import com.realdolmen.mycareer.common.ResourceNotFoundException;
-import com.realdolmen.mycareer.common.domain.Employee;
-import com.realdolmen.mycareer.common.domain.Function;
+import com.realdolmen.mycareer.domain.Employee;
+import com.realdolmen.mycareer.domain.Function;
 import com.realdolmen.mycareer.employees.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,18 +27,18 @@ public class FunctionController {
         this.functionService = functionService;
     }
 
-    @RequestMapping(value = "/functions",method = RequestMethod.GET)
-    public List<Function> getFunctions(){
+    @RequestMapping(value = "/functions", method = RequestMethod.GET)
+    public List<Function> getFunctions() {
         return functionService.findAll();
     }
 
     @RequestMapping(value = "/currentfunctions", method = RequestMethod.GET)
-    public List<Function> getCurrentFunctions(){
+    public List<Function> getCurrentFunctions() {
         return functionService.findAllCurrentFunctions();
     }
 
     @RequestMapping(value = "/prevfunctions", method = RequestMethod.GET)
-    public List<Function> getPreviousFunctions(){
+    public List<Function> getPreviousFunctions() {
         return functionService.findAllPrevFunctions();
     }
 
@@ -63,7 +63,7 @@ public class FunctionController {
 
 
     @RequestMapping(value = "/employees/{id}/functions", method = RequestMethod.GET)
-    public List<Function> getFunctionsOfEmployee(@PathVariable("id") Long employeeId){
+    public List<Function> getFunctionsOfEmployee(@PathVariable("id") Long employeeId) {
         return functionService.findByEmployeeId(employeeId);
     }
 
@@ -83,14 +83,13 @@ public class FunctionController {
     @Transactional
     @RequestMapping(value = "/employees/{id}/functions", method = RequestMethod.POST)
     public void postFunctions(@PathVariable("id") Long employeeId, @RequestBody List<Function> functions) {
-//        employeeService
-//                .findById(employeeId)
-//                .map(emp -> {
-//                    emp.setFunctions(functions);
-//                    return emp;
-//                })
-//                .orElseThrow(() -> new ResourceNotFoundException("Employee", "id", employeeId));
+        functionService.deleteByEmployeeId(employeeId);
+        functionService.saveFunctions(functions);
+    }
 
+    @Transactional
+    @RequestMapping(value = "/employees/{id}/functions", method = RequestMethod.PUT)
+    public void updateFunctions(@PathVariable("id") Long employeeId, @RequestBody List<Function> functions) {
         functionService.deleteByEmployeeId(employeeId);
         functionService.saveFunctions(functions);
     }
