@@ -1,6 +1,6 @@
 package com.realdolmen.mycareer.employees;
 
-import com.realdolmen.mycareer.common.Employee;
+import com.realdolmen.mycareer.common.domain.Employee;
 import com.realdolmen.mycareer.common.ResourceNotFoundException;
 import com.realdolmen.mycareer.functions.FunctionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +16,7 @@ class EmployeeController {
     private final EmployeeService employeeService;
 
     @Autowired
-    EmployeeController(EmployeeService employeeService, FunctionService functionService) {
+    public EmployeeController(EmployeeService employeeService, FunctionService functionService) {
         this.employeeService = employeeService;
     }
 
@@ -27,7 +27,7 @@ class EmployeeController {
         return emp;
     }
 
-    @RequestMapping(method = RequestMethod.POST)
+    @RequestMapping(value = "", method = RequestMethod.POST)
     void createEmployee(@Valid @RequestBody Employee employee) {
         employeeService.save(employee);
     }

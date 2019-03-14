@@ -1,5 +1,6 @@
 package com.realdolmen.mycareer.ambitions;
 
+import com.realdolmen.mycareer.common.domain.Ambition;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

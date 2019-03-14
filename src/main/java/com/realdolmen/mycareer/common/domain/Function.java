@@ -1,6 +1,4 @@
-package com.realdolmen.mycareer.functions;
-
-import com.realdolmen.mycareer.common.Employee;
+package com.realdolmen.mycareer.common.domain;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -10,26 +8,22 @@ import java.util.Objects;
 @Table(name = "function")
 public class Function
 {
-
     private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="employeeId")
-    private Employee employee;
-    
-    @Column(name = "title", nullable = false)
+    private Long employeeId;
+
     private String title;
 
-    @Column(name = "description")
     private String description;
-    
-    @Column(name = "start")
+
     private Date start;
-    @Column(name = "ending")
+
     private Date ending;
+
 
     Function() { }
 
@@ -41,12 +35,12 @@ public class Function
         this.id = id;
     }
 
-    Employee getEmployee() {
-        return employee;
+    public Long getEmployeeId() {
+        return employeeId;
     }
 
-    public void setEmployee(Employee employee) {
-        this.employee = employee;
+    public void setEmployeeId(Long employeeId) {
+        this.employeeId = employeeId;
     }
 
     public String getTitle() {
@@ -81,9 +75,7 @@ public class Function
         this.ending = ending;
     }
 
-    boolean isCurrent() {
+    public boolean isCurrent() {
         return Objects.isNull(getEnding());
     }
-
-
 }
