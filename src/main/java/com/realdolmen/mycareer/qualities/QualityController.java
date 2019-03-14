@@ -5,12 +5,10 @@ import com.realdolmen.mycareer.common.ResourceNotFoundException;
 import com.realdolmen.mycareer.employees.Employee;
 import com.realdolmen.mycareer.employees.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
-//import Realdolmen.MyCareer.qualities.domain.StrongQuality;
-//import Realdolmen.MyCareer.qualities.domain.WeakQuality;
 
 @RestController
 public class QualityController {
@@ -27,17 +25,11 @@ public class QualityController {
         this.qualityService = qualityService;
     }
 
-// ------------------------------------------------------------------------------------------------------------------------------------------------
+    @RequestMapping(value = "/employees/{id}/qualities", method = RequestMethod.GET)
+    public List<Quality> getAllQualitiesEmployee(@PathVariable("id") Long employeeId) {
+        return qualityService.findByEmployeeId(employeeId);
+    }
 
-    // QUALITY - GET
-
-    /**
-     * GET API call
-     * returns all the strong qualities of the given employee
-     *
-     * @param employeeId
-     * @return
-     */
     @RequestMapping(value = "/employees/{id}/strongqualities", method = RequestMethod.GET)
     public List<Quality> getStrongQualitiesOfEmployee(@PathVariable("id") Long employeeId) {
         Employee emp = employeeService
@@ -46,13 +38,6 @@ public class QualityController {
         return qualityService.findAllStrongQualities(employeeId);
     }
 
-    /**
-     * GET API call
-     * returns all the weak qualities of the given employee
-     *
-     * @param employeeId
-     * @return
-     */
     @RequestMapping(value = "/employees/{id}/weakqualities", method = RequestMethod.GET)
     public List<Quality> getWeakQualitiesOfEmployee(@PathVariable("id") Long employeeId) {
         Employee emp = employeeService
@@ -61,16 +46,7 @@ public class QualityController {
         return qualityService.findAllWeakQualities(employeeId);
     }
 
-// ------------------------------------------------------------------------------------------------------------------------------------------------
-
-    // QUALITY - POST
-
-    /**
-     * POST API call for adding a list of qualities
-     *
-     * @param qualities the list of qualities
-     * @return
-     */
+    @Transactional
     @RequestMapping(value = "/employees/{id}/qualities", method = RequestMethod.POST)
     public void postQualities(@PathVariable("id") Long employeeId, @RequestBody List<Quality> qualities) {
         employeeService
@@ -84,25 +60,19 @@ public class QualityController {
         qualityService.saveQualities(qualities);
     }
 
-    // DELETE QUALITIES BY EMPLOYEEID
-
+    @Transactional
     @RequestMapping(value = "/employees/{id}/qualities", method = RequestMethod.DELETE)
     public void deleteAllByEmployeeId(@PathVariable("id") Long id) {
         qualityService.deleteByEmployeeId(id);
     }
 
-// ------------------------------------------------------------------------------------------------------------------------------------------------
-
-    // QUALITY - DELETE
-
     @RequestMapping(value = "/qualities/{id}", method = RequestMethod.DELETE)
     public void deleteById(@PathVariable("id") Long id) {
-        Quality quality = qualityService.findQualityById(id);
-        if (quality != null) {
-            qualityService.deleteQuality(quality);
-        } else {
-            throw new ResourceNotFoundException("Sterk punt", "id", id);
-        }
+        qualityService.findQualityById(id)
+                .map(q -> {
+                    qualityService.deleteQuality(q);
+                    return q;
+                })
+                .orElseThrow(() -> new ResourceNotFoundException("Sterk punt", "id", id));
     }
-
 }

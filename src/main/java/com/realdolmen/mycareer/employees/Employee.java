@@ -146,6 +146,7 @@ public class Employee implements Serializable {
     }
 
     public void setFunctions(List<Function> functions) {
+        functions.forEach(x -> x.setEmployee(this));
         this.functions = functions;
     }
 
@@ -154,6 +155,7 @@ public class Employee implements Serializable {
     }
 
     public void setQualities(List<Quality> qualities) {
+        qualities.forEach(x -> x.setEmployee(this));
         this.qualities = qualities;
     }
 

@@ -90,10 +90,6 @@ public class QualityControllerTest {
         listWeakQualities.add(q2);
     }
     
-// ----------------------------------------------------------------------------------------------------------------------------------------------
-
-    // QUALITY - GET
-    
     @Test
     public void getStrongQualitiesOfEmployee() throws Exception {
 
@@ -149,10 +145,7 @@ public class QualityControllerTest {
                 .andExpect(status().isNotFound())
                 ;
     }
-    
-// ----------------------------------------------------------------------------------------------------------------------------------------------
 
-    // HELPMETHODS
     /**
      * Method to convert objects to JSON's
      * @param obj an object is given as a parameter and this object will be
@@ -176,14 +169,7 @@ public class QualityControllerTest {
     private void createEmployee(){
         given(service.findById(1L)).willReturn(Optional.of(empDummy));
     }
-    
-    // ----------------------------------------------------------------------------------------------------------------------------------------------
-    // QUALITY - POST
-        
-    /**
-     * Test for adding a list of strong qualities and a list of weak qualities
-     * @throws Exception 
-     */
+
     @Test
     public void postQualities() throws Exception {
         String uri = "/employees/1/qualities";
@@ -230,9 +216,7 @@ public class QualityControllerTest {
         
         verify(qualityService, never()).saveQualities(listQualities);
     }
-// ----------------------------------------------------------------------------------------------------------------------------------------------
-    // QUALITY - DELETE
-    
+
     @Test
     public void deleteQuality() throws Exception {
         String uri = "/qualities/999";
@@ -241,7 +225,7 @@ public class QualityControllerTest {
         
         //assertEquals(qualityService.findAllStrongQualities(1L), listStrongQualities);
         
-        given(qualityService.findQualityById(999L)).willReturn(q1);
+        given(qualityService.findQualityById(999L).get()).willReturn(q1);
         
         mvc.perform(delete(uri)
                 .contentType(APPLICATION_JSON))
@@ -258,7 +242,7 @@ public class QualityControllerTest {
         String uri = "/qualities/9991";
 
         createEmployee();        
-        given(qualityService.findQualityById(999L)).willReturn(q1);
+        given(qualityService.findQualityById(999L).get()).willReturn(q1);
         
         mvc.perform(delete(uri)
                 .contentType(APPLICATION_JSON))

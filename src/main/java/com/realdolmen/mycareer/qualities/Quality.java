@@ -12,7 +12,8 @@ import javax.persistence.*;
     name = "pgsql_enum",
     typeClass = PostgreSQLEnumType.class
 )
-public class Quality {
+public
+class Quality {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
