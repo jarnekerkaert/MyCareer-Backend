@@ -1,7 +1,7 @@
 package com.realdolmen.mycareer.ambitions;
 
 import com.realdolmen.mycareer.common.PostgreSQLEnumType;
-import com.realdolmen.mycareer.employees.Employee;
+import com.realdolmen.mycareer.common.Employee;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 

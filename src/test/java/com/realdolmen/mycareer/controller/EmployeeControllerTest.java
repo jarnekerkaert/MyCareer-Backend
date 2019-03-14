@@ -1,6 +1,6 @@
 package com.realdolmen.mycareer.controller;
 
-import com.realdolmen.mycareer.employees.Employee;
+import com.realdolmen.mycareer.common.Employee;
 import com.realdolmen.mycareer.employees.EmployeeController;
 import com.realdolmen.mycareer.employees.EmployeeService;
 import com.realdolmen.mycareer.functions.Function;

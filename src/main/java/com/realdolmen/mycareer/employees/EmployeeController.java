@@ -1,5 +1,6 @@
 package com.realdolmen.mycareer.employees;
 
+import com.realdolmen.mycareer.common.Employee;
 import com.realdolmen.mycareer.common.ResourceNotFoundException;
 import com.realdolmen.mycareer.functions.FunctionService;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,6 +1,6 @@
 package com.realdolmen.mycareer.functions;
 
-import com.realdolmen.mycareer.employees.Employee;
+import com.realdolmen.mycareer.common.Employee;
 
 import javax.persistence.*;
 import java.util.Date;

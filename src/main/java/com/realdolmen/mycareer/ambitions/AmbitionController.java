@@ -1,7 +1,7 @@
 package com.realdolmen.mycareer.ambitions;
 
 import com.realdolmen.mycareer.common.ResourceNotFoundException;
-import com.realdolmen.mycareer.employees.Employee;
+import com.realdolmen.mycareer.common.Employee;
 import com.realdolmen.mycareer.employees.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;

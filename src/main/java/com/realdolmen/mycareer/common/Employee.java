@@ -1,4 +1,4 @@
-package com.realdolmen.mycareer.employees;
+package com.realdolmen.mycareer.common;
 
 import com.realdolmen.mycareer.ambitions.Ambition;
 import com.realdolmen.mycareer.functions.Function;

@@ -4,7 +4,7 @@ import com.realdolmen.mycareer.ambitions.Ambition;
 import com.realdolmen.mycareer.ambitions.AmbitionController;
 import com.realdolmen.mycareer.ambitions.AmbitionService;
 import com.realdolmen.mycareer.ambitions.Term;
-import com.realdolmen.mycareer.employees.Employee;
+import com.realdolmen.mycareer.common.Employee;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.realdolmen.mycareer.employees.EmployeeService;
