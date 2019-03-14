@@ -70,10 +70,7 @@ public class EmployeeControllerTest {
         empDummy.setPassword("plaintext");
         empDummy.setId(1L);
     }
-    
-// ----------------------------------------------------------------------------------------------------------------------------------------------
-    // EMPLOYEE - GET
-    
+
     /**
      * Test for the GET API call getEmployee(Long employeeId) with an existing employeeId
      * @throws Exception 

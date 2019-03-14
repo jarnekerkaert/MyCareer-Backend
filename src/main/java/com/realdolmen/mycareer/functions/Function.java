@@ -33,23 +33,7 @@ public class Function
 
     Function() { }
 
-    Date getStart() {
-        return start;
-    }
-
-    void setStart(Date start) {
-        this.start = start;
-    }
-
-    Date getEnding() {
-        return ending;
-    }
-
-    void setEnding(Date ending) {
-        this.ending = ending;
-    }
-
-    Long getId() {
+    public Long getId() {
         return id;
     }
 
@@ -57,7 +41,15 @@ public class Function
         this.id = id;
     }
 
-    String getTitle() {
+    Employee getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+    }
+
+    public String getTitle() {
         return title;
     }
 
@@ -65,20 +57,33 @@ public class Function
         this.title = title;
     }
 
-    public void setEmployee(Employee employee) {
-        this.employee = employee;
-    }
-
-    boolean isCurrent() {
-        return Objects.isNull(getEnding());
-    }
-
-    String getDescription() {
+    public String getDescription() {
         return description;
     }
 
     void setDescription(String description) {
         this.description = description;
     }
+
+    public Date getStart() {
+        return start;
+    }
+
+    void setStart(Date start) {
+        this.start = start;
+    }
+
+    public Date getEnding() {
+        return ending;
+    }
+
+    void setEnding(Date ending) {
+        this.ending = ending;
+    }
+
+    boolean isCurrent() {
+        return Objects.isNull(getEnding());
+    }
+
 
 }
