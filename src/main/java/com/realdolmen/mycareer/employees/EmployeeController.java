@@ -34,18 +34,12 @@ public class EmployeeController {
     }
 
     @RequestMapping(value = "", method = RequestMethod.POST)
-    void createEmployee(@Valid @RequestBody Employee employee
-            //, Errors errors
-        ) {
-//        if (errors.hasErrors()) {
-//            throw new IllegalArgumentException("Input must be valid!");
-            //System.out.println(errors.getAllErrors());
-//        }
+    void createEmployee(@Valid @RequestBody Employee employee) {
         employeeService.save(employee);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public void updateEmployee(@PathVariable("id") Long employeeId, @RequestBody Employee employee) {
+    public void updateEmployee(@PathVariable("id") Long employeeId, @Valid @RequestBody Employee employee) {
         Employee emp = employeeService.findById(employeeId)
                 .map(e -> {
                     e = employee;

@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import javax.validation.Valid;
 
 @RestController
 public class QualityController {
@@ -52,7 +53,7 @@ public class QualityController {
 
     @Transactional
     @RequestMapping(value = "/employees/{id}/qualities", method = RequestMethod.PUT)
-    public void updateQualities(@PathVariable("id") Long employeeId, @RequestBody List<Quality> qualities) {
+    public void updateQualities(@PathVariable("id") Long employeeId, @Valid @RequestBody List<Quality> qualities) {
 //        List<Quality> qual = qualityService.findByEmployeeId(employeeId);
 //        qual = qualities;
         qualityService.deleteByEmployeeId(employeeId);

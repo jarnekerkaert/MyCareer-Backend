@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import javax.validation.Valid;
 
 @RestController
 public class AmbitionController {
@@ -48,7 +49,7 @@ public class AmbitionController {
 
     @Transactional
     @RequestMapping(value = "/employees/{id}/ambitions", method = RequestMethod.PUT)
-    public void updateAmbitions(@PathVariable("id") Long employeeId, @RequestBody List<Ambition> ambitions) {
+    public void updateAmbitions(@PathVariable("id") Long employeeId, @Valid @RequestBody List<Ambition> ambitions) {
 //        List<Ambition> amb = ambitionService.findByEmployeeId(employeeId);
 //        amb = ambitions;
         ambitionService.deleteByEmployeeId(employeeId);

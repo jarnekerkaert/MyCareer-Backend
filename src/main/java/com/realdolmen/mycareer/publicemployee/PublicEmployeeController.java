@@ -1,6 +1,7 @@
 package com.realdolmen.mycareer.publicemployee;
 
 import com.realdolmen.mycareer.common.ResourceNotFoundException;
+import com.realdolmen.mycareer.common.ValidationException;
 import com.realdolmen.mycareer.domain.Ambition;
 import com.realdolmen.mycareer.domain.Employee;
 import com.realdolmen.mycareer.domain.Function;
@@ -16,6 +17,8 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 import java.util.Optional;
+import javax.persistence.PersistenceException;
+import javax.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 
@@ -33,31 +36,33 @@ public class PublicEmployeeController {
 
     @Transactional
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public EmployeeModel getEmployeeById(@PathVariable("id") Long employeeId) throws ResourceNotFoundException{
+    public EmployeeModel getEmployeeById(@PathVariable("id") Long employeeId) throws ResourceNotFoundException {
         try {
             Employee emp = template.getForObject(URL + "employees/" + employeeId, Employee.class);
         } catch (Exception e) {
             throw new ResourceNotFoundException("Employee", "id", employeeId);
         }
-       
+
         ResponseEntity<List<Function>> functions = template.exchange(URL + "employees/" + employeeId + "/functions",
-                HttpMethod.GET, null, new ParameterizedTypeReference<List<Function>>() {});
+                HttpMethod.GET, null, new ParameterizedTypeReference<List<Function>>() {
+        });
         ResponseEntity<List<Quality>> qualities = template.exchange(URL + "employees/" + employeeId + "/qualities",
-                HttpMethod.GET, null, new ParameterizedTypeReference<List<Quality>>() {});
+                HttpMethod.GET, null, new ParameterizedTypeReference<List<Quality>>() {
+        });
         ResponseEntity<List<Ambition>> ambitions = template.exchange(URL + "employees/" + employeeId + "/ambitions",
-                HttpMethod.GET, null, new ParameterizedTypeReference<List<Ambition>>() {});
+                HttpMethod.GET, null, new ParameterizedTypeReference<List<Ambition>>() {
+        });
 
         return this.convertToDTO(employeeId, functions.getBody(), qualities.getBody(), ambitions.getBody());
     }
 
     @Transactional
     @RequestMapping(value = "", method = RequestMethod.POST)
-    public void createEmployee(@RequestBody EmployeeModel emp) throws IllegalArgumentException {
-        try{
-          template.postForObject(URL+"employees", emp, Employee.class);
-        }
-        catch(Exception e){
-            throw new IllegalArgumentException("Input must be valid!");
+    public void createEmployee(@RequestBody Employee emp) throws ValidationException {
+        try {
+            template.postForObject(URL + "employees", emp, Employee.class);
+        } catch (Exception e) {
+            throw new ValidationException("Input must be valid!");
         }
 //        template.postForObject(URL+"employees/"+employeeId+"/functions", emp.getFunctions(), ResponseEntity.class);
 //        template.postForObject(URL+"employees/"+employeeId+"/qualities", emp.getQualities(), ResponseEntity.class);
@@ -66,19 +71,23 @@ public class PublicEmployeeController {
 
     @Transactional
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public void updateEmployee(@PathVariable("id") Long employeeId, @RequestBody EmployeeModel emp) throws ResourceNotFoundException{
+    public void updateEmployee(@PathVariable("id") Long employeeId, @RequestBody EmployeeModel emp) throws Exception {
 
         try {
             Employee getEmp = template.getForObject(URL + "employees/" + employeeId, Employee.class);
         } catch (Exception e) {
             throw new ResourceNotFoundException("Employee", "id", employeeId);
         }
-        
-        
-        template.put(URL+"employees/"+employeeId, convertToEmployee(Optional.of(employeeId),emp));
-        template.put(URL+"employees/"+employeeId+"/functions", emp.getFunctions());
-        template.put(URL+"employees/"+employeeId+"/qualities", emp.getQualities());
-        template.put(URL+"employees/"+employeeId+"/ambitions", emp.getAmbitions());
+
+        try {
+            template.put(URL + "employees/" + employeeId, convertToEmployee(Optional.of(employeeId), emp));
+            template.put(URL + "employees/" + employeeId + "/functions", emp.getFunctions());
+            template.put(URL + "employees/" + employeeId + "/qualities", emp.getQualities());
+            template.put(URL + "employees/" + employeeId + "/ambitions", emp.getAmbitions());
+        } 
+        catch (Exception e) {
+            throw new ValidationException("Input must be valid!");
+        }
     }
 
     private EmployeeModel convertToDTO(Long employeeId, List<Function> functions, List<Quality> qualities,
@@ -90,7 +99,7 @@ public class PublicEmployeeController {
         model.setAmbitions(ambitions);
         return model;
     }
-    
+
     private Employee convertToEmployee(Optional<Long> id, EmployeeModel model) {
         Employee emp = new Employee();
 
@@ -103,5 +112,5 @@ public class PublicEmployeeController {
 
         return emp;
     }
-   
+
 }

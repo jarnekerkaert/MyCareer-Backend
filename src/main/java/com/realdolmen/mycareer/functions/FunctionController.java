@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import javax.validation.ConstraintViolationException;
+import javax.validation.Valid;
 
 @RestController
 public class FunctionController {
@@ -85,9 +87,7 @@ public class FunctionController {
 
     @Transactional
     @RequestMapping(value = "/employees/{id}/functions", method = RequestMethod.PUT)
-    public void updateFunctions(@PathVariable("id") Long employeeId, @RequestBody List<Function> functions) {
-//        List<Function> fun = functionService.findByEmployeeId(employeeId);
-//        fun = functions;
+    public void updateFunctions(@PathVariable("id") Long employeeId, @Valid @RequestBody List<Function> functions) throws ConstraintViolationException{
         functionService.deleteByEmployeeId(employeeId);
         functionService.saveFunctions(functions);
     }
