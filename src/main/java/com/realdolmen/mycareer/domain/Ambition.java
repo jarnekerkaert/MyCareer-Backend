@@ -24,6 +24,8 @@ public class Ambition {
     @Type( type = "pgsql_enum" )
     private Term term;
 
+    public Ambition() { }
+
 //    @ManyToMany
 //    @JoinTable(
 //            name = "ambition_enabler",

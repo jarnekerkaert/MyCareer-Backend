@@ -25,6 +25,8 @@ class Quality {
     @Type( type = "pgsql_enum" )
     private QualityType type;
 
+    public Quality() { }
+
     public String getDescription() {
         return description;
     }

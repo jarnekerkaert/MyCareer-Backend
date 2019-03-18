@@ -12,12 +12,10 @@ import java.util.Date;
 import java.util.List;
 
 public class EmployeeModel {
-
-
+    private Long id;
     private String firstname;
     private String lastname;
     private String email;
-    private String password;
     private String cv_filepath;
     private Date birthdate;
     private List<Function> functions;
@@ -29,12 +27,20 @@ public class EmployeeModel {
     }
 
     public EmployeeModel(Employee employee) {
+        this.id = employee.getId();
         this.firstname = employee.getFirstname();
         this.lastname = employee.getLastname();
         this.email = employee.getEmail();
-        this.password = employee.getPassword();
         this.cv_filepath = employee.getCv_filepath();
         this.birthdate = employee.getBirthdate();
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getCv_filepath() {
@@ -75,14 +81,6 @@ public class EmployeeModel {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public List<Function> getFunctions() {

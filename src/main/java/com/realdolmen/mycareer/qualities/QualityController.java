@@ -57,6 +57,8 @@ public class QualityController {
     @Transactional
     @RequestMapping(value = "/employees/{id}/qualities", method = RequestMethod.PUT)
     public void updateQualities(@PathVariable("id") Long employeeId, @RequestBody List<Quality> qualities) {
+//        List<Quality> qual = qualityService.findByEmployeeId(employeeId);
+//        qual = qualities;
         qualityService.deleteByEmployeeId(employeeId);
         qualityService.saveQualities(qualities);
     }
