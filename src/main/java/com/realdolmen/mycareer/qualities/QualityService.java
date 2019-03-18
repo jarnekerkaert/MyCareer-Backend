@@ -1,6 +1,8 @@
 
 package com.realdolmen.mycareer.qualities;
 
+import com.realdolmen.mycareer.domain.Quality;
+import com.realdolmen.mycareer.domain.QualityType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

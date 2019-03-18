@@ -1,7 +1,6 @@
-package com.realdolmen.mycareer.ambitions;
+package com.realdolmen.mycareer.domain;
 
 import com.realdolmen.mycareer.common.PostgreSQLEnumType;
-import com.realdolmen.mycareer.employees.Employee;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 
@@ -17,14 +16,15 @@ public class Ambition {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "employeeId")
-    private Employee employee;
+    private Long employeeId;
+    private String title;
+    private String motivation;
 
     @Enumerated(EnumType.STRING)
     @Type( type = "pgsql_enum" )
     private Term term;
+
+    public Ambition() { }
 
 //    @ManyToMany
 //    @JoinTable(
@@ -34,9 +34,6 @@ public class Ambition {
 //    )
 //    private List<Enabler> enablers = new ArrayList<>();
 
-    private String title;
-    private String motivation;
-
     public long getId() {
         return id;
     }
@@ -45,12 +42,12 @@ public class Ambition {
         this.id = id;
     }
 
-//    public Employee getEmployee() {
-//        return employee;
-//    }
+    public Long getEmployeeId() {
+        return employeeId;
+    }
 
-    public void setEmployee(Employee employee) {
-        this.employee = employee;
+    public void setEmployeeId(Long employeeId) {
+        this.employeeId = employeeId;
     }
 
     public Term getTerm() {
