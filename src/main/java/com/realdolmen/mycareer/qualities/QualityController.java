@@ -60,7 +60,7 @@ public class QualityController {
     public void updateQualities(@PathVariable("id") Long employeeId, @Valid @RequestBody List<Quality> qualities) //throws ValidationException
     {
 //        try{
-        //qualityService.deleteByEmployeeId(employeeId);
+        qualityService.deleteByEmployeeId(employeeId);
         //qualityService.saveQualities(qualities);
         saveQualities(qualities, employeeId);
 //        }catch(ConstraintViolationException|HttpServerErrorException e){
