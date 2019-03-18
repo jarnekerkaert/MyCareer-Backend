@@ -12,8 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/employees")
-public
-class EmployeeController {
+public class EmployeeController {
 
     private final EmployeeService employeeService;
 
@@ -35,14 +34,19 @@ class EmployeeController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public void updateEmployee(@PathVariable("id") Long employeeId, Employee employee) {
+    public void updateEmployee(@PathVariable("id") Long employeeId,@RequestBody Employee employee) {
         Employee emp = employeeService.findById(employeeId)
                 .map(e -> {
                     e.setId(employeeId);
+                    e.setFirstname(employee.getFirstname());
+                    e.setLastname(employee.getLastname());
+                    e.setBirthdate(employee.getBirthdate());
+                    e.setCv_filepath(employee.getCv_filepath());
+                    e.setEmail(employee.getEmail());
+                    e.setPassword(employee.getPassword());
                     return e;
                 })
                 .orElseThrow(() -> new ResourceNotFoundException("Employee", "id", employeeId));;
-
         employeeService.save(emp);
     }
 }

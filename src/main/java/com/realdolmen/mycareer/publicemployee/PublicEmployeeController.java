@@ -1,5 +1,6 @@
 package com.realdolmen.mycareer.publicemployee;
 
+import com.realdolmen.mycareer.common.ResourceNotFoundException;
 import com.realdolmen.mycareer.domain.Ambition;
 import com.realdolmen.mycareer.domain.Employee;
 import com.realdolmen.mycareer.domain.Function;
@@ -31,7 +32,13 @@ public class PublicEmployeeController {
 
     @Transactional
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public EmployeeModel getEmployeeById(@PathVariable("id") Long employeeId) {
+    public EmployeeModel getEmployeeById(@PathVariable("id") Long employeeId) throws ResourceNotFoundException{
+        try {
+            Employee emp = template.getForObject(URL + "employees/" + employeeId, Employee.class);
+        } catch (Exception e) {
+            throw new ResourceNotFoundException("Employee", "id", employeeId);
+        }
+       
         ResponseEntity<List<Function>> functions = template.exchange(URL + "employees/" + employeeId + "/functions",
                 HttpMethod.GET, null, new ParameterizedTypeReference<List<Function>>() {});
         ResponseEntity<List<Quality>> qualities = template.exchange(URL + "employees/" + employeeId + "/qualities",
@@ -45,7 +52,8 @@ public class PublicEmployeeController {
     @Transactional
     @RequestMapping(value = "", method = RequestMethod.POST)
     public void createEmployee(@RequestBody EmployeeModel emp) {
-        template.postForObject(URL+"employees", convertToEmployee(null, emp), Employee.class);
+        //template.postForObject(URL + "employees", convertToEmployee(null, emp), Employee.class);
+        template.postForObject(URL+"employees", emp, Employee.class);
 //        template.postForObject(URL+"employees/"+employeeId+"/functions", emp.getFunctions(), ResponseEntity.class);
 //        template.postForObject(URL+"employees/"+employeeId+"/qualities", emp.getQualities(), ResponseEntity.class);
 //        template.postForObject(URL+"employees/"+employeeId+"/ambitions", emp.getAmbitions(), ResponseEntity.class);
@@ -54,22 +62,22 @@ public class PublicEmployeeController {
     @Transactional
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public void updateEmployee(@PathVariable("id") Long employeeId, @RequestBody EmployeeModel emp) {
-        template.put(URL+"employees/"+employeeId, convertToEmployee(Optional.of(employeeId), emp));
-        template.put(URL+"employees/"+employeeId+"/functions", emp.getFunctions());
-        template.put(URL+"employees/"+employeeId+"/qualities", emp.getQualities());
-        template.put(URL+"employees/"+employeeId+"/ambitions", emp.getAmbitions());
+        //template.put(URL + "employees/" + employeeId, convertToEmployee(Optional.of(employeeId), emp));
+        template.put(URL + "employees/" + employeeId, emp);
+        template.put(URL + "employees/" + employeeId + "/functions", emp.getFunctions());
+        template.put(URL + "employees/" + employeeId + "/qualities", emp.getQualities());
+        template.put(URL + "employees/" + employeeId + "/ambitions", emp.getAmbitions());
     }
 
-    @RequestMapping(value = "/{id}/functions", method = RequestMethod.GET)
-    public List<Function> getFunctionsByEmployeeId(@PathVariable("id") Long id) {
-        ResponseEntity<List<Function>> response = template.exchange(URL + "employees/" + id + "/functions",
-                HttpMethod.GET, null, new ParameterizedTypeReference<List<Function>>() {});
-        return response.getBody();
-    }
-
+//    @RequestMapping(value = "/{id}/functions", method = RequestMethod.GET)
+//    public List<Function> getFunctionsByEmployeeId(@PathVariable("id") Long id) {
+//        ResponseEntity<List<Function>> response = template.exchange(URL + "employees/" + id + "/functions",
+//                HttpMethod.GET, null, new ParameterizedTypeReference<List<Function>>() {});
+//        return response.getBody();
+//    }
     private EmployeeModel convertToDTO(Long employeeId, List<Function> functions, List<Quality> qualities,
-                                       List<Ambition> ambitions) {
-        Employee employee = template.getForObject(URL+"employees/"+employeeId, Employee.class);
+            List<Ambition> ambitions) {
+        Employee employee = template.getForObject(URL + "employees/" + employeeId, Employee.class);
         EmployeeModel model = new EmployeeModel(employee);
         model.setFunctions(functions);
         model.setQualities(qualities);
