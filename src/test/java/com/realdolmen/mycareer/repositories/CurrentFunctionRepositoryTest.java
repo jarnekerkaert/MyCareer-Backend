@@ -1,9 +1,9 @@
 /*
 package Realdolmen.MyCareer.repositories;
 
-import Realdolmen.MyCareer.domain.CurrentFunction;
+import Realdolmen.MyCareer.domain.CurrentRole;
 import Realdolmen.MyCareer.domain.Employee;
-import Realdolmen.MyCareer.domain.Function;
+import Realdolmen.MyCareer.domain.Role;
 import java.util.Date;
 import java.util.List;
 import org.junit.After;
@@ -28,9 +28,9 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 @RunWith(SpringRunner.class)
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = NONE)
-public class CurrentFunctionRepositoryTest {
+public class CurrentRoleRepositoryTest {
 
-    public CurrentFunctionRepositoryTest() {
+    public CurrentRoleRepositoryTest() {
     }
 
     @Autowired
@@ -40,10 +40,10 @@ public class CurrentFunctionRepositoryTest {
     private EmployeeRepository employeeRepository;
 
     //@Autowired
-    //private CurrentFunctionRepository currentFunctionRepository;
+    //private CurrentRoleRepository currentRoleRepository;
     
     private Employee emp;
-    private Function function;
+    private Role role;
     
     @Before
     public void before(){
@@ -55,14 +55,14 @@ public class CurrentFunctionRepositoryTest {
         emp.setCv_filepath("empty");
         emp.setPassword("plaintext");
         
-        function = new CurrentFunction();
-        function.setDescription("description");
-        function.setTitle("title");
+        role = new CurrentRole();
+        role.setDescription("description");
+        role.setTitle("title");
         
         // nog aan elkaar linken
         
         entityManager.persist(emp);
-        entityManager.persist(function);
+        entityManager.persist(role);
         entityManager.flush();
     }
 

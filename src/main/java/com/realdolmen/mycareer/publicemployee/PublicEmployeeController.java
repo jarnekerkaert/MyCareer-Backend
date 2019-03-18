@@ -3,7 +3,7 @@ package com.realdolmen.mycareer.publicemployee;
 import com.realdolmen.mycareer.common.ResourceNotFoundException;
 import com.realdolmen.mycareer.domain.Ambition;
 import com.realdolmen.mycareer.domain.Employee;
-import com.realdolmen.mycareer.domain.Function;
+import com.realdolmen.mycareer.domain.Role;
 import com.realdolmen.mycareer.common.dto.EmployeeModel;
 import com.realdolmen.mycareer.domain.Quality;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping(value = "/test/employees")
+@RequestMapping(value = "/api/employees")
 public class PublicEmployeeController {
 
     private final RestTemplate template;
@@ -39,21 +39,21 @@ public class PublicEmployeeController {
             throw new ResourceNotFoundException("Employee", "id", employeeId);
         }
        
-        ResponseEntity<List<Function>> functions = template.exchange(URL + "employees/" + employeeId + "/functions",
-                HttpMethod.GET, null, new ParameterizedTypeReference<List<Function>>() {});
+        ResponseEntity<List<Role>> roles = template.exchange(URL + "employees/" + employeeId + "/roles",
+                HttpMethod.GET, null, new ParameterizedTypeReference<List<Role>>() {});
         ResponseEntity<List<Quality>> qualities = template.exchange(URL + "employees/" + employeeId + "/qualities",
                 HttpMethod.GET, null, new ParameterizedTypeReference<List<Quality>>() {});
         ResponseEntity<List<Ambition>> ambitions = template.exchange(URL + "employees/" + employeeId + "/ambitions",
                 HttpMethod.GET, null, new ParameterizedTypeReference<List<Ambition>>() {});
 
-        return this.convertToDTO(employeeId, functions.getBody(), qualities.getBody(), ambitions.getBody());
+        return this.convertToDTO(employeeId, roles.getBody(), qualities.getBody(), ambitions.getBody());
     }
 
     @Transactional
     @RequestMapping(value = "", method = RequestMethod.POST)
-    public void createEmployee(@RequestBody EmployeeModel emp) {
+    public void createEmployee(@RequestBody Employee emp) {
           template.postForObject(URL+"employees", emp, Employee.class);
-//        template.postForObject(URL+"employees/"+employeeId+"/functions", emp.getFunctions(), ResponseEntity.class);
+//        template.postForObject(URL+"employees/"+employeeId+"/roles", emp.getRoles(), ResponseEntity.class);
 //        template.postForObject(URL+"employees/"+employeeId+"/qualities", emp.getQualities(), ResponseEntity.class);
 //        template.postForObject(URL+"employees/"+employeeId+"/ambitions", emp.getAmbitions(), ResponseEntity.class);
     }
@@ -69,16 +69,16 @@ public class PublicEmployeeController {
         }
         
         template.put(URL+"employees/"+employeeId, convertToEmployee(Optional.of(employeeId),emp));
-        template.put(URL+"employees/"+employeeId+"/functions", emp.getFunctions());
+        template.put(URL+"employees/"+employeeId+"/roles", emp.getRoles());
         template.put(URL+"employees/"+employeeId+"/qualities", emp.getQualities());
         template.put(URL+"employees/"+employeeId+"/ambitions", emp.getAmbitions());
     }
 
-    private EmployeeModel convertToDTO(Long employeeId, List<Function> functions, List<Quality> qualities,
+    private EmployeeModel convertToDTO(Long employeeId, List<Role> roles, List<Quality> qualities,
             List<Ambition> ambitions) {
         Employee employee = template.getForObject(URL + "employees/" + employeeId, Employee.class);
         EmployeeModel model = new EmployeeModel(employee);
-        model.setFunctions(functions);
+        model.setRoles(roles);
         model.setQualities(qualities);
         model.setAmbitions(ambitions);
         return model;
