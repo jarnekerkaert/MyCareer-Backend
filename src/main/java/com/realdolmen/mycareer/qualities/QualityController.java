@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
 import org.springframework.web.client.HttpServerErrorException;
@@ -51,18 +52,17 @@ public class QualityController {
     @Transactional
     @RequestMapping(value = "/employees/{id}/qualities", method = RequestMethod.POST)
     public void postQualities(@PathVariable("id") Long employeeId, @RequestBody List<Quality> qualities) {
-        qualityService.saveQualities(qualities);
+        saveQualities(qualities,employeeId);
     }
 
     @Transactional
     @RequestMapping(value = "/employees/{id}/qualities", method = RequestMethod.PUT)
-    public void updateQualities(@PathVariable("id") Long employeeId, @Valid @RequestBody List<Quality> qualities) //throws ValidationException 
+    public void updateQualities(@PathVariable("id") Long employeeId, @Valid @RequestBody List<Quality> qualities) //throws ValidationException
     {
-//        List<Quality> qual = qualityService.findByEmployeeId(employeeId);
-//        qual = qualities;
 //        try{
-        qualityService.deleteByEmployeeId(employeeId);
-        qualityService.saveQualities(qualities);
+        //qualityService.deleteByEmployeeId(employeeId);
+        //qualityService.saveQualities(qualities);
+        saveQualities(qualities, employeeId);
 //        }catch(ConstraintViolationException|HttpServerErrorException e){
 //            throw new ValidationException();
 //        }
@@ -82,5 +82,13 @@ public class QualityController {
                     return q;
                 })
                 .orElseThrow(() -> new ResourceNotFoundException("Sterk punt", "id", id));
+    }
+
+    private void saveQualities(List<Quality> qualities, Long employeeId) {
+        qualityService.saveQualities(qualities.stream()
+                .map(q -> {
+                    q.setEmployeeId(employeeId);
+                    return q;
+                }).collect(Collectors.toList()));
     }
 }

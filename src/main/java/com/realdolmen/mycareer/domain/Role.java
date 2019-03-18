@@ -6,8 +6,7 @@ import java.util.Objects;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name = "function")
-public class Function
+public class Role
 {
     private static final long serialVersionUID = 1L;
 
@@ -26,7 +25,7 @@ public class Function
 
     private Date ending;
 
-    public Function() { }
+    public Role() { }
 
     public Long getId() {
         return id;

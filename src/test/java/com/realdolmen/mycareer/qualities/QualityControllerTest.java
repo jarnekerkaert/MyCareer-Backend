@@ -2,11 +2,11 @@
 package com.realdolmen.mycareer.qualities;
 
 import com.realdolmen.mycareer.domain.Employee;
-import com.realdolmen.mycareer.domain.Function;
+import com.realdolmen.mycareer.domain.Role;
 import com.realdolmen.mycareer.domain.Quality;
 import com.realdolmen.mycareer.domain.QualityType;
-import com.realdolmen.mycareer.functions.FunctionController;
-import com.realdolmen.mycareer.functions.FunctionService;
+import com.realdolmen.mycareer.roles.RoleController;
+import com.realdolmen.mycareer.roles.RoleService;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;

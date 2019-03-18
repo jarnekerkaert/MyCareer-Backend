@@ -3,7 +3,7 @@ package com.realdolmen.mycareer.employees;
 import com.realdolmen.mycareer.common.ResourceNotFoundException;
 import com.realdolmen.mycareer.common.ValidationException;
 import com.realdolmen.mycareer.domain.Employee;
-import com.realdolmen.mycareer.functions.FunctionService;
+import com.realdolmen.mycareer.roles.RoleService;
 import javax.validation.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -39,7 +39,7 @@ public class EmployeeController {
 
     @RequestMapping(value = "", method = RequestMethod.POST)
     void createEmployee(@Valid @RequestBody Employee employee) {
-        employeeService.save(employee);
+            employeeService.save(employee);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
@@ -51,7 +51,6 @@ public class EmployeeController {
                 })
                 .orElseThrow(() -> new ResourceNotFoundException("Employee", "id", employeeId));
         employeeService.save(emp);
-
     }
-
+    
 }

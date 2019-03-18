@@ -2,10 +2,10 @@ package com.realdolmen.mycareer.ambitions;
 
 import com.realdolmen.mycareer.domain.Ambition;
 import com.realdolmen.mycareer.domain.Employee;
-import com.realdolmen.mycareer.domain.Function;
+import com.realdolmen.mycareer.domain.Role;
 import com.realdolmen.mycareer.domain.Term;
-import com.realdolmen.mycareer.functions.FunctionController;
-import com.realdolmen.mycareer.functions.FunctionService;
+import com.realdolmen.mycareer.roles.RoleController;
+import com.realdolmen.mycareer.roles.RoleService;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
