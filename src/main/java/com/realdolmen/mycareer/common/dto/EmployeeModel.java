@@ -1,11 +1,8 @@
 package com.realdolmen.mycareer.common.dto;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.realdolmen.mycareer.domain.Ambition;
 import com.realdolmen.mycareer.domain.Employee;
-import com.realdolmen.mycareer.domain.Function;
+import com.realdolmen.mycareer.domain.Role;
 import com.realdolmen.mycareer.domain.Quality;
 
 import java.util.Date;
@@ -18,7 +15,7 @@ public class EmployeeModel {
     private String email;
     private String cv_filepath;
     private Date birthdate;
-    private List<Function> functions;
+    private List<Role> roles;
     private List<Quality> qualities;
     private List<Ambition> ambitions;
 
@@ -33,7 +30,6 @@ public class EmployeeModel {
         this.email = employee.getEmail();
         this.cv_filepath = employee.getCv_filepath();
         this.birthdate = employee.getBirthdate();
-        
     }
 
     public Long getId() {
@@ -84,12 +80,12 @@ public class EmployeeModel {
         this.email = email;
     }
 
-    public List<Function> getFunctions() {
-        return functions;
+    public List<Role> getRoles() {
+        return roles;
     }
 
-    public void setFunctions(List<Function> functions) {
-        this.functions = functions;
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
     }
 
     public List<Quality> getQualities() {

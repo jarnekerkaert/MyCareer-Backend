@@ -3,8 +3,8 @@ package com.realdolmen.mycareer.controller;
 import com.realdolmen.mycareer.domain.Employee;
 import com.realdolmen.mycareer.employees.EmployeeController;
 import com.realdolmen.mycareer.employees.EmployeeService;
-import com.realdolmen.mycareer.domain.Function;
-import com.realdolmen.mycareer.functions.FunctionService;
+import com.realdolmen.mycareer.domain.Role;
+import com.realdolmen.mycareer.roles.RoleService;
 import com.realdolmen.mycareer.domain.Quality;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -40,20 +40,20 @@ public class EmployeeControllerTest {
     private EmployeeService service;
 
     @MockBean
-    FunctionService functionService;
+    RoleService roleService;
 
     private Employee empDummy;
-    private Function currentfunction;
-    private Function prevfunction;
-    private List<Function> listCurrentfunctions;
-    private List<Function> listPrevfunctions;
+    private Role currentrole;
+    private Role prevrole;
+    private List<Role> listCurrentroles;
+    private List<Role> listPrevroles;
     private List<Quality> listStrongQualities;
     private List<Quality> listWeakQualities;
     private Quality weakquality1;
     private Quality strongquality1;
-    private List<Function> listFunctions;
-    private List<Function> listCurrentFunctions;
-    private List<Function> listPrevFunctions;
+    private List<Role> listRoles;
+    private List<Role> listCurrentRoles;
+    private List<Role> listPrevRoles;
 
     public EmployeeControllerTest() {
     }
