@@ -18,10 +18,10 @@ public class Employee implements Serializable {
     private String lastname;
     @NotNull
     private String email;
-    @NotNull
+    //@NotNull
     private String password;
     private String cv_filepath;
-    @NotNull
+    //@NotNull
     private Date birthdate;
 
     public Long getId() {

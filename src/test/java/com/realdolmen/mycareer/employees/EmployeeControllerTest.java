@@ -18,7 +18,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.runners.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -113,7 +113,7 @@ public class EmployeeControllerTest {
         controller.createEmployee(badEmpDummy);
 
         Set<ConstraintViolation<Employee>> violations = validator.validate(badEmpDummy);
-        assertThat(violations.size()).isEqualTo(5);
+        assertThat(violations.size()).isEqualTo(3);
         
         //verify(serviceMock, never()).save(badEmpDummy);
     }

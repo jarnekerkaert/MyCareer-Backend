@@ -12,19 +12,16 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import javax.validation.Valid;
 
 @RestController
 public class RoleController {
 
     private final
-    EmployeeService employeeService;
-
-    private final
     RoleService roleService;
 
     @Autowired
-    public RoleController(EmployeeService employeeService, RoleService roleService) {
-        this.employeeService = employeeService;
+    public RoleController(RoleService roleService) {
         this.roleService = roleService;
     }
 
@@ -48,13 +45,13 @@ public class RoleController {
         return roleService.findCurrentRoles(employeeId);
     }
 
-    @RequestMapping(value = "/employees/{id}/prevroles", method = RequestMethod.GET)
-    public List<Role> getPreviousRolesOfEmployee(@PathVariable("id") Long employeeId) {
-        Employee emp = employeeService
-                .findById(employeeId)
-                .orElseThrow(() -> new ResourceNotFoundException("Employee", "id", employeeId));
-        return roleService.findPrevRoles(employeeId);
-    }
+//    @RequestMapping(value = "/employees/{id}/prevroles", method = RequestMethod.GET)
+//    public List<Role> getPreviousRolesOfEmployee(@PathVariable("id") Long employeeId) {
+//        Employee emp = employeeService
+//                .findById(employeeId)
+//                .orElseThrow(() -> new ResourceNotFoundException("Employee", "id", employeeId));
+//        return roleService.findPrevRoles(employeeId);
+//    }
 
     @Transactional
     @RequestMapping(value = "/employees/{id}/roles", method = RequestMethod.DELETE)
@@ -90,9 +87,13 @@ public class RoleController {
 
     @Transactional
     @RequestMapping(value = "/employees/{id}/roles", method = RequestMethod.PUT)
-    public void updateRoles(@PathVariable("id") Long employeeId, @RequestBody List<Role> roles) {
+    public void updateRoles(@PathVariable("id") Long employeeId, @Valid @RequestBody List<Role> roles) {
+        //        try{
         roleService.deleteByEmployeeId(employeeId);
         saveRoles(roles, employeeId);
+//        }catch(ConstraintViolationException|HttpServerErrorException e){
+//            throw new ValidationException();
+//        }
     }
 
     @RequestMapping(value = "/roles/{id}", method = RequestMethod.DELETE)

@@ -3,6 +3,7 @@ package com.realdolmen.mycareer.domain;
 import javax.persistence.*;
 import java.util.Date;
 import java.util.Objects;
+import javax.validation.constraints.NotNull;
 
 @Entity
 public class Role
@@ -13,10 +14,11 @@ public class Role
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @NotNull
     private Long employeeId;
-
+    @NotNull
     private String title;
-
+    @NotNull
     private String description;
 
     private Date start;

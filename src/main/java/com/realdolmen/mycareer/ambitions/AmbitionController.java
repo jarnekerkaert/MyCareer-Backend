@@ -1,6 +1,7 @@
 package com.realdolmen.mycareer.ambitions;
 
 import com.realdolmen.mycareer.common.ResourceNotFoundException;
+import com.realdolmen.mycareer.common.ValidationException;
 import com.realdolmen.mycareer.domain.Ambition;
 import com.realdolmen.mycareer.domain.Employee;
 import com.realdolmen.mycareer.domain.Role;
@@ -11,17 +12,17 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import javax.validation.ConstraintViolationException;
+import javax.validation.Valid;
+import org.springframework.web.client.HttpServerErrorException;
 
 @RestController
 public class AmbitionController {
 
-    private final EmployeeService employeeService;
-
     private final AmbitionService ambitionService;
 
     @Autowired
-    public AmbitionController(EmployeeService employeeService, AmbitionService ambitionService) {
-        this.employeeService = employeeService;
+    public AmbitionController(AmbitionService ambitionService) {
         this.ambitionService = ambitionService;
     }
 
@@ -44,9 +45,14 @@ public class AmbitionController {
 
     @Transactional
     @RequestMapping(value = "/employees/{id}/ambitions", method = RequestMethod.PUT)
-    public void updateAmbitions(@PathVariable("id") Long employeeId, @RequestBody List<Ambition> ambitions) {
-        ambitionService.deleteByEmployeeId(employeeId);
-        saveAmbitions(ambitions, employeeId);
+    public void updateAmbitions(@PathVariable("id") Long employeeId, @Valid @RequestBody List<Ambition> ambitions) //throws ValidationException
+    {
+//        try {
+            ambitionService.deleteByEmployeeId(employeeId);
+            ambitionService.saveAmbitions(ambitions);
+//        } catch (ConstraintViolationException | HttpServerErrorException e) {
+//            throw new ValidationException();
+//        }
     }
 
     @Transactional

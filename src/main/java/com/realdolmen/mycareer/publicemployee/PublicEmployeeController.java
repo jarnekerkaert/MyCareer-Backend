@@ -1,6 +1,7 @@
 package com.realdolmen.mycareer.publicemployee;
 
 import com.realdolmen.mycareer.common.ResourceNotFoundException;
+import com.realdolmen.mycareer.common.ValidationException;
 import com.realdolmen.mycareer.domain.Ambition;
 import com.realdolmen.mycareer.domain.Employee;
 import com.realdolmen.mycareer.domain.Role;
@@ -17,6 +18,12 @@ import org.springframework.web.client.RestTemplate;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
+import javax.persistence.PersistenceException;
+import javax.validation.ConstraintViolationException;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpServerErrorException;
 
 @RestController
 @RequestMapping(value = "/api/employees")
@@ -35,7 +42,7 @@ public class PublicEmployeeController {
     public EmployeeModel getEmployeeById(@PathVariable("id") Long employeeId) throws ResourceNotFoundException{
         try {
             Employee emp = template.getForObject(URL + "employees/" + employeeId, Employee.class);
-        } catch (Exception e) {
+        } catch (HttpClientErrorException e) {
             throw new ResourceNotFoundException("Employee", "id", employeeId);
         }
        
@@ -51,8 +58,12 @@ public class PublicEmployeeController {
 
     @Transactional
     @RequestMapping(value = "", method = RequestMethod.POST)
-    public void createEmployee(@RequestBody Employee emp) {
-          template.postForObject(URL+"employees", emp, Employee.class);
+    public void createEmployee(@RequestBody Employee emp) throws ValidationException {
+        try {
+            template.postForObject(URL + "employees", emp, Employee.class);
+        } catch (HttpServerErrorException|HttpClientErrorException e) {
+            throw new ValidationException("Something went wrong...");
+        }
 //        template.postForObject(URL+"employees/"+employeeId+"/roles", emp.getRoles(), ResponseEntity.class);
 //        template.postForObject(URL+"employees/"+employeeId+"/qualities", emp.getQualities(), ResponseEntity.class);
 //        template.postForObject(URL+"employees/"+employeeId+"/ambitions", emp.getAmbitions(), ResponseEntity.class);
@@ -60,18 +71,24 @@ public class PublicEmployeeController {
 
     @Transactional
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public void updateEmployee(@PathVariable("id") Long employeeId, @RequestBody EmployeeModel emp) throws ResourceNotFoundException{
+    public void updateEmployee(@PathVariable("id") Long employeeId, @RequestBody EmployeeModel emp) throws Exception{
 
         try {
             Employee getEmp = template.getForObject(URL + "employees/" + employeeId, Employee.class);
-        } catch (Exception e) {
+        } catch (HttpClientErrorException e) {
             throw new ResourceNotFoundException("Employee", "id", employeeId);
         }
-        
-        template.put(URL+"employees/"+employeeId, convertToEmployee(Optional.of(employeeId),emp));
-        template.put(URL+"employees/"+employeeId+"/roles", emp.getRoles());
-        template.put(URL+"employees/"+employeeId+"/qualities", emp.getQualities());
-        template.put(URL+"employees/"+employeeId+"/ambitions", emp.getAmbitions());
+
+        try {
+            template.put(URL + "employees/" + employeeId, convertToEmployee(Optional.of(employeeId), emp));
+            template.put(URL + "employees/" + employeeId + "/roles", emp.getRoles());
+            template.put(URL + "employees/" + employeeId + "/qualities", emp.getQualities());
+            template.put(URL + "employees/" + employeeId + "/ambitions", emp.getAmbitions());
+        }
+        catch (HttpServerErrorException|HttpClientErrorException e) {
+            throw new ValidationException("Something went wrong...");
+        }
+
     }
 
     private EmployeeModel convertToDTO(Long employeeId, List<Role> roles, List<Quality> qualities,

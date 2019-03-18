@@ -5,6 +5,7 @@ import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @TypeDef(
         name = "pgsql_enum",
@@ -16,15 +17,19 @@ public class Ambition {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
+    @NotNull
     private Long employeeId;
+    @NotNull
     private String title;
+    @NotNull
     private String motivation;
 
     @Enumerated(EnumType.STRING)
-    @Type( type = "pgsql_enum" )
+    @Type(type = "pgsql_enum")
     private Term term;
 
-    public Ambition() { }
+    public Ambition() {
+    }
 
 //    @ManyToMany
 //    @JoinTable(
@@ -33,7 +38,6 @@ public class Ambition {
 //            inverseJoinColumns = @JoinColumn(name = "enabler_id")
 //    )
 //    private List<Enabler> enablers = new ArrayList<>();
-
     public long getId() {
         return id;
     }
