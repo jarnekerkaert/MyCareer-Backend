@@ -1,12 +1,12 @@
 //package com.realdolmen.mycareer.controller;
 //
-//import com.realdolmen.mycareer.employees.Employee;
+//import com.realdolmen.mycareer.domain.Employee;
 //import com.realdolmen.mycareer.employees.EmployeeService;
-//import com.realdolmen.mycareer.functions.Function;
-//import com.realdolmen.mycareer.functions.FunctionController;
+//import com.realdolmen.mycareer.domain.Role;
+//import com.realdolmen.mycareer.roles.RoleController;
 //import com.fasterxml.jackson.core.JsonProcessingException;
 //import com.fasterxml.jackson.databind.ObjectMapper;
-//import com.realdolmen.mycareer.functions.FunctionService;
+//import com.realdolmen.mycareer.roles.RoleService;
 //import org.junit.Before;
 //import org.junit.Test;
 //import org.junit.runner.RunWith;
@@ -31,8 +31,8 @@
 //import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 //
 //@RunWith(SpringRunner.class)
-//@WebMvcTest(FunctionController.class)
-//public class FunctionControllerTest {
+//@WebMvcTest(RoleController.class)
+//public class RoleControllerTest {
 //
 //    @Autowired
 //    private MockMvc mvc;
@@ -41,14 +41,14 @@
 //    private EmployeeService service;
 //
 //    @MockBean
-//    FunctionService functionService;
+//    RoleService roleService;
 //
 //    private Employee empDummy;
-//    private List<Function> listFunctions = new ArrayList<>();
-//    private List<Function> listCurrentFunctions = new ArrayList<>();
-//    private List<Function> listPrevFunctions = new ArrayList<>();
-//    private Function f1 = new Function(), f2 = new Function(),
-//            f3 = new Function();
+//    private List<Role> listRoles = new ArrayList<>();
+//    private List<Role> listCurrentRoles = new ArrayList<>();
+//    private List<Role> listPrevRoles = new ArrayList<>();
+//    private Role f1 = new Role(), f2 = new Role(),
+//            f3 = new Role();
 //
 //    @Before
 //    public void before() {
@@ -62,7 +62,7 @@
 //        empDummy.setPassword("plaintext");
 //        empDummy.setId(1L);
 //
-//        // post list of functions:
+//        // post list of roles:
 //        f1.setTitle("title1");
 //        f1.setDescription("description1");
 //        f1.setId(777L);
@@ -76,106 +76,106 @@
 //        f3.setEnding(new Date());
 //        //f3.setEmployee(empDummy);
 //
-//        listFunctions.addAll(Arrays.asList(f1, f2, f3));
-//        listCurrentFunctions.addAll(Arrays.asList(f1, f2));
-//        listPrevFunctions.add(f3);
+//        listRoles.addAll(Arrays.asList(f1, f2, f3));
+//        listCurrentRoles.addAll(Arrays.asList(f1, f2));
+//        listPrevRoles.add(f3);
 //    }
 //
 //    // ----------------------------------------------------------------------------------------------------------------------------------------------
-//    // FUNCTION - POST
+//    // ROLE - POST
 //
 //    /**
-//     * Test for adding a current function
+//     * Test for adding a current role
 //     * @throws Exception
 //     */
 //    /*
 //    @Test
-//    public void createCurrentFunction() throws Exception {
-//        String uri = "/employee/postcurrentfunction/1";
+//    public void createCurrentRole() throws Exception {
+//        String uri = "/employee/postcurrentrole/1";
 //
 //        createEmployee();
-//        given(functionService.save(currentfunction)).willReturn(currentfunction);
+//        given(roleService.save(currentrole)).willReturn(currentrole);
 //
-//        System.out.println(currentfunction);
+//        System.out.println(currentrole);
 //        mvc.perform(post(uri)
 //                .contentType(APPLICATION_JSON)
-//                .content(mapToJson(currentfunction)))
-//                //.content(asJsonString(function)))
+//                .content(mapToJson(currentrole)))
+//                //.content(asJsonString(role)))
 //                .andExpect(status().isOk())
-//                .andExpect(jsonPath("description", is(currentfunction.getDescription())))
-//                .andExpect(jsonPath("title", is(currentfunction.getTitle())));
+//                .andExpect(jsonPath("description", is(currentrole.getDescription())))
+//                .andExpect(jsonPath("title", is(currentrole.getTitle())));
 //    }
 //
 //    @Test
-//    public void createCurrentFunctionBadEmployee() throws Exception {
-//        String uri = "/employee/postcurrentfunction/155";
+//    public void createCurrentRoleBadEmployee() throws Exception {
+//        String uri = "/employee/postcurrentrole/155";
 //
 //        createEmployee();
-//        given(functionService.save(currentfunction)).willReturn(currentfunction);
+//        given(roleService.save(currentrole)).willReturn(currentrole);
 //
-//        System.out.println(currentfunction);
+//        System.out.println(currentrole);
 //        mvc.perform(post(uri)
 //                .contentType(APPLICATION_JSON)
-//                .content(mapToJson(currentfunction)))
-//                //.content(asJsonString(function)))
+//                .content(mapToJson(currentrole)))
+//                //.content(asJsonString(role)))
 //                .andExpect(status().isNotFound())
 //                ;
 //    }*/
 //
 //    /**
-//     * Test for adding a previous function
+//     * Test for adding a previous role
 //     * @throws Exception
 //     */
 //    /*
 //    @Test
 //    // TODO: datums checken !!
-//    public void createPreviousFunction() throws Exception {
-//        String uri = "/employee/postpreviousfunction/1";
+//    public void createPreviousRole() throws Exception {
+//        String uri = "/employee/postpreviousrole/1";
 //
 //        createEmployee();
-//        given(functionService.save(prevfunction)).willReturn(prevfunction);
+//        given(roleService.save(prevrole)).willReturn(prevrole);
 //
 //        mvc.perform(post(uri)
 //                .contentType(APPLICATION_JSON)
-//                .content(mapToJson(prevfunction)))
-//                //.content(asJsonString(function)))
+//                .content(mapToJson(prevrole)))
+//                //.content(asJsonString(role)))
 //                .andExpect(status().isOk())
-//                .andExpect(jsonPath("description", is(prevfunction.getDescription())))
-//                .andExpect(jsonPath("start", is(prevfunction.getStart())))
-//                .andExpect(jsonPath("ending", is(prevfunction.getEnding())))
-//                .andExpect(jsonPath("title", is(prevfunction.getTitle())));
+//                .andExpect(jsonPath("description", is(prevrole.getDescription())))
+//                .andExpect(jsonPath("start", is(prevrole.getStart())))
+//                .andExpect(jsonPath("ending", is(prevrole.getEnding())))
+//                .andExpect(jsonPath("title", is(prevrole.getTitle())));
 //    }*/
 //    /*
 //    @Test
 //    // TODO: datums checken !!
-//    public void createPreviousFunctionBadEmployee() throws Exception {
-//        String uri = "/employee/postpreviousfunction/551";
+//    public void createPreviousRoleBadEmployee() throws Exception {
+//        String uri = "/employee/postpreviousrole/551";
 //
 //        createEmployee();
-//        given(functionService.save(prevfunction)).willReturn(prevfunction);
+//        given(roleService.save(prevrole)).willReturn(prevrole);
 //
 //        mvc.perform(post(uri)
 //                .contentType(APPLICATION_JSON)
-//                .content(mapToJson(prevfunction)))
-//                //.content(asJsonString(function)))
+//                .content(mapToJson(prevrole)))
+//                //.content(asJsonString(role)))
 //                .andExpect(status().isNotFound());
 //    }*/
 //
 //    /**
-//     * Test for adding a list of current functions
+//     * Test for adding a list of current roles
 //     * @throws Exception
 //     */
 //    /*
 //    @Test
-//    public void postListOfCurrentFunctions() throws Exception {
-//        String uri = "/employee/postcurrentfunctions/1";
+//    public void postListOfCurrentRoles() throws Exception {
+//        String uri = "/employee/postcurrentroles/1";
 //
 //        createEmployee();
-//        given(functionService.saveListOfCurrentFunctions(listCurrentfunctions)).willReturn(listCurrentfunctions); // returnt eigenlijk een array van current functions
+//        given(roleService.saveListOfCurrentRoles(listCurrentroles)).willReturn(listCurrentroles); // returnt eigenlijk een array van current roles
 //
 //        mvc.perform(post(uri)
 //                .contentType(APPLICATION_JSON)
-//                .content(mapToJson(listCurrentfunctions)))
+//                .content(mapToJson(listCurrentroles)))
 //                .andExpect(status().isOk())
 //                .andExpect(jsonPath("$[0].title", is("title1")))
 //                .andExpect(jsonPath("$[0].description", is("description1")))
@@ -187,20 +187,20 @@
 //    }*/
 //
 //    /**
-//     *  Test for adding a list of previous functions
+//     *  Test for adding a list of previous roles
 //     * @throws Exception
 //     */
 //    /*
 //    @Test
-//    public void postListOfPreviousFunctions() throws Exception {
-//        String uri = "/employee/postpreviousfunctions/1";
+//    public void postListOfPreviousRoles() throws Exception {
+//        String uri = "/employee/postpreviousroles/1";
 //
 //        createEmployee();
-//        given(functionService.saveListOfPrevFunctions(listPrevfunctions)).willReturn(listPrevfunctions); // returnt eigenlijk een array van previous functions
+//        given(roleService.saveListOfPrevRoles(listPrevroles)).willReturn(listPrevroles); // returnt eigenlijk een array van previous roles
 //
 //        mvc.perform(post(uri)
 //                .contentType(APPLICATION_JSON)
-//                .content(mapToJson(listPrevfunctions)))
+//                .content(mapToJson(listPrevroles)))
 //                .andExpect(status().isOk())
 //                .andExpect(jsonPath("$[0].title", is("abc")))
 //                .andExpect(jsonPath("$[0].description", is("def")))
@@ -212,70 +212,70 @@
 //    }*/
 //
 //    /**
-//     * Test for adding a list of current functions and a list of previous functions
+//     * Test for adding a list of current roles and a list of previous roles
 //     *
 //     * @throws Exception
 //     */
 //    @Test
-//    public void postFunctions() throws Exception {
-//        String uri = "/employees/1/functions";
+//    public void postRoles() throws Exception {
+//        String uri = "/employees/1/roles";
 //
 //        createEmployee();
-//        //given(functionService.saveTwoListsOfFunctions(listCurrentfunctions,listPrevfunctions)).willReturn();
+//        //given(roleService.saveTwoListsOfRoles(listCurrentroles,listPrevroles)).willReturn();
 //
-//        assertNotEquals(functionService.findCurrentFunctions(1L), listCurrentFunctions);
-//        assertNotEquals(functionService.findPrevFunctions(1L), listPrevFunctions);
+//        assertNotEquals(roleService.findCurrentRoles(1L), listCurrentRoles);
+//        assertNotEquals(roleService.findPrevRoles(1L), listPrevRoles);
 //
 //        mvc.perform(post(uri)
 //                .contentType(APPLICATION_JSON)
-//                .content(mapToJson(listFunctions))
+//                .content(mapToJson(listRoles))
 //        )
 //                .andExpect(status().isOk());
 //
-//        verify(functionService, Mockito.times(1)).saveFunctions(listFunctions);
+//        verify(roleService, Mockito.times(1)).saveRoles(listRoles);
 //
-//        given(functionService.findCurrentFunctions(1L)).willReturn(listCurrentFunctions);
-//        Function curf1 = (Function) functionService.findCurrentFunctions(1L).get(0);
-//        Function curf2 = (Function) functionService.findCurrentFunctions(1L).get(1);
+//        given(roleService.findCurrentRoles(1L)).willReturn(listCurrentRoles);
+//        Role curf1 = (Role) roleService.findCurrentRoles(1L).get(0);
+//        Role curf2 = (Role) roleService.findCurrentRoles(1L).get(1);
 //
-//        given(functionService.findPrevFunctions(1L)).willReturn(listPrevFunctions);
-//        Function prevf = (Function) functionService.findPrevFunctions(1L).get(0);
-//        assertEquals(listFunctions.get(0).getTitle(), curf1.getTitle());
-//        assertEquals(listFunctions.get(1).getTitle(), curf2.getTitle());
-//        assertEquals(listFunctions.get(2).getTitle(), prevf.getTitle());
+//        given(roleService.findPrevRoles(1L)).willReturn(listPrevRoles);
+//        Role prevf = (Role) roleService.findPrevRoles(1L).get(0);
+//        assertEquals(listRoles.get(0).getTitle(), curf1.getTitle());
+//        assertEquals(listRoles.get(1).getTitle(), curf2.getTitle());
+//        assertEquals(listRoles.get(2).getTitle(), prevf.getTitle());
 //
-//        assertEquals(functionService.findCurrentFunctions(1L), listCurrentFunctions);
-//        assertEquals(functionService.findPrevFunctions(1L), listPrevFunctions);
+//        assertEquals(roleService.findCurrentRoles(1L), listCurrentRoles);
+//        assertEquals(roleService.findPrevRoles(1L), listPrevRoles);
 //    }
 //
 //    @Test
-//    public void postFunctionsBadEmployee() throws Exception {
-//        String uri = "/employees/155/functions";
+//    public void postRolesBadEmployee() throws Exception {
+//        String uri = "/employees/155/roles";
 //
 //        createEmployee();
-//        //given(functionService.saveTwoListsOfFunctions(listCurrentfunctions,listPrevfunctions)).willReturn();
+//        //given(roleService.saveTwoListsOfRoles(listCurrentroles,listPrevroles)).willReturn();
 //
 //        mvc.perform(post(uri)
 //                        .contentType(APPLICATION_JSON)
-//                        .content(mapToJson(listFunctions))
-//                //.content(mapToJson(functionWrapper))
+//                        .content(mapToJson(listRoles))
+//                //.content(mapToJson(roleWrapper))
 //        ).andExpect(status().isNotFound());
 //
-//        verify(functionService, never()).saveFunctions(listFunctions);
+//        verify(roleService, never()).saveRoles(listRoles);
 //    }
 //// ----------------------------------------------------------------------------------------------------------------------------------------------
 //
-//    // FUNCTION - GET
+//    // ROLE - GET
 //
 //    @Test
-//    public void getCurrentFunctionsOfEmployee() throws Exception {
+//    public void getCurrentRolesOfEmployee() throws Exception {
 //
 //        createEmployee();
 //
-//        //functionService.saveFunctions(listFunctions);
-//        given(functionService.findCurrentFunctions(1L)).willReturn(listCurrentFunctions);
+//        //roleService.saveRoles(listRoles);
+//        given(roleService.findCurrentRoles(1L)).willReturn(listCurrentRoles);
 //
-//        mvc.perform(get("/employees/1/currentfunctions")
+//        mvc.perform(get("/employees/1/currentroles")
 //                .contentType(APPLICATION_JSON))
 //                .andExpect(status().isOk())
 //                .andExpect(jsonPath("$[0].title", is("title1")))
@@ -284,26 +284,26 @@
 //    }
 //
 //    @Test
-//    public void getCurrentFunctionsOfBadEmployee() throws Exception {
+//    public void getCurrentRolesOfBadEmployee() throws Exception {
 //
 //        createEmployee();
 //
-//        given(functionService.findCurrentFunctions(1L)).willReturn(listCurrentFunctions);
+//        given(roleService.findCurrentRoles(1L)).willReturn(listCurrentRoles);
 //
-//        mvc.perform(get("/employees/1555/currentfunctions")
+//        mvc.perform(get("/employees/1555/currentroles")
 //                .contentType(APPLICATION_JSON))
 //                .andExpect(status().isNotFound())
 //        ;
 //    }
 //
 //    @Test
-//    public void getPreviousFunctionsOfEmployee() throws Exception {
+//    public void getPreviousRolesOfEmployee() throws Exception {
 //
 //        createEmployee();
 //
-//        given(functionService.findPrevFunctions(1L)).willReturn(listPrevFunctions);
+//        given(roleService.findPrevRoles(1L)).willReturn(listPrevRoles);
 //
-//        mvc.perform(get("/employees/1/prevfunctions")
+//        mvc.perform(get("/employees/1/prevroles")
 //                .contentType(APPLICATION_JSON))
 //                .andExpect(status().isOk())
 //                .andExpect(jsonPath("$[0].title", is("title3")))
@@ -312,52 +312,52 @@
 //    }
 //
 //    @Test
-//    public void getPreviousFunctionsOfBadEmployee() throws Exception {
+//    public void getPreviousRolesOfBadEmployee() throws Exception {
 //
 //        createEmployee();
 //
-//        mvc.perform(get("/employees/1555/prevfunctions")
+//        mvc.perform(get("/employees/1555/prevroles")
 //                .contentType(APPLICATION_JSON))
 //                .andExpect(status().isNotFound())
 //        ;
 //    }
 //
 //// ----------------------------------------------------------------------------------------------------------------------------------------------
-//    // FUNCTION - DELETE
+//    // ROLE - DELETE
 //
 //    @Test
-//    public void deleteFunction() throws Exception {
-//        String uri = "/functions/777";
+//    public void deleteRole() throws Exception {
+//        String uri = "/roles/777";
 //
 //        createEmployee();
 //
-//        //assertEquals(functionService.findAllCurrentFunctions(1L), listCurrentFunctions);
+//        //assertEquals(roleService.findAllCurrentRoles(1L), listCurrentRoles);
 //
-//        given(functionService.findFunctionById(777L)).willReturn(f1);
+//        given(roleService.findRoleById(777L)).willReturn(f1);
 //
 //        mvc.perform(delete(uri)
 //                .contentType(APPLICATION_JSON))
 //                .andExpect(status().isOk())
 //        ;
 //
-//        verify(functionService, Mockito.times(1)).deleteFunction(f1);
+//        verify(roleService, Mockito.times(1)).deleteRole(f1);
 //
-//        //assertNotEquals(functionService.findAllCurrentFunctions(1L), listCurrentFunctions);
+//        //assertNotEquals(roleService.findAllCurrentRoles(1L), listCurrentRoles);
 //    }
 //
 //    @Test
-//    public void deleteBadFunction() throws Exception {
-//        String uri = "/functions/7771";
+//    public void deleteBadRole() throws Exception {
+//        String uri = "/roles/7771";
 //
 //        createEmployee();
-//        given(functionService.findFunctionById(777L)).willReturn(f1);
+//        given(roleService.findRoleById(777L)).willReturn(f1);
 //
 //        mvc.perform(delete(uri)
 //                .contentType(APPLICATION_JSON))
 //                .andExpect(status().isNotFound())
 //        ;
 //
-//        verify(functionService, never()).deleteFunction(f1);
+//        verify(roleService, never()).deleteRole(f1);
 //    }
 //
 //// ----------------------------------------------------------------------------------------------------------------------------------------------

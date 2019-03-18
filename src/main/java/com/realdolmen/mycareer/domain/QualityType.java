@@ -1,4 +1,4 @@
-package com.realdolmen.mycareer.qualities;
+package com.realdolmen.mycareer.domain;
 
 public enum QualityType
 {

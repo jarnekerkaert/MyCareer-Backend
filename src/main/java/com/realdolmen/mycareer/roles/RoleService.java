@@ -1,6 +1,7 @@
 
-package com.realdolmen.mycareer.functions;
+package com.realdolmen.mycareer.roles;
 
+import com.realdolmen.mycareer.domain.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,45 +12,45 @@ import java.util.stream.Collectors;
 
 @Service
 public
-class FunctionService {
+class RoleService {
 
-    private final FunctionRepository repository;
+    private final RoleRepository repository;
 
     @Autowired
-    FunctionService(FunctionRepository repository) {
+    RoleService(RoleRepository repository) {
         this.repository = repository;
     }
 
-    List<Function> findAll() {
+    List<Role> findAll() {
         return repository.findAll();
     }
 
-    List<Function> findAllCurrentFunctions() {
+    List<Role> findAllCurrentRoles() {
         return repository.findAll().stream().filter(f -> f.isCurrent()).collect(Collectors.toList());
     }
 
-    List<Function> findAllPrevFunctions() {
+    List<Role> findAllPrevRoles() {
         return repository.findAll().stream().filter(f -> !f.isCurrent()).collect(Collectors.toList());
     }
 
-    List<Function> findCurrentFunctions(Long employeeId) {
+    List<Role> findCurrentRoles(Long employeeId) {
         return repository.findByEmployeeId(employeeId).stream().filter(f -> f.isCurrent()).collect(Collectors.toList());
     }
 
-    List<Function> findPrevFunctions(Long employeeId) {
+    List<Role> findPrevRoles(Long employeeId) {
         return repository.findByEmployeeId(employeeId).stream().filter(f -> !f.isCurrent()).collect(Collectors.toList());
     }
 
-    List<Function> findByEmployeeId(Long employeeId) {
+    List<Role> findByEmployeeId(Long employeeId) {
         return repository.findByEmployeeId(employeeId);
     }
 
     @Transactional
-    void saveFunctions(List<Function> functions) {
-        repository.saveAll(functions);
+    void saveRoles(List<Role> roles) {
+        repository.saveAll(roles);
     }
 
-    Optional<Function> findById(Long id) {
+    Optional<Role> findById(Long id) {
         return repository.findById(id);
     }
 
@@ -58,8 +59,8 @@ class FunctionService {
         repository.deleteByEmployeeId(employeeId);
     }
 
-    void deleteFunction(Function function) {
-        repository.delete(function);
+    void deleteRole(Role role) {
+        repository.delete(role);
     }
 
 }

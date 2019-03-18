@@ -1,59 +1,51 @@
-package com.realdolmen.mycareer.functions;
-
-import com.realdolmen.mycareer.employees.Employee;
+package com.realdolmen.mycareer.domain;
 
 import javax.persistence.*;
 import java.util.Date;
 import java.util.Objects;
 
 @Entity
-@Table(name = "function")
-public class Function
+public class Role
 {
-
     private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="employeeId")
-    private Employee employee;
-    
-    @Column(name = "title", nullable = false)
+    private Long employeeId;
+
     private String title;
 
-    @Column(name = "description")
     private String description;
-    
-    @Column(name = "start")
+
     private Date start;
-    @Column(name = "ending")
+
     private Date ending;
 
-    Function() { }
+    public Role() { }
 
     public Long getId() {
         return id;
     }
 
-    void setId(Long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    Employee getEmployee() {
-        return employee;
+    public Long getEmployeeId() {
+        return employeeId;
     }
 
-    public void setEmployee(Employee employee) {
-        this.employee = employee;
+    public void setEmployeeId(Long employeeId) {
+        this.employeeId = employeeId;
     }
 
     public String getTitle() {
         return title;
     }
 
-    void setTitle(String title) {
+    public void setTitle(String title) {
         this.title = title;
     }
 
@@ -61,7 +53,7 @@ public class Function
         return description;
     }
 
-    void setDescription(String description) {
+    public void setDescription(String description) {
         this.description = description;
     }
 
@@ -69,7 +61,7 @@ public class Function
         return start;
     }
 
-    void setStart(Date start) {
+    public void setStart(Date start) {
         this.start = start;
     }
 
@@ -77,13 +69,11 @@ public class Function
         return ending;
     }
 
-    void setEnding(Date ending) {
+    public void setEnding(Date ending) {
         this.ending = ending;
     }
 
-    boolean isCurrent() {
+    public boolean isCurrent() {
         return Objects.isNull(getEnding());
     }
-
-
 }

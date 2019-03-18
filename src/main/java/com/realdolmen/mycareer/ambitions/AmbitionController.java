@@ -1,14 +1,16 @@
 package com.realdolmen.mycareer.ambitions;
 
 import com.realdolmen.mycareer.common.ResourceNotFoundException;
-import com.realdolmen.mycareer.employees.Employee;
+import com.realdolmen.mycareer.domain.Ambition;
+import com.realdolmen.mycareer.domain.Employee;
+import com.realdolmen.mycareer.domain.Role;
 import com.realdolmen.mycareer.employees.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 public class AmbitionController {
@@ -36,36 +38,28 @@ public class AmbitionController {
     @Transactional
     @RequestMapping(value = "/employees/{id}/ambitions", method = RequestMethod.POST)
     public void postAmbitions(@PathVariable("id") Long employeeId, @RequestBody List<Ambition> ambitions) {
-        employeeService.findById(employeeId)
-                .map(emp -> {
-                    emp.setAmbitions(ambitions);
-//                    employeeService.save(emp);
-                    return emp;
-                })
-                .orElseThrow(() -> new ResourceNotFoundException("Employee", "id", employeeId));
-//        Employee emp = employeeService.findById(employeeId);
-//        emp.setAmbitions(ambitions);
-
         ambitionService.deleteByEmployeeId(employeeId);
-        ambitionService.saveAmbitions(ambitions);
+        saveAmbitions(ambitions, employeeId);
     }
 
+    @Transactional
     @RequestMapping(value = "/employees/{id}/ambitions", method = RequestMethod.PUT)
-    public Employee updateAmbitions(@PathVariable("id") Long employeeId, List<Ambition> ambitions) {
-        Optional<Employee> emp = employeeService.findById(employeeId);
-
-        if (emp.isPresent()) {
-            emp.get().setAmbitions(ambitions);
-            employeeService.save(emp.get());
-        } else {
-            throw new ResourceNotFoundException("Employee", "id", employeeId);
-        }
-        return emp.get();
+    public void updateAmbitions(@PathVariable("id") Long employeeId, @RequestBody List<Ambition> ambitions) {
+        ambitionService.deleteByEmployeeId(employeeId);
+        saveAmbitions(ambitions, employeeId);
     }
 
     @Transactional
     @RequestMapping(value = "employees/{id}/ambitions", method = RequestMethod.DELETE)
     public void deleteAmbitions(@PathVariable("id") Long employeeId) {
         ambitionService.deleteByEmployeeId(employeeId);
+    }
+
+    private void saveAmbitions(List<Ambition> ambitions, Long employeeId) {
+        ambitionService.saveAmbitions(ambitions.stream()
+                .map(a -> {
+                    a.setEmployeeId(employeeId);
+                    return a;
+                }).collect(Collectors.toList()));
     }
 }

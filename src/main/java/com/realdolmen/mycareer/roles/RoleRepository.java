@@ -1,17 +1,17 @@
 
-package com.realdolmen.mycareer.functions;
+package com.realdolmen.mycareer.roles;
 
 
+import com.realdolmen.mycareer.domain.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Repository
-interface FunctionRepository extends JpaRepository<Function, Long>{
+interface RoleRepository extends JpaRepository<Role, Long>{
 
-    List<Function> findByEmployeeId(Long employeeId);
+    List<Role> findByEmployeeId(Long employeeId);
 
 
 

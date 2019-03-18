@@ -1,8 +1,7 @@
 
-package com.realdolmen.mycareer.qualities;
+package com.realdolmen.mycareer.domain;
 
 import com.realdolmen.mycareer.common.PostgreSQLEnumType;
-import com.realdolmen.mycareer.employees.Employee;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 
@@ -19,15 +18,14 @@ class Quality {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="employeeId")
-    private Employee employee;
-
+    private Long employeeId;
     private String description;
     
     @Enumerated(EnumType.STRING)
     @Type( type = "pgsql_enum" )
     private QualityType type;
+
+    public Quality() { }
 
     public String getDescription() {
         return description;
@@ -45,8 +43,12 @@ class Quality {
         this.id = id;
     }
 
-    public void setEmployee(Employee employee) {
-        this.employee = employee;
+    public Long getEmployeeId() {
+        return employeeId;
+    }
+
+    public void setEmployeeId(Long employeeId) {
+        this.employeeId = employeeId;
     }
 
     public QualityType getType() {
