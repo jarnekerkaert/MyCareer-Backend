@@ -45,7 +45,7 @@ public class PublicEmployeeController {
     @Transactional
     @RequestMapping(value = "", method = RequestMethod.POST)
     public void createEmployee(@RequestBody EmployeeModel emp) {
-        template.postForObject(URL+"employees", convertToEmployee(null, emp), Employee.class);
+        template.postForObject(URL+"employees", convertToEmployee(emp), Employee.class);
 //        template.postForObject(URL+"employees/"+employeeId+"/functions", emp.getFunctions(), ResponseEntity.class);
 //        template.postForObject(URL+"employees/"+employeeId+"/qualities", emp.getQualities(), ResponseEntity.class);
 //        template.postForObject(URL+"employees/"+employeeId+"/ambitions", emp.getAmbitions(), ResponseEntity.class);
@@ -54,7 +54,7 @@ public class PublicEmployeeController {
     @Transactional
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public void updateEmployee(@PathVariable("id") Long employeeId, @RequestBody EmployeeModel emp) {
-        template.put(URL+"employees/"+employeeId, convertToEmployee(Optional.of(employeeId), emp));
+        template.put(URL+"employees/"+employeeId, convertToEmployee(emp));
         template.put(URL+"employees/"+employeeId+"/functions", emp.getFunctions());
         template.put(URL+"employees/"+employeeId+"/qualities", emp.getQualities());
         template.put(URL+"employees/"+employeeId+"/ambitions", emp.getAmbitions());
@@ -77,15 +77,13 @@ public class PublicEmployeeController {
         return model;
     }
 
-    private Employee convertToEmployee(Optional<Long> id, EmployeeModel model) {
+    private Employee convertToEmployee(EmployeeModel model) {
         Employee emp = new Employee();
-
-        emp.setId(id.get());
+        emp.setId(model.getId());
         emp.setFirstname(model.getFirstname());
         emp.setLastname(model.getLastname());
         emp.setEmail(model.getEmail());
         emp.setBirthdate(model.getBirthdate());
-        emp.setPassword(model.getPassword());
         emp.setCv_filepath(model.getCv_filepath());
 
         return emp;

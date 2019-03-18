@@ -90,6 +90,8 @@ public class FunctionController {
     @Transactional
     @RequestMapping(value = "/employees/{id}/functions", method = RequestMethod.PUT)
     public void updateFunctions(@PathVariable("id") Long employeeId, @RequestBody List<Function> functions) {
+//        List<Function> fun = functionService.findByEmployeeId(employeeId);
+//        fun = functions;
         functionService.deleteByEmployeeId(employeeId);
         functionService.saveFunctions(functions);
     }

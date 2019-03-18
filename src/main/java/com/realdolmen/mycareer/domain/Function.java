@@ -24,14 +24,13 @@ public class Function
 
     private Date ending;
 
-
-    Function() { }
+    public Function() { }
 
     public Long getId() {
         return id;
     }
 
-    void setId(Long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -47,7 +46,7 @@ public class Function
         return title;
     }
 
-    void setTitle(String title) {
+    public void setTitle(String title) {
         this.title = title;
     }
 
@@ -55,7 +54,7 @@ public class Function
         return description;
     }
 
-    void setDescription(String description) {
+    public void setDescription(String description) {
         this.description = description;
     }
 
@@ -63,7 +62,7 @@ public class Function
         return start;
     }
 
-    void setStart(Date start) {
+    public void setStart(Date start) {
         this.start = start;
     }
 
@@ -71,7 +70,7 @@ public class Function
         return ending;
     }
 
-    void setEnding(Date ending) {
+    public void setEnding(Date ending) {
         this.ending = ending;
     }
 

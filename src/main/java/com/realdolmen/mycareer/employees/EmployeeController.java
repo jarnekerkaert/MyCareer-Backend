@@ -1,14 +1,12 @@
 package com.realdolmen.mycareer.employees;
 
-import com.realdolmen.mycareer.domain.Ambition;
-import com.realdolmen.mycareer.domain.Employee;
 import com.realdolmen.mycareer.common.ResourceNotFoundException;
+import com.realdolmen.mycareer.domain.Employee;
 import com.realdolmen.mycareer.functions.FunctionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @RestController
 @RequestMapping(value = "/employees")
@@ -35,14 +33,10 @@ class EmployeeController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public void updateEmployee(@PathVariable("id") Long employeeId, Employee employee) {
+    public void updateEmployee(@PathVariable("id") Long employeeId, @RequestBody Employee employee) {
+        System.out.println(employee.getFirstname() + " " + employee.getLastname());
         Employee emp = employeeService.findById(employeeId)
-                .map(e -> {
-                    e.setId(employeeId);
-                    return e;
-                })
-                .orElseThrow(() -> new ResourceNotFoundException("Employee", "id", employeeId));;
-
+                .orElseThrow(() -> new ResourceNotFoundException("Employee", "id", employeeId));
         employeeService.save(emp);
     }
 }
