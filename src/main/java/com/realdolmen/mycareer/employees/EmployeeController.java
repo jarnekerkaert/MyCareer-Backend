@@ -44,7 +44,8 @@ public class EmployeeController {
                     e.setPassword(employee.getPassword());
                     return e;
                 })
-                .orElseThrow(() -> new ResourceNotFoundException("Employee", "id", employeeId));;
+                .orElseThrow(() -> new ResourceNotFoundException("Employee", "id", employeeId));
+        employeeService.save(emp);
     }
     
 }
