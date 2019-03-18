@@ -16,14 +16,10 @@ import java.util.List;
 public class QualityController {
 
     private final
-    EmployeeService employeeService;
-
-    private final
     QualityService qualityService;
 
     @Autowired
-    public QualityController(EmployeeService employeeService, QualityService qualityService) {
-        this.employeeService = employeeService;
+    public QualityController(QualityService qualityService) {
         this.qualityService = qualityService;
     }
 
@@ -32,21 +28,21 @@ public class QualityController {
         return qualityService.findByEmployeeId(employeeId);
     }
 
-    @RequestMapping(value = "/employees/{id}/strongqualities", method = RequestMethod.GET)
-    public List<Quality> getStrongQualitiesOfEmployee(@PathVariable("id") Long employeeId) {
-        Employee emp = employeeService
-                .findById(employeeId)
-                .orElseThrow(() -> new ResourceNotFoundException("Employee", "id", employeeId));
-        return qualityService.findAllStrongQualities(employeeId);
-    }
-
-    @RequestMapping(value = "/employees/{id}/weakqualities", method = RequestMethod.GET)
-    public List<Quality> getWeakQualitiesOfEmployee(@PathVariable("id") Long employeeId) {
-        Employee emp = employeeService
-                .findById(employeeId)
-                .orElseThrow(() -> new ResourceNotFoundException("Employee", "id", employeeId));
-        return qualityService.findAllWeakQualities(employeeId);
-    }
+//    @RequestMapping(value = "/employees/{id}/strongqualities", method = RequestMethod.GET)
+//    public List<Quality> getStrongQualitiesOfEmployee(@PathVariable("id") Long employeeId) {
+//        Employee emp = employeeService
+//                .findById(employeeId)
+//                .orElseThrow(() -> new ResourceNotFoundException("Employee", "id", employeeId));
+//        return qualityService.findAllStrongQualities(employeeId);
+//    }
+//
+//    @RequestMapping(value = "/employees/{id}/weakqualities", method = RequestMethod.GET)
+//    public List<Quality> getWeakQualitiesOfEmployee(@PathVariable("id") Long employeeId) {
+//        Employee emp = employeeService
+//                .findById(employeeId)
+//                .orElseThrow(() -> new ResourceNotFoundException("Employee", "id", employeeId));
+//        return qualityService.findAllWeakQualities(employeeId);
+//    }
 
     @Transactional
     @RequestMapping(value = "/employees/{id}/qualities", method = RequestMethod.POST)

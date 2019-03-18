@@ -14,13 +14,10 @@ import java.util.List;
 @RestController
 public class AmbitionController {
 
-    private final EmployeeService employeeService;
-
     private final AmbitionService ambitionService;
 
     @Autowired
-    public AmbitionController(EmployeeService employeeService, AmbitionService ambitionService) {
-        this.employeeService = employeeService;
+    public AmbitionController(AmbitionService ambitionService) {
         this.ambitionService = ambitionService;
     }
 

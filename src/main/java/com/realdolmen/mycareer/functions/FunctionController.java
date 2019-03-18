@@ -16,14 +16,10 @@ import java.util.Optional;
 public class FunctionController {
 
     private final
-    EmployeeService employeeService;
-
-    private final
     FunctionService functionService;
 
     @Autowired
-    public FunctionController(EmployeeService employeeService, FunctionService functionService) {
-        this.employeeService = employeeService;
+    public FunctionController(FunctionService functionService) {
         this.functionService = functionService;
     }
 
@@ -47,13 +43,13 @@ public class FunctionController {
         return functionService.findCurrentFunctions(employeeId);
     }
 
-    @RequestMapping(value = "/employees/{id}/prevfunctions", method = RequestMethod.GET)
-    public List<Function> getPreviousFunctionsOfEmployee(@PathVariable("id") Long employeeId) {
-        Employee emp = employeeService
-                .findById(employeeId)
-                .orElseThrow(() -> new ResourceNotFoundException("Employee", "id", employeeId));
-        return functionService.findPrevFunctions(employeeId);
-    }
+//    @RequestMapping(value = "/employees/{id}/prevfunctions", method = RequestMethod.GET)
+//    public List<Function> getPreviousFunctionsOfEmployee(@PathVariable("id") Long employeeId) {
+//        Employee emp = employeeService
+//                .findById(employeeId)
+//                .orElseThrow(() -> new ResourceNotFoundException("Employee", "id", employeeId));
+//        return functionService.findPrevFunctions(employeeId);
+//    }
 
     @Transactional
     @RequestMapping(value = "/employees/{id}/functions", method = RequestMethod.DELETE)

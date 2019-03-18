@@ -14,9 +14,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
-import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 
 @RestController
 @RequestMapping(value = "/test/employees")
@@ -51,8 +52,13 @@ public class PublicEmployeeController {
 
     @Transactional
     @RequestMapping(value = "", method = RequestMethod.POST)
-    public void createEmployee(@RequestBody EmployeeModel emp) {
+    public void createEmployee(@RequestBody EmployeeModel emp) throws IllegalArgumentException {
+        try{
           template.postForObject(URL+"employees", emp, Employee.class);
+        }
+        catch(Exception e){
+            throw new IllegalArgumentException("Input must be valid!");
+        }
 //        template.postForObject(URL+"employees/"+employeeId+"/functions", emp.getFunctions(), ResponseEntity.class);
 //        template.postForObject(URL+"employees/"+employeeId+"/qualities", emp.getQualities(), ResponseEntity.class);
 //        template.postForObject(URL+"employees/"+employeeId+"/ambitions", emp.getAmbitions(), ResponseEntity.class);
@@ -67,6 +73,7 @@ public class PublicEmployeeController {
         } catch (Exception e) {
             throw new ResourceNotFoundException("Employee", "id", employeeId);
         }
+        
         
         template.put(URL+"employees/"+employeeId, convertToEmployee(Optional.of(employeeId),emp));
         template.put(URL+"employees/"+employeeId+"/functions", emp.getFunctions());

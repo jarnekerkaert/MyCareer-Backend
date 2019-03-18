@@ -113,7 +113,7 @@ public class EmployeeControllerTest {
         controller.createEmployee(badEmpDummy);
 
         Set<ConstraintViolation<Employee>> violations = validator.validate(badEmpDummy);
-        assertThat(violations.size()).isEqualTo(5);
+        assertThat(violations.size()).isEqualTo(3);
         
         //verify(serviceMock, never()).save(badEmpDummy);
     }
