@@ -1,8 +1,10 @@
 package com.realdolmen.mycareer.employees;
 
 import com.realdolmen.mycareer.common.ResourceNotFoundException;
+import com.realdolmen.mycareer.common.ValidationException;
 import com.realdolmen.mycareer.domain.Employee;
 import com.realdolmen.mycareer.functions.FunctionService;
+import javax.validation.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,6 +15,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpServerErrorException;
 
 @RestController
 @RequestMapping(value = "/employees")
@@ -47,6 +51,7 @@ public class EmployeeController {
                 })
                 .orElseThrow(() -> new ResourceNotFoundException("Employee", "id", employeeId));
         employeeService.save(emp);
+
     }
 
 }

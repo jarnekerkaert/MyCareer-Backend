@@ -6,6 +6,7 @@ import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 @Entity
 @TypeDef(
     name = "pgsql_enum",
@@ -17,8 +18,9 @@ class Quality {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
+    @NotNull
     private Long employeeId;
+    @NotNull
     private String description;
     
     @Enumerated(EnumType.STRING)

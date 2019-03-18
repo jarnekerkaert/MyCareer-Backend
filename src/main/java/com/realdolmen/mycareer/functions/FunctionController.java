@@ -2,6 +2,7 @@
 package com.realdolmen.mycareer.functions;
 
 import com.realdolmen.mycareer.common.ResourceNotFoundException;
+import com.realdolmen.mycareer.common.ValidationException;
 import com.realdolmen.mycareer.domain.Employee;
 import com.realdolmen.mycareer.domain.Function;
 import com.realdolmen.mycareer.employees.EmployeeService;
@@ -13,6 +14,7 @@ import java.util.List;
 import java.util.Optional;
 import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
+import org.springframework.web.client.HttpServerErrorException;
 
 @RestController
 public class FunctionController {
@@ -87,9 +89,14 @@ public class FunctionController {
 
     @Transactional
     @RequestMapping(value = "/employees/{id}/functions", method = RequestMethod.PUT)
-    public void updateFunctions(@PathVariable("id") Long employeeId, @Valid @RequestBody List<Function> functions) throws ConstraintViolationException{
+    public void updateFunctions(@PathVariable("id") Long employeeId, @Valid @RequestBody List<Function> functions) //throws ValidationException 
+    {
+//        try{
         functionService.deleteByEmployeeId(employeeId);
         functionService.saveFunctions(functions);
+//        }catch(ConstraintViolationException|HttpServerErrorException e){
+//            throw new ValidationException();
+//        }
     }
 
     @RequestMapping(value = "/functions/{id}", method = RequestMethod.DELETE)

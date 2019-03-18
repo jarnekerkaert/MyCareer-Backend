@@ -21,6 +21,8 @@ import javax.persistence.PersistenceException;
 import javax.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpServerErrorException;
 
 @RestController
 @RequestMapping(value = "/test/employees")
@@ -39,7 +41,7 @@ public class PublicEmployeeController {
     public EmployeeModel getEmployeeById(@PathVariable("id") Long employeeId) throws ResourceNotFoundException {
         try {
             Employee emp = template.getForObject(URL + "employees/" + employeeId, Employee.class);
-        } catch (Exception e) {
+        } catch (HttpClientErrorException e) {
             throw new ResourceNotFoundException("Employee", "id", employeeId);
         }
 
@@ -61,8 +63,8 @@ public class PublicEmployeeController {
     public void createEmployee(@RequestBody Employee emp) throws ValidationException {
         try {
             template.postForObject(URL + "employees", emp, Employee.class);
-        } catch (Exception e) {
-            throw new ValidationException("Input must be valid!");
+        } catch (HttpServerErrorException|HttpClientErrorException e) {
+            throw new ValidationException("Something went wrong...");
         }
 //        template.postForObject(URL+"employees/"+employeeId+"/functions", emp.getFunctions(), ResponseEntity.class);
 //        template.postForObject(URL+"employees/"+employeeId+"/qualities", emp.getQualities(), ResponseEntity.class);
@@ -75,7 +77,7 @@ public class PublicEmployeeController {
 
         try {
             Employee getEmp = template.getForObject(URL + "employees/" + employeeId, Employee.class);
-        } catch (Exception e) {
+        } catch (HttpClientErrorException e) {
             throw new ResourceNotFoundException("Employee", "id", employeeId);
         }
 
@@ -85,8 +87,8 @@ public class PublicEmployeeController {
             template.put(URL + "employees/" + employeeId + "/qualities", emp.getQualities());
             template.put(URL + "employees/" + employeeId + "/ambitions", emp.getAmbitions());
         } 
-        catch (Exception e) {
-            throw new ValidationException("Input must be valid!");
+        catch (HttpServerErrorException|HttpClientErrorException e) {
+            throw new ValidationException("Something went wrong...");
         }
     }
 

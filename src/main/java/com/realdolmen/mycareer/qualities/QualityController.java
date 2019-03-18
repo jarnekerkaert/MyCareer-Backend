@@ -2,6 +2,7 @@
 package com.realdolmen.mycareer.qualities;
 
 import com.realdolmen.mycareer.common.ResourceNotFoundException;
+import com.realdolmen.mycareer.common.ValidationException;
 import com.realdolmen.mycareer.domain.Ambition;
 import com.realdolmen.mycareer.domain.Employee;
 import com.realdolmen.mycareer.domain.Quality;
@@ -11,7 +12,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
+import org.springframework.web.client.HttpServerErrorException;
 
 @RestController
 public class QualityController {
@@ -53,11 +56,16 @@ public class QualityController {
 
     @Transactional
     @RequestMapping(value = "/employees/{id}/qualities", method = RequestMethod.PUT)
-    public void updateQualities(@PathVariable("id") Long employeeId, @Valid @RequestBody List<Quality> qualities) {
+    public void updateQualities(@PathVariable("id") Long employeeId, @Valid @RequestBody List<Quality> qualities) //throws ValidationException 
+    {
 //        List<Quality> qual = qualityService.findByEmployeeId(employeeId);
 //        qual = qualities;
+//        try{
         qualityService.deleteByEmployeeId(employeeId);
         qualityService.saveQualities(qualities);
+//        }catch(ConstraintViolationException|HttpServerErrorException e){
+//            throw new ValidationException();
+//        }
     }
 
     @Transactional
