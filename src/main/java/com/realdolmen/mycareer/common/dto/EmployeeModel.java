@@ -12,7 +12,7 @@ import java.util.Date;
 import java.util.List;
 
 public class EmployeeModel {
-//    private Long id;
+    private Long id;
     private String firstname;
     private String lastname;
     private String email;
@@ -27,7 +27,7 @@ public class EmployeeModel {
     }
 
     public EmployeeModel(Employee employee) {
-//        this.id = employee.getId();
+        this.id = employee.getId();
         this.firstname = employee.getFirstname();
         this.lastname = employee.getLastname();
         this.email = employee.getEmail();
@@ -36,13 +36,13 @@ public class EmployeeModel {
         
     }
 
-//    public Long getId() {
-//        return id;
-//    }
-//
-//    public void setId(Long id) {
-//        this.id = id;
-//    }
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getCv_filepath() {
         return cv_filepath;

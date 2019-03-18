@@ -60,8 +60,14 @@ public class PublicEmployeeController {
 
     @Transactional
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public void updateEmployee(@PathVariable("id") Long employeeId, @RequestBody EmployeeModel emp) {
+    public void updateEmployee(@PathVariable("id") Long employeeId, @RequestBody EmployeeModel emp) throws ResourceNotFoundException{
 
+        try {
+            Employee getEmp = template.getForObject(URL + "employees/" + employeeId, Employee.class);
+        } catch (Exception e) {
+            throw new ResourceNotFoundException("Employee", "id", employeeId);
+        }
+        
         template.put(URL+"employees/"+employeeId, convertToEmployee(Optional.of(employeeId),emp));
         template.put(URL+"employees/"+employeeId+"/functions", emp.getFunctions());
         template.put(URL+"employees/"+employeeId+"/qualities", emp.getQualities());

@@ -3,6 +3,7 @@ package com.realdolmen.mycareer.domain;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "employee")
@@ -12,11 +13,16 @@ public class Employee implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @NotNull
     private String firstname;
+    @NotNull
     private String lastname;
+    @NotNull
     private String email;
+    @NotNull
     private String password;
     private String cv_filepath;
+    @NotNull
     private Date birthdate;
 
     public Long getId() {
