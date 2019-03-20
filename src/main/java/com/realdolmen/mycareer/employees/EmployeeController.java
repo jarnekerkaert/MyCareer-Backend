@@ -20,7 +20,7 @@ import org.springframework.web.client.HttpServerErrorException;
 
 @RestController
 @RequestMapping(value = "/employees")
-class EmployeeController {
+public class EmployeeController {
 
     private final EmployeeService employeeService;
     private Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
@@ -53,4 +53,9 @@ class EmployeeController {
         employeeService.save(emp);
     }
     
+  @ExceptionHandler(ConstraintViolationException.class)
+  @ResponseStatus(HttpStatus.BAD_REQUEST)
+  void handleConstraintViolationException(ConstraintViolationException e) throws ValidationException {
+    throw new ValidationException();
+  }
 }

@@ -22,12 +22,12 @@ class AmbitionService {
         return repository.findAll();
     }
 
-    public List<Ambition> findByEmployeeId(Long employeeId) {
+    List<Ambition> findByEmployeeId(Long employeeId) {
         return repository.findByEmployeeId(employeeId);
     }
 
     @Transactional
-    public void saveAmbitions(List<Ambition> ambitions) {
+    void saveAmbitions(List<Ambition> ambitions) {
         repository.saveAll(ambitions);
     }
 

@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 import javax.validation.Valid;
 
 @RestController
-class RoleController {
+public class RoleController {
 
     private final
     RoleService roleService;

@@ -10,6 +10,7 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import static org.assertj.core.api.Assertions.assertThat;
+import org.hibernate.exception.ConstraintViolationException;
 import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,6 +21,7 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import org.mockito.runners.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
+import org.springframework.web.client.HttpClientErrorException;
 
 @RunWith(MockitoJUnitRunner.class)
 public class EmployeeControllerTest {
@@ -116,6 +118,7 @@ public class EmployeeControllerTest {
         assertThat(violations.size()).isEqualTo(3);
         
         //verify(serviceMock, never()).save(badEmpDummy);
+        //Mockito.verifyZeroInteractions(serviceMock);
     }
     
     @Test 

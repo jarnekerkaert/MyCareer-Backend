@@ -1,7 +1,7 @@
 
 package com.realdolmen.mycareer;
 
-import com.realdolmen.mycareer.ambitions.AmbitionControllerIntegrationTest;
+//import com.realdolmen.mycareer.ambitions.AmbitionControllerIntegrationTest;
 import com.realdolmen.mycareer.employees.EmployeeControllerIntegrationTest;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -15,7 +15,7 @@ import org.junit.runners.Suite;
         {
             com.realdolmen.mycareer.MyCareerBackendApplicationTests.class, 
             com.realdolmen.mycareer.EmployeeUnitTestSuite.class,
-            AmbitionControllerIntegrationTest.class,
+            //AmbitionControllerIntegrationTest.class,
             EmployeeControllerIntegrationTest.class
         })
 public class EmployeeIntegrationTestSuite {

@@ -17,7 +17,7 @@ import javax.validation.Valid;
 import org.springframework.web.client.HttpServerErrorException;
 
 @RestController
-class QualityController {
+public class QualityController {
 
     private final
     QualityService qualityService;

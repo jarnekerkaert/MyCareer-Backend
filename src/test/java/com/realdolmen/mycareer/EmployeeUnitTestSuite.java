@@ -2,7 +2,7 @@
 package com.realdolmen.mycareer;
 
 import com.realdolmen.mycareer.ambitions.AmbitionControllerTest;
-import com.realdolmen.mycareer.ambitions.AmbitionControllerIntegrationTest;
+//import com.realdolmen.mycareer.ambitions.AmbitionControllerIntegrationTest;
 import com.realdolmen.mycareer.employees.EmployeeControllerIntegrationTest;
 import com.realdolmen.mycareer.employees.EmployeeControllerTest;
 import com.realdolmen.mycareer.qualities.QualityControllerTest;
