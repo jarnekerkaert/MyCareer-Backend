@@ -4,7 +4,6 @@ package com.realdolmen.mycareer.roles;
 import com.realdolmen.mycareer.common.ResourceNotFoundException;
 import com.realdolmen.mycareer.domain.Employee;
 import com.realdolmen.mycareer.domain.Role;
-import com.realdolmen.mycareer.employees.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;

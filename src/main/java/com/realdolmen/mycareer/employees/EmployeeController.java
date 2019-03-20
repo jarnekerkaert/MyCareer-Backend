@@ -31,14 +31,14 @@ public class EmployeeController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    Employee getEmployee(@PathVariable("id") Long employeeId) {
+    public Employee getEmployee(@PathVariable("id") Long employeeId) {
         Employee emp = employeeService.findById(employeeId)
                 .orElseThrow(() -> new ResourceNotFoundException("Employee", "id", employeeId));
         return emp;
     }
 
     @RequestMapping(value = "", method = RequestMethod.POST)
-    void createEmployee(@Valid @RequestBody Employee employee) {
+    public void createEmployee(@Valid @RequestBody Employee employee) {
             employeeService.save(employee);
     }
 

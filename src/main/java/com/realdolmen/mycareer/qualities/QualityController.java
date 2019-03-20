@@ -6,7 +6,6 @@ import com.realdolmen.mycareer.common.ValidationException;
 import com.realdolmen.mycareer.domain.Ambition;
 import com.realdolmen.mycareer.domain.Employee;
 import com.realdolmen.mycareer.domain.Quality;
-import com.realdolmen.mycareer.employees.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;

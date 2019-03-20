@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class EmployeeService {
+ class EmployeeService {
 
     private final EmployeeRepository repository;
 
@@ -17,11 +17,11 @@ public class EmployeeService {
         this.repository = repository;
     }
 
-    public Optional<Employee> findById(Long employeeId) {
+    Optional<Employee> findById(Long employeeId) {
         return repository.findById(employeeId);
     }
 
-    public void save(Employee emp) {
+    void save(Employee emp) {
         repository.save(emp);
     }
 

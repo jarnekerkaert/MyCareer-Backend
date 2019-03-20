@@ -43,6 +43,7 @@ public class PublicEmployeeController {
         try {
             Employee emp = template.getForObject(URL + "employees/" + employeeId, Employee.class);
         } catch (HttpClientErrorException e) {
+             e.printStackTrace();
             throw new ResourceNotFoundException("Employee", "id", employeeId);
         }
        
@@ -62,6 +63,7 @@ public class PublicEmployeeController {
         try {
             template.postForObject(URL + "employees", emp, Employee.class);
         } catch (HttpServerErrorException|HttpClientErrorException e) {
+             e.printStackTrace();
             throw new ValidationException("Something went wrong...");
         }
 //        template.postForObject(URL+"employees/"+employeeId+"/roles", emp.getRoles(), ResponseEntity.class);
@@ -76,6 +78,7 @@ public class PublicEmployeeController {
         try {
             Employee getEmp = template.getForObject(URL + "employees/" + employeeId, Employee.class);
         } catch (HttpClientErrorException e) {
+             e.printStackTrace();
             throw new ResourceNotFoundException("Employee", "id", employeeId);
         }
 
@@ -86,6 +89,7 @@ public class PublicEmployeeController {
             template.put(URL + "employees/" + employeeId + "/ambitions", emp.getAmbitions());
         }
         catch (HttpServerErrorException|HttpClientErrorException e) {
+            e.printStackTrace();
             throw new ValidationException("Something went wrong...");
         }
 
