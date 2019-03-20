@@ -31,7 +31,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(EmployeeController.class)
-public class EmployeeControllerTest {
+public class EmployeeControllerIntegrationTest {
 
     @Autowired
     private MockMvc mvc;
@@ -55,7 +55,7 @@ public class EmployeeControllerTest {
     private List<Role> listCurrentRoles;
     private List<Role> listPrevRoles;
 
-    public EmployeeControllerTest() {
+    public EmployeeControllerIntegrationTest() {
     }
 
     @Before

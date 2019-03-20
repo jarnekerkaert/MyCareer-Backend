@@ -38,7 +38,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ComponentScan(basePackages = "Realdolmen.MyCareer.controller")
 @RunWith(SpringRunner.class)
 @WebMvcTest(AmbitionController.class)
-public class AmbitionControllerTest {
+public class AmbitionControllerIntegrationTest {
 
     @Autowired
     private MockMvc mvc;
@@ -53,7 +53,7 @@ public class AmbitionControllerTest {
     private List<Ambition> ambitions;
     private Ambition a1, a2, a3;
 
-    public AmbitionControllerTest() {
+    public AmbitionControllerIntegrationTest() {
         ambitions = new ArrayList<>();
         a1 = new Ambition();
         a2 = new Ambition();
