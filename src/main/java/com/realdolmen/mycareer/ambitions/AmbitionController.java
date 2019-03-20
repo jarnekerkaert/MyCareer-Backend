@@ -17,35 +17,35 @@ import javax.validation.Valid;
 import org.springframework.web.client.HttpServerErrorException;
 
 @RestController
-public class AmbitionController {
+class AmbitionController {
 
     private final AmbitionService ambitionService;
 
     @Autowired
-    public AmbitionController(AmbitionService ambitionService) {
+    AmbitionController(AmbitionService ambitionService) {
         this.ambitionService = ambitionService;
     }
 
     @RequestMapping(value = "/ambitions", method = RequestMethod.GET)
-    public List<Ambition> getAmbitions() {
+    List<Ambition> getAmbitions() {
         return ambitionService.findAll();
     }
 
     @RequestMapping(value = "/employees/{id}/ambitions", method = RequestMethod.GET)
-    public List<Ambition> getAmbitionsEmployee(@PathVariable("id") Long employeeId) {
+    List<Ambition> getAmbitionsEmployee(@PathVariable("id") Long employeeId) {
         return ambitionService.findByEmployeeId(employeeId);
     }
 
     @Transactional
     @RequestMapping(value = "/employees/{id}/ambitions", method = RequestMethod.POST)
-    public void postAmbitions(@PathVariable("id") Long employeeId, @RequestBody List<Ambition> ambitions) {
+    void postAmbitions(@PathVariable("id") Long employeeId, @RequestBody List<Ambition> ambitions) {
         ambitionService.deleteByEmployeeId(employeeId);
         saveAmbitions(ambitions, employeeId);
     }
 
     @Transactional
     @RequestMapping(value = "/employees/{id}/ambitions", method = RequestMethod.PUT)
-    public void updateAmbitions(@PathVariable("id") Long employeeId, @Valid @RequestBody List<Ambition> ambitions) //throws ValidationException
+    void updateAmbitions(@PathVariable("id") Long employeeId, @Valid @RequestBody List<Ambition> ambitions) //throws ValidationException
     {
 //        try {
             ambitionService.deleteByEmployeeId(employeeId);
@@ -57,7 +57,7 @@ public class AmbitionController {
 
     @Transactional
     @RequestMapping(value = "employees/{id}/ambitions", method = RequestMethod.DELETE)
-    public void deleteAmbitions(@PathVariable("id") Long employeeId) {
+    void deleteAmbitions(@PathVariable("id") Long employeeId) {
         ambitionService.deleteByEmployeeId(employeeId);
     }
 

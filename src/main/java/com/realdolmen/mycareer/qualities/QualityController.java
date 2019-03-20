@@ -6,7 +6,6 @@ import com.realdolmen.mycareer.common.ValidationException;
 import com.realdolmen.mycareer.domain.Ambition;
 import com.realdolmen.mycareer.domain.Employee;
 import com.realdolmen.mycareer.domain.Quality;
-import com.realdolmen.mycareer.employees.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -18,23 +17,23 @@ import javax.validation.Valid;
 import org.springframework.web.client.HttpServerErrorException;
 
 @RestController
-public class QualityController {
+class QualityController {
 
     private final
     QualityService qualityService;
 
     @Autowired
-    public QualityController(QualityService qualityService) {
+    QualityController(QualityService qualityService) {
         this.qualityService = qualityService;
     }
 
     @RequestMapping(value = "/employees/{id}/qualities", method = RequestMethod.GET)
-    public List<Quality> getAllQualitiesEmployee(@PathVariable("id") Long employeeId) {
+    List<Quality> getAllQualitiesEmployee(@PathVariable("id") Long employeeId) {
         return qualityService.findByEmployeeId(employeeId);
     }
 
 //    @RequestMapping(value = "/employees/{id}/strongqualities", method = RequestMethod.GET)
-//    public List<Quality> getStrongQualitiesOfEmployee(@PathVariable("id") Long employeeId) {
+//    List<Quality> getStrongQualitiesOfEmployee(@PathVariable("id") Long employeeId) {
 //        Employee emp = employeeService
 //                .findById(employeeId)
 //                .orElseThrow(() -> new ResourceNotFoundException("Employee", "id", employeeId));
@@ -42,7 +41,7 @@ public class QualityController {
 //    }
 //
 //    @RequestMapping(value = "/employees/{id}/weakqualities", method = RequestMethod.GET)
-//    public List<Quality> getWeakQualitiesOfEmployee(@PathVariable("id") Long employeeId) {
+//    List<Quality> getWeakQualitiesOfEmployee(@PathVariable("id") Long employeeId) {
 //        Employee emp = employeeService
 //                .findById(employeeId)
 //                .orElseThrow(() -> new ResourceNotFoundException("Employee", "id", employeeId));
@@ -51,13 +50,13 @@ public class QualityController {
 
     @Transactional
     @RequestMapping(value = "/employees/{id}/qualities", method = RequestMethod.POST)
-    public void postQualities(@PathVariable("id") Long employeeId, @RequestBody List<Quality> qualities) {
+    void postQualities(@PathVariable("id") Long employeeId, @RequestBody List<Quality> qualities) {
         saveQualities(qualities,employeeId);
     }
 
     @Transactional
     @RequestMapping(value = "/employees/{id}/qualities", method = RequestMethod.PUT)
-    public void updateQualities(@PathVariable("id") Long employeeId, @Valid @RequestBody List<Quality> qualities) //throws ValidationException
+    void updateQualities(@PathVariable("id") Long employeeId, @Valid @RequestBody List<Quality> qualities) //throws ValidationException
     {
 //        try{
         qualityService.deleteByEmployeeId(employeeId);
@@ -70,12 +69,12 @@ public class QualityController {
 
     @Transactional
     @RequestMapping(value = "/employees/{id}/qualities", method = RequestMethod.DELETE)
-    public void deleteAllByEmployeeId(@PathVariable("id") Long id) {
+    void deleteAllByEmployeeId(@PathVariable("id") Long id) {
         qualityService.deleteByEmployeeId(id);
     }
 
     @RequestMapping(value = "/qualities/{id}", method = RequestMethod.DELETE)
-    public void deleteById(@PathVariable("id") Long id) {
+    void deleteById(@PathVariable("id") Long id) {
         qualityService.findQualityById(id)
                 .map(q -> {
                     qualityService.deleteQuality(q);

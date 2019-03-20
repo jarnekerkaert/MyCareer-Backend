@@ -1,4 +1,4 @@
-package com.realdolmen.mycareer.controller;
+package com.realdolmen.mycareer.employees;
 
 import com.realdolmen.mycareer.domain.Employee;
 import com.realdolmen.mycareer.employees.EmployeeController;

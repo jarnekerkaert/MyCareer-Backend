@@ -4,7 +4,6 @@ package com.realdolmen.mycareer.roles;
 import com.realdolmen.mycareer.common.ResourceNotFoundException;
 import com.realdolmen.mycareer.domain.Employee;
 import com.realdolmen.mycareer.domain.Role;
-import com.realdolmen.mycareer.employees.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -15,38 +14,38 @@ import java.util.stream.Collectors;
 import javax.validation.Valid;
 
 @RestController
-public class RoleController {
+class RoleController {
 
     private final
     RoleService roleService;
 
     @Autowired
-    public RoleController(RoleService roleService) {
+    RoleController(RoleService roleService) {
         this.roleService = roleService;
     }
 
     @RequestMapping(value = "/roles", method = RequestMethod.GET)
-    public List<Role> getRoles() {
+    List<Role> getRoles() {
         return roleService.findAll();
     }
 
     @RequestMapping(value = "/currentroles", method = RequestMethod.GET)
-    public List<Role> getCurrentRoles() {
+    List<Role> getCurrentRoles() {
         return roleService.findAllCurrentRoles();
     }
 
     @RequestMapping(value = "/prevroles", method = RequestMethod.GET)
-    public List<Role> getPreviousRoles() {
+    List<Role> getPreviousRoles() {
         return roleService.findAllPrevRoles();
     }
 
     @RequestMapping(value = "/employees/{id}/currentroles", method = RequestMethod.GET)
-    public List<Role> getCurrentRolesOfEmployee(@PathVariable("id") Long employeeId) {
+    List<Role> getCurrentRolesOfEmployee(@PathVariable("id") Long employeeId) {
         return roleService.findCurrentRoles(employeeId);
     }
 
 //    @RequestMapping(value = "/employees/{id}/prevroles", method = RequestMethod.GET)
-//    public List<Role> getPreviousRolesOfEmployee(@PathVariable("id") Long employeeId) {
+//    List<Role> getPreviousRolesOfEmployee(@PathVariable("id") Long employeeId) {
 //        Employee emp = employeeService
 //                .findById(employeeId)
 //                .orElseThrow(() -> new ResourceNotFoundException("Employee", "id", employeeId));
@@ -55,19 +54,19 @@ public class RoleController {
 
     @Transactional
     @RequestMapping(value = "/employees/{id}/roles", method = RequestMethod.DELETE)
-    public void deleteAllByEmployee(@PathVariable("id") Long id) {
+    void deleteAllByEmployee(@PathVariable("id") Long id) {
         roleService.deleteByEmployeeId(id);
     }
 
 
     @RequestMapping(value = "/employees/{id}/roles", method = RequestMethod.GET)
-    public List<Role> getRolesOfEmployee(@PathVariable("id") Long employeeId) {
+    List<Role> getRolesOfEmployee(@PathVariable("id") Long employeeId) {
         return roleService.findByEmployeeId(employeeId);
     }
 
     /*
     @RequestMapping(value = "/employees/{id}/role", method = RequestMethod.POST)
-    public Role postRole(@PathVariable("id") Long employeeId, @Valid @RequestBody Role role){
+    Role postRole(@PathVariable("id") Long employeeId, @Valid @RequestBody Role role){
         Employee emp = employeeService.findEmployeeById(employeeId);
         if(emp != null){
             emp.addRole(role);
@@ -80,14 +79,14 @@ public class RoleController {
 
     @Transactional
     @RequestMapping(value = "/employees/{id}/roles", method = RequestMethod.POST)
-    public void postRoles(@PathVariable("id") Long employeeId, @RequestBody List<Role> roles) {
+    void postRoles(@PathVariable("id") Long employeeId, @RequestBody List<Role> roles) {
         roleService.deleteByEmployeeId(employeeId);
         saveRoles(roles, employeeId);
     }
 
     @Transactional
     @RequestMapping(value = "/employees/{id}/roles", method = RequestMethod.PUT)
-    public void updateRoles(@PathVariable("id") Long employeeId, @Valid @RequestBody List<Role> roles) {
+    void updateRoles(@PathVariable("id") Long employeeId, @Valid @RequestBody List<Role> roles) {
         //        try{
         roleService.deleteByEmployeeId(employeeId);
         saveRoles(roles, employeeId);
@@ -97,7 +96,7 @@ public class RoleController {
     }
 
     @RequestMapping(value = "/roles/{id}", method = RequestMethod.DELETE)
-    public void deleteRole(@PathVariable("id") Long id) {
+    void deleteRole(@PathVariable("id") Long id) {
         Optional<Role> role = roleService.findById(id);
         if (role.isPresent()) {
             roleService.deleteRole(role.get());

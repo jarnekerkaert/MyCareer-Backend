@@ -20,13 +20,13 @@ import org.springframework.web.client.HttpServerErrorException;
 
 @RestController
 @RequestMapping(value = "/employees")
-public class EmployeeController {
+class EmployeeController {
 
     private final EmployeeService employeeService;
     private Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
 
     @Autowired
-    public EmployeeController(EmployeeService employeeService) {
+    EmployeeController(EmployeeService employeeService) {
         this.employeeService = employeeService;
     }
 
@@ -43,7 +43,7 @@ public class EmployeeController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public void updateEmployee(@PathVariable("id") Long employeeId, @Valid @RequestBody Employee employee) {
+    void updateEmployee(@PathVariable("id") Long employeeId, @Valid @RequestBody Employee employee) {
         Employee emp = employeeService.findById(employeeId)
                 .map(e -> {
                     e = employee;

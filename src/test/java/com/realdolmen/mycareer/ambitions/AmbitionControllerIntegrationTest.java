@@ -1,4 +1,4 @@
-package com.realdolmen.mycareer.controller;
+package com.realdolmen.mycareer.ambitions;
 
 import com.realdolmen.mycareer.domain.Ambition;
 import com.realdolmen.mycareer.ambitions.AmbitionController;
