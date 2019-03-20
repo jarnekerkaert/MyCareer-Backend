@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
+
 import org.springframework.web.client.HttpServerErrorException;
 
 @RestController
@@ -36,28 +37,22 @@ public class AmbitionController {
     }
 
     @Transactional
+    @RequestMapping(value = "employees/{id}/ambitions", method = RequestMethod.DELETE)
+    public void deleteAmbitions(@PathVariable("id") Long employeeId) {
+        ambitionService.deleteByEmployeeId(employeeId);
+    }
+
+    @Transactional
     @RequestMapping(value = "/employees/{id}/ambitions", method = RequestMethod.POST)
     public void postAmbitions(@PathVariable("id") Long employeeId, @RequestBody List<Ambition> ambitions) {
-        ambitionService.deleteByEmployeeId(employeeId);
         saveAmbitions(ambitions, employeeId);
     }
 
     @Transactional
     @RequestMapping(value = "/employees/{id}/ambitions", method = RequestMethod.PUT)
-    public void updateAmbitions(@PathVariable("id") Long employeeId, @Valid @RequestBody List<Ambition> ambitions) //throws ValidationException
-    {
-//        try {
-            ambitionService.deleteByEmployeeId(employeeId);
-            ambitionService.saveAmbitions(ambitions);
-//        } catch (ConstraintViolationException | HttpServerErrorException e) {
-//            throw new ValidationException();
-//        }
-    }
-
-    @Transactional
-    @RequestMapping(value = "employees/{id}/ambitions", method = RequestMethod.DELETE)
-    public void deleteAmbitions(@PathVariable("id") Long employeeId) {
+    public void updateAmbitions(@PathVariable("id") Long employeeId, @Valid @RequestBody List<Ambition> ambitions) {
         ambitionService.deleteByEmployeeId(employeeId);
+        ambitionService.saveAmbitions(ambitions);
     }
 
     private void saveAmbitions(List<Ambition> ambitions, Long employeeId) {
