@@ -1,9 +1,9 @@
 package com.realdolmen.mycareer.common.dto;
 
-import com.realdolmen.mycareer.domain.Ambition;
-import com.realdolmen.mycareer.domain.Employee;
-import com.realdolmen.mycareer.domain.Role;
-import com.realdolmen.mycareer.domain.Quality;
+import com.realdolmen.mycareer.ambitions.Ambition;
+import com.realdolmen.mycareer.employees.Employee;
+import com.realdolmen.mycareer.roles.Role;
+import com.realdolmen.mycareer.qualities.Quality;
 
 import java.util.Date;
 import java.util.List;
@@ -15,9 +15,10 @@ public class EmployeeModel {
     private String email;
     private String cv_filepath;
     private Date birthdate;
-    private List<Role> roles;
-    private List<Quality> qualities;
-    private List<Ambition> ambitions;
+    private List<RoleModel> roles;
+    private List<QualityModel> qualities;
+    private List<AmbitionModel> ambitions;
+    //private List<Ambition> ambitions;
 
     public EmployeeModel() {
 
@@ -80,27 +81,37 @@ public class EmployeeModel {
         this.email = email;
     }
 
-    public List<Role> getRoles() {
+    public List<RoleModel> getRoles() {
         return roles;
     }
 
-    public void setRoles(List<Role> roles) {
+    public void setRoles(List<RoleModel> roles) {
         this.roles = roles;
     }
 
-    public List<Quality> getQualities() {
+    public List<QualityModel> getQualities() {
         return qualities;
     }
 
-    public void setQualities(List<Quality> qualities) {
+    public void setQualities(List<QualityModel> qualities) {
         this.qualities = qualities;
     }
 
-    public List<Ambition> getAmbitions() {
+    public List<AmbitionModel> getAmbitions() {
         return ambitions;
     }
 
-    public void setAmbitions(List<Ambition> ambitions) {
+    public void setAmbitions(List<AmbitionModel> ambitions) {
         this.ambitions = ambitions;
     }
+
+//    public List<Ambition> getAmbitions() {
+//        return ambitions;
+//    }
+//
+//    public void setAmbitions(List<Ambition> ambitions) {
+//        this.ambitions = ambitions;
+//    }
+    
+    
 }

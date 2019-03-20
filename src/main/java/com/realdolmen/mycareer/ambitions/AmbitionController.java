@@ -2,9 +2,9 @@ package com.realdolmen.mycareer.ambitions;
 
 import com.realdolmen.mycareer.common.ResourceNotFoundException;
 import com.realdolmen.mycareer.common.ValidationException;
-import com.realdolmen.mycareer.domain.Ambition;
-import com.realdolmen.mycareer.domain.Employee;
-import com.realdolmen.mycareer.domain.Role;
+import com.realdolmen.mycareer.common.dto.AmbitionModel;
+import com.realdolmen.mycareer.employees.Employee;
+import com.realdolmen.mycareer.roles.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -31,8 +31,10 @@ public class AmbitionController {
     }
 
     @RequestMapping(value = "/employees/{id}/ambitions", method = RequestMethod.GET)
-    public List<Ambition> getAmbitionsEmployee(@PathVariable("id") Long employeeId) {
-        return ambitionService.findByEmployeeId(employeeId);
+    public List<AmbitionModel> getAmbitionsEmployee(@PathVariable("id") Long employeeId) {
+        return ambitionService.findByEmployeeId(employeeId).stream().map(a -> convertToDTO(a)).collect(Collectors.toList());
+//    public List<Ambition> getAmbitionsEmployee(@PathVariable("id") Long employeeId) {
+//        return ambitionService.findByEmployeeId(employeeId);
     }
 
     @Transactional
@@ -48,7 +50,7 @@ public class AmbitionController {
     {
 //        try {
             ambitionService.deleteByEmployeeId(employeeId);
-            ambitionService.saveAmbitions(ambitions);
+            saveAmbitions(ambitions,employeeId);
 //        } catch (ConstraintViolationException | HttpServerErrorException e) {
 //            throw new ValidationException();
 //        }
@@ -66,5 +68,10 @@ public class AmbitionController {
                     a.setEmployeeId(employeeId);
                     return a;
                 }).collect(Collectors.toList()));
+    }
+    
+    private AmbitionModel convertToDTO(Ambition ambition) {
+        AmbitionModel model = new AmbitionModel(ambition);
+        return model;
     }
 }

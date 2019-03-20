@@ -1,4 +1,4 @@
-package com.realdolmen.mycareer.domain;
+package com.realdolmen.mycareer.employees;
 
 import javax.persistence.*;
 import java.io.Serializable;

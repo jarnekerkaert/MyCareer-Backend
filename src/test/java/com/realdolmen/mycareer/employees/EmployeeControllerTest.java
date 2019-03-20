@@ -2,7 +2,6 @@
 package com.realdolmen.mycareer.employees;
 
 import com.realdolmen.mycareer.common.ResourceNotFoundException;
-import com.realdolmen.mycareer.domain.Employee;
 import java.util.Date;
 import java.util.Optional;
 import java.util.Set;

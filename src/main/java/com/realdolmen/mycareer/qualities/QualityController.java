@@ -3,9 +3,10 @@ package com.realdolmen.mycareer.qualities;
 
 import com.realdolmen.mycareer.common.ResourceNotFoundException;
 import com.realdolmen.mycareer.common.ValidationException;
-import com.realdolmen.mycareer.domain.Ambition;
-import com.realdolmen.mycareer.domain.Employee;
-import com.realdolmen.mycareer.domain.Quality;
+import com.realdolmen.mycareer.ambitions.Ambition;
+import com.realdolmen.mycareer.common.dto.QualityModel;
+import com.realdolmen.mycareer.employees.Employee;
+import com.realdolmen.mycareer.roles.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -28,8 +29,8 @@ public class QualityController {
     }
 
     @RequestMapping(value = "/employees/{id}/qualities", method = RequestMethod.GET)
-    public List<Quality> getAllQualitiesEmployee(@PathVariable("id") Long employeeId) {
-        return qualityService.findByEmployeeId(employeeId);
+    public List<QualityModel> getAllQualitiesEmployee(@PathVariable("id") Long employeeId) {
+        return qualityService.findByEmployeeId(employeeId).stream().map(q -> convertToDTO(q)).collect(Collectors.toList());
     }
 
 //    @RequestMapping(value = "/employees/{id}/strongqualities", method = RequestMethod.GET)
@@ -89,5 +90,10 @@ public class QualityController {
                     q.setEmployeeId(employeeId);
                     return q;
                 }).collect(Collectors.toList()));
+    }
+    
+    private QualityModel convertToDTO(Quality quality) {
+        QualityModel model = new QualityModel(quality);
+        return model;
     }
 }

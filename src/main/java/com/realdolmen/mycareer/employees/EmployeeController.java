@@ -2,7 +2,6 @@ package com.realdolmen.mycareer.employees;
 
 import com.realdolmen.mycareer.common.ResourceNotFoundException;
 import com.realdolmen.mycareer.common.ValidationException;
-import com.realdolmen.mycareer.domain.Employee;
 import com.realdolmen.mycareer.roles.RoleService;
 import javax.validation.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;

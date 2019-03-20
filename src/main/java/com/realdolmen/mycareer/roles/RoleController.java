@@ -2,8 +2,8 @@
 package com.realdolmen.mycareer.roles;
 
 import com.realdolmen.mycareer.common.ResourceNotFoundException;
-import com.realdolmen.mycareer.domain.Employee;
-import com.realdolmen.mycareer.domain.Role;
+import com.realdolmen.mycareer.common.dto.RoleModel;
+import com.realdolmen.mycareer.employees.Employee;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -25,24 +25,24 @@ public class RoleController {
     }
 
     @RequestMapping(value = "/roles", method = RequestMethod.GET)
-    public List<Role> getRoles() {
-        return roleService.findAll();
+    public List<RoleModel> getRoles() {
+        return roleService.findAll().stream().map(r -> convertToDTO(r)).collect(Collectors.toList());
     }
 
-    @RequestMapping(value = "/currentroles", method = RequestMethod.GET)
-    public List<Role> getCurrentRoles() {
-        return roleService.findAllCurrentRoles();
-    }
+//    @RequestMapping(value = "/currentroles", method = RequestMethod.GET)
+//    public List<Role> getCurrentRoles() {
+//        return roleService.findAllCurrentRoles();
+//    }
+//
+//    @RequestMapping(value = "/prevroles", method = RequestMethod.GET)
+//    public List<Role> getPreviousRoles() {
+//        return roleService.findAllPrevRoles();
+//    }
 
-    @RequestMapping(value = "/prevroles", method = RequestMethod.GET)
-    public List<Role> getPreviousRoles() {
-        return roleService.findAllPrevRoles();
-    }
-
-    @RequestMapping(value = "/employees/{id}/currentroles", method = RequestMethod.GET)
-    public List<Role> getCurrentRolesOfEmployee(@PathVariable("id") Long employeeId) {
-        return roleService.findCurrentRoles(employeeId);
-    }
+//    @RequestMapping(value = "/employees/{id}/currentroles", method = RequestMethod.GET)
+//    public List<Role> getCurrentRolesOfEmployee(@PathVariable("id") Long employeeId) {
+//        return roleService.findCurrentRoles(employeeId);
+//    }
 
 //    @RequestMapping(value = "/employees/{id}/prevroles", method = RequestMethod.GET)
 //    public List<Role> getPreviousRolesOfEmployee(@PathVariable("id") Long employeeId) {
@@ -60,8 +60,8 @@ public class RoleController {
 
 
     @RequestMapping(value = "/employees/{id}/roles", method = RequestMethod.GET)
-    public List<Role> getRolesOfEmployee(@PathVariable("id") Long employeeId) {
-        return roleService.findByEmployeeId(employeeId);
+    public List<RoleModel> getRolesOfEmployee(@PathVariable("id") Long employeeId) {
+        return roleService.findByEmployeeId(employeeId).stream().map(r -> convertToDTO(r)).collect(Collectors.toList());
     }
 
     /*
@@ -111,5 +111,10 @@ public class RoleController {
                     f.setEmployeeId(employeeId);
                     return f;
                 }).collect(Collectors.toList()));
+    }
+    
+    private RoleModel convertToDTO(Role role) {
+        RoleModel model = new RoleModel(role);
+        return model;
     }
 }

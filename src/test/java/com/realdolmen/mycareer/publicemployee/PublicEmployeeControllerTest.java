@@ -1,7 +1,7 @@
 package com.realdolmen.mycareer.publicemployee;
 
 import com.realdolmen.mycareer.common.dto.EmployeeModel;
-import com.realdolmen.mycareer.domain.Employee;
+import com.realdolmen.mycareer.employees.Employee;
 import com.realdolmen.mycareer.employees.EmployeeController;
 import java.util.Date;
 import java.util.Optional;
