@@ -21,30 +21,30 @@ public class AmbitionController {
     private final AmbitionService ambitionService;
 
     @Autowired
-    AmbitionController(AmbitionService ambitionService) {
+    public AmbitionController(AmbitionService ambitionService) {
         this.ambitionService = ambitionService;
     }
 
     @RequestMapping(value = "/ambitions", method = RequestMethod.GET)
-    List<Ambition> getAmbitions() {
+    public List<Ambition> getAmbitions() {
         return ambitionService.findAll();
     }
 
     @RequestMapping(value = "/employees/{id}/ambitions", method = RequestMethod.GET)
-    List<Ambition> getAmbitionsEmployee(@PathVariable("id") Long employeeId) {
+    public List<Ambition> getAmbitionsEmployee(@PathVariable("id") Long employeeId) {
         return ambitionService.findByEmployeeId(employeeId);
     }
 
     @Transactional
     @RequestMapping(value = "/employees/{id}/ambitions", method = RequestMethod.POST)
-    void postAmbitions(@PathVariable("id") Long employeeId, @RequestBody List<Ambition> ambitions) {
+    public void postAmbitions(@PathVariable("id") Long employeeId, @RequestBody List<Ambition> ambitions) {
         ambitionService.deleteByEmployeeId(employeeId);
         saveAmbitions(ambitions, employeeId);
     }
 
     @Transactional
     @RequestMapping(value = "/employees/{id}/ambitions", method = RequestMethod.PUT)
-    void updateAmbitions(@PathVariable("id") Long employeeId, @Valid @RequestBody List<Ambition> ambitions) //throws ValidationException
+    public void updateAmbitions(@PathVariable("id") Long employeeId, @Valid @RequestBody List<Ambition> ambitions) //throws ValidationException
     {
 //        try {
             ambitionService.deleteByEmployeeId(employeeId);
@@ -56,7 +56,7 @@ public class AmbitionController {
 
     @Transactional
     @RequestMapping(value = "employees/{id}/ambitions", method = RequestMethod.DELETE)
-    void deleteAmbitions(@PathVariable("id") Long employeeId) {
+    public void deleteAmbitions(@PathVariable("id") Long employeeId) {
         ambitionService.deleteByEmployeeId(employeeId);
     }
 

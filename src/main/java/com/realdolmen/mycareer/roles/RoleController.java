@@ -20,32 +20,32 @@ public class RoleController {
     RoleService roleService;
 
     @Autowired
-    RoleController(RoleService roleService) {
+    public RoleController(RoleService roleService) {
         this.roleService = roleService;
     }
 
     @RequestMapping(value = "/roles", method = RequestMethod.GET)
-    List<Role> getRoles() {
+    public List<Role> getRoles() {
         return roleService.findAll();
     }
 
     @RequestMapping(value = "/currentroles", method = RequestMethod.GET)
-    List<Role> getCurrentRoles() {
+    public List<Role> getCurrentRoles() {
         return roleService.findAllCurrentRoles();
     }
 
     @RequestMapping(value = "/prevroles", method = RequestMethod.GET)
-    List<Role> getPreviousRoles() {
+    public List<Role> getPreviousRoles() {
         return roleService.findAllPrevRoles();
     }
 
     @RequestMapping(value = "/employees/{id}/currentroles", method = RequestMethod.GET)
-    List<Role> getCurrentRolesOfEmployee(@PathVariable("id") Long employeeId) {
+    public List<Role> getCurrentRolesOfEmployee(@PathVariable("id") Long employeeId) {
         return roleService.findCurrentRoles(employeeId);
     }
 
 //    @RequestMapping(value = "/employees/{id}/prevroles", method = RequestMethod.GET)
-//    List<Role> getPreviousRolesOfEmployee(@PathVariable("id") Long employeeId) {
+//    public List<Role> getPreviousRolesOfEmployee(@PathVariable("id") Long employeeId) {
 //        Employee emp = employeeService
 //                .findById(employeeId)
 //                .orElseThrow(() -> new ResourceNotFoundException("Employee", "id", employeeId));
@@ -54,19 +54,19 @@ public class RoleController {
 
     @Transactional
     @RequestMapping(value = "/employees/{id}/roles", method = RequestMethod.DELETE)
-    void deleteAllByEmployee(@PathVariable("id") Long id) {
+    public void deleteAllByEmployee(@PathVariable("id") Long id) {
         roleService.deleteByEmployeeId(id);
     }
 
 
     @RequestMapping(value = "/employees/{id}/roles", method = RequestMethod.GET)
-    List<Role> getRolesOfEmployee(@PathVariable("id") Long employeeId) {
+    public List<Role> getRolesOfEmployee(@PathVariable("id") Long employeeId) {
         return roleService.findByEmployeeId(employeeId);
     }
 
     /*
     @RequestMapping(value = "/employees/{id}/role", method = RequestMethod.POST)
-    Role postRole(@PathVariable("id") Long employeeId, @Valid @RequestBody Role role){
+    public Role postRole(@PathVariable("id") Long employeeId, @Valid @RequestBody Role role){
         Employee emp = employeeService.findEmployeeById(employeeId);
         if(emp != null){
             emp.addRole(role);
@@ -79,14 +79,14 @@ public class RoleController {
 
     @Transactional
     @RequestMapping(value = "/employees/{id}/roles", method = RequestMethod.POST)
-    void postRoles(@PathVariable("id") Long employeeId, @RequestBody List<Role> roles) {
+    public void postRoles(@PathVariable("id") Long employeeId, @RequestBody List<Role> roles) {
         roleService.deleteByEmployeeId(employeeId);
         saveRoles(roles, employeeId);
     }
 
     @Transactional
     @RequestMapping(value = "/employees/{id}/roles", method = RequestMethod.PUT)
-    void updateRoles(@PathVariable("id") Long employeeId, @Valid @RequestBody List<Role> roles) {
+    public void updateRoles(@PathVariable("id") Long employeeId, @Valid @RequestBody List<Role> roles) {
         //        try{
         roleService.deleteByEmployeeId(employeeId);
         saveRoles(roles, employeeId);
@@ -96,7 +96,7 @@ public class RoleController {
     }
 
     @RequestMapping(value = "/roles/{id}", method = RequestMethod.DELETE)
-    void deleteRole(@PathVariable("id") Long id) {
+    public void deleteRole(@PathVariable("id") Long id) {
         Optional<Role> role = roleService.findById(id);
         if (role.isPresent()) {
             roleService.deleteRole(role.get());

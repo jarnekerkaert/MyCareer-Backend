@@ -23,17 +23,17 @@ public class QualityController {
     QualityService qualityService;
 
     @Autowired
-    QualityController(QualityService qualityService) {
+    public QualityController(QualityService qualityService) {
         this.qualityService = qualityService;
     }
 
     @RequestMapping(value = "/employees/{id}/qualities", method = RequestMethod.GET)
-    List<Quality> getAllQualitiesEmployee(@PathVariable("id") Long employeeId) {
+    public List<Quality> getAllQualitiesEmployee(@PathVariable("id") Long employeeId) {
         return qualityService.findByEmployeeId(employeeId);
     }
 
 //    @RequestMapping(value = "/employees/{id}/strongqualities", method = RequestMethod.GET)
-//    List<Quality> getStrongQualitiesOfEmployee(@PathVariable("id") Long employeeId) {
+//    public List<Quality> getStrongQualitiesOfEmployee(@PathVariable("id") Long employeeId) {
 //        Employee emp = employeeService
 //                .findById(employeeId)
 //                .orElseThrow(() -> new ResourceNotFoundException("Employee", "id", employeeId));
@@ -41,7 +41,7 @@ public class QualityController {
 //    }
 //
 //    @RequestMapping(value = "/employees/{id}/weakqualities", method = RequestMethod.GET)
-//    List<Quality> getWeakQualitiesOfEmployee(@PathVariable("id") Long employeeId) {
+//    public List<Quality> getWeakQualitiesOfEmployee(@PathVariable("id") Long employeeId) {
 //        Employee emp = employeeService
 //                .findById(employeeId)
 //                .orElseThrow(() -> new ResourceNotFoundException("Employee", "id", employeeId));
@@ -50,13 +50,13 @@ public class QualityController {
 
     @Transactional
     @RequestMapping(value = "/employees/{id}/qualities", method = RequestMethod.POST)
-    void postQualities(@PathVariable("id") Long employeeId, @RequestBody List<Quality> qualities) {
+    public void postQualities(@PathVariable("id") Long employeeId, @RequestBody List<Quality> qualities) {
         saveQualities(qualities,employeeId);
     }
 
     @Transactional
     @RequestMapping(value = "/employees/{id}/qualities", method = RequestMethod.PUT)
-    void updateQualities(@PathVariable("id") Long employeeId, @Valid @RequestBody List<Quality> qualities) //throws ValidationException
+    public void updateQualities(@PathVariable("id") Long employeeId, @Valid @RequestBody List<Quality> qualities) //throws ValidationException
     {
 //        try{
         qualityService.deleteByEmployeeId(employeeId);
@@ -69,12 +69,12 @@ public class QualityController {
 
     @Transactional
     @RequestMapping(value = "/employees/{id}/qualities", method = RequestMethod.DELETE)
-    void deleteAllByEmployeeId(@PathVariable("id") Long id) {
+    public void deleteAllByEmployeeId(@PathVariable("id") Long id) {
         qualityService.deleteByEmployeeId(id);
     }
 
     @RequestMapping(value = "/qualities/{id}", method = RequestMethod.DELETE)
-    void deleteById(@PathVariable("id") Long id) {
+    public void deleteById(@PathVariable("id") Long id) {
         qualityService.findQualityById(id)
                 .map(q -> {
                     qualityService.deleteQuality(q);
