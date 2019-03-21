@@ -36,35 +36,33 @@ public class EmployeeController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public 
-        //EmployeeModel 
-        Employee getEmployee(@PathVariable("id") Long employeeId) {
+    public EmployeeModel getEmployee(@PathVariable("id") Long employeeId) {
         Employee emp = employeeService.findById(employeeId)
                 .orElseThrow(() -> new ResourceNotFoundException("Employee", "id", employeeId));
-        //return convertToDTO(emp);
-        return emp;
+        return convertToDTO(emp);
     }
 
     @RequestMapping(value = "", method = RequestMethod.POST)
-    public void createEmployee(@Valid @RequestBody Employee employee) {
-            employeeService.save(employee);
+    public void createEmployee(@Valid @RequestBody EmployeeModel employee) {
+            //employeeService.save(convertToEmployee(employee.getId(),employee));
+            employeeService.save(convertToEmployee(employee));
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public void updateEmployee(@PathVariable("id") Long employeeId, @Valid @RequestBody EmployeeModel employee) {
         Employee emp = employeeService.findById(employeeId)
                 .map(e -> {
-                    e = convertToEmployee(employeeId, employee);
+                    e = convertToEmployee(employee);
                     return e;
                 })
                 .orElseThrow(() -> new ResourceNotFoundException("Employee", "id", employeeId));
         employeeService.save(emp);
     }
     
-    private Employee convertToEmployee(Long id, EmployeeModel model) {
+    private Employee convertToEmployee(EmployeeModel model) {
         Employee emp = new Employee();
 
-        emp.setId(id);
+        emp.setId(model.getId());
         emp.setFirstname(model.getFirstname());
         emp.setLastname(model.getLastname());
         emp.setEmail(model.getEmail());
@@ -75,7 +73,6 @@ public class EmployeeController {
     }
     
     private EmployeeModel convertToDTO(Employee emp) {
-        //List<Ambition> ambitions) {
         EmployeeModel model = new EmployeeModel(emp);
         return model;
     }
