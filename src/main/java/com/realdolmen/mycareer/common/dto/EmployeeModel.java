@@ -8,7 +8,6 @@ public class EmployeeModel {
     private String firstname;
     private String lastname;
     private String email;
-    private String cv_filepath;
     private Date birthdate;
     private List<RoleModel> roles;
     private List<QualityModel> qualities;
@@ -25,14 +24,6 @@ public class EmployeeModel {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getCv_filepath() {
-        return cv_filepath;
-    }
-
-    public void setCv_filepath(String cv_filepath) {
-        this.cv_filepath = cv_filepath;
     }
 
     public String getFirstname() {
@@ -90,14 +81,4 @@ public class EmployeeModel {
     public void setAmbitions(List<AmbitionModel> ambitions) {
         this.ambitions = ambitions;
     }
-
-//    public List<Ambition> getAmbitions() {
-//        return ambitions;
-//    }
-//
-//    public void setAmbitions(List<Ambition> ambitions) {
-//        this.ambitions = ambitions;
-//    }
-    
-    
 }
