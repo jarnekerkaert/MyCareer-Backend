@@ -1,6 +1,5 @@
 package com.realdolmen.mycareer.common.dto;
 
-import com.realdolmen.mycareer.ambitions.Ambition;
 import com.realdolmen.mycareer.common.Term;
 
 public class AmbitionModel {
@@ -11,14 +10,6 @@ public class AmbitionModel {
     private Term term;
 
     public AmbitionModel() {
-    }
-    
-    public AmbitionModel(Ambition ambition) {
-        this.id = ambition.getId();
-        this.employeeId = ambition.getEmployeeId();
-        this.title = ambition.getTitle();
-        this.motivation = ambition.getMotivation();
-        this.term = ambition.getTerm();        
     }
 
     public Long getId() {

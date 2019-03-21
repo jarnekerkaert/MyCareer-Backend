@@ -73,7 +73,13 @@ public class EmployeeController {
     }
     
     private EmployeeModel convertToDTO(Employee emp) {
-        EmployeeModel model = new EmployeeModel(emp);
+        EmployeeModel model = new EmployeeModel();
+        model.setId(emp.getId());
+        model.setFirstname(emp.getFirstname());
+        model.setLastname(emp.getLastname());
+        model.setBirthdate(emp.getBirthdate());
+        model.setCv_filepath(emp.getCv_filepath());
+        model.setEmail(emp.getEmail());
         return model;
     }
 }

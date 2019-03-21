@@ -3,10 +3,7 @@ package com.realdolmen.mycareer.qualities;
 
 import com.realdolmen.mycareer.common.ResourceNotFoundException;
 import com.realdolmen.mycareer.common.ValidationException;
-import com.realdolmen.mycareer.ambitions.Ambition;
 import com.realdolmen.mycareer.common.dto.QualityModel;
-import com.realdolmen.mycareer.employees.Employee;
-import com.realdolmen.mycareer.roles.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -93,7 +90,11 @@ public class QualityController {
     }
     
     private QualityModel convertToDTO(Quality quality) {
-        QualityModel model = new QualityModel(quality);
+        QualityModel model = new QualityModel();
+        model.setDescription(quality.getDescription());
+        model.setEmployeeId(quality.getEmployeeId());
+        model.setId(quality.getId());
+        model.setType(quality.getType());
         return model;
     }
     

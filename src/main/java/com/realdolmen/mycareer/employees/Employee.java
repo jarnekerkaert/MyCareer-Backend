@@ -6,7 +6,7 @@ import java.util.Date;
 import javax.validation.constraints.NotNull;
 
 @Entity
-public class Employee implements Serializable {
+class Employee implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id

@@ -6,7 +6,7 @@ import java.util.Objects;
 import javax.validation.constraints.NotNull;
 
 @Entity
-public class Role
+class Role
 {
     private static final long serialVersionUID = 1L;
 

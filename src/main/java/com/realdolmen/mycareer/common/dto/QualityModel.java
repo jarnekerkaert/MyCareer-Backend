@@ -1,7 +1,6 @@
 package com.realdolmen.mycareer.common.dto;
 
 import com.realdolmen.mycareer.common.QualityType;
-import com.realdolmen.mycareer.qualities.Quality;
 
 public class QualityModel {
 
@@ -11,13 +10,6 @@ public class QualityModel {
     private QualityType type;
 
     public QualityModel() {
-    }
-
-    public QualityModel(Quality quality) {
-        this.id = quality.getId();
-        this.employeeId = quality.getEmployeeId();
-        this.description = quality.getDescription();
-        this.type = quality.getType();
     }
 
     public Long getId() {

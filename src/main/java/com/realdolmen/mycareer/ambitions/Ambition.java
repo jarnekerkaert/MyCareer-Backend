@@ -13,7 +13,7 @@ import javax.validation.constraints.NotNull;
         typeClass = PostgreSQLEnumType.class
 )
 @Entity
-public class Ambition {
+class Ambition {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

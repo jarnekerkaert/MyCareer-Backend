@@ -1,6 +1,5 @@
 package com.realdolmen.mycareer.common.dto;
 
-import com.realdolmen.mycareer.roles.Role;
 import java.util.Date;
 
 public class RoleModel {
@@ -13,15 +12,6 @@ public class RoleModel {
     private Date ending;
 
     public RoleModel() {
-    }
-
-    public RoleModel(Role role) {
-        this.id = role.getId();
-        this.employeeId = role.getEmployeeId();
-        this.title = role.getTitle();
-        this.description = role.getDescription();
-        this.start = role.getStart();
-        this.ending = role.getEnding();
     }
 
     public Long getId() {

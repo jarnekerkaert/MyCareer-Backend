@@ -1,10 +1,5 @@
 package com.realdolmen.mycareer.common.dto;
 
-import com.realdolmen.mycareer.ambitions.Ambition;
-import com.realdolmen.mycareer.employees.Employee;
-import com.realdolmen.mycareer.roles.Role;
-import com.realdolmen.mycareer.qualities.Quality;
-
 import java.util.Date;
 import java.util.List;
 
@@ -22,15 +17,6 @@ public class EmployeeModel {
 
     public EmployeeModel() {
 
-    }
-
-    public EmployeeModel(Employee employee) {
-        this.id = employee.getId();
-        this.firstname = employee.getFirstname();
-        this.lastname = employee.getLastname();
-        this.email = employee.getEmail();
-        this.cv_filepath = employee.getCv_filepath();
-        this.birthdate = employee.getBirthdate();
     }
 
     public Long getId() {

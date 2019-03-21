@@ -13,7 +13,6 @@ import javax.validation.constraints.NotNull;
     name = "pgsql_enum",
     typeClass = PostgreSQLEnumType.class
 )
-public
 class Quality {
 
     @Id

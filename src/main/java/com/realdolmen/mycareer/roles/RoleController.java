@@ -3,7 +3,6 @@ package com.realdolmen.mycareer.roles;
 
 import com.realdolmen.mycareer.common.ResourceNotFoundException;
 import com.realdolmen.mycareer.common.dto.RoleModel;
-import com.realdolmen.mycareer.employees.Employee;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -114,7 +113,13 @@ public class RoleController {
     }
     
     private RoleModel convertToDTO(Role role) {
-        RoleModel model = new RoleModel(role);
+        RoleModel model = new RoleModel();
+        model.setDescription(role.getDescription());
+        model.setEmployeeId(role.getEmployeeId());
+        model.setId(role.getId());
+        model.setStart(role.getStart());
+        model.setEnding(role.getEnding());
+        model.setTitle(role.getTitle());
         return model;
     }
     

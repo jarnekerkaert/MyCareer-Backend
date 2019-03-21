@@ -3,8 +3,6 @@ package com.realdolmen.mycareer.ambitions;
 import com.realdolmen.mycareer.common.ResourceNotFoundException;
 import com.realdolmen.mycareer.common.ValidationException;
 import com.realdolmen.mycareer.common.dto.AmbitionModel;
-import com.realdolmen.mycareer.employees.Employee;
-import com.realdolmen.mycareer.roles.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -71,7 +69,12 @@ public class AmbitionController {
     }
     
     private AmbitionModel convertToDTO(Ambition ambition) {
-        AmbitionModel model = new AmbitionModel(ambition);
+        AmbitionModel model = new AmbitionModel();
+        model.setTitle(ambition.getTitle());
+        model.setMotivation(ambition.getMotivation());
+        model.setEmployeeId(ambition.getEmployeeId());
+        model.setId(ambition.getId());
+        model.setTerm(ambition.getTerm());
         return model;
     }
     
