@@ -1,5 +1,5 @@
 
-package com.realdolmen.mycareer.config;
+package com.realdolmen.mycareer.common.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;

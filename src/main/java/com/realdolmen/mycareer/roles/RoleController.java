@@ -2,7 +2,7 @@
 package com.realdolmen.mycareer.roles;
 
 import com.realdolmen.mycareer.common.ResourceNotFoundException;
-import com.realdolmen.mycareer.domain.Role;
+import com.realdolmen.mycareer.common.dto.RoleModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -23,8 +23,8 @@ public class RoleController {
     }
 
     @RequestMapping(value = "/roles", method = RequestMethod.GET)
-    public List<Role> getRoles() {
-        return roleService.findAll();
+    public List<RoleModel> getRoles() {
+        return roleService.findAll().stream().map(this::convertToDTO).collect(Collectors.toList());
     }
 
     @Transactional
@@ -34,21 +34,21 @@ public class RoleController {
     }
 
     @RequestMapping(value = "/employees/{id}/roles", method = RequestMethod.GET)
-    public List<Role> getRolesOfEmployee(@PathVariable("id") Long employeeId) {
-        return roleService.findByEmployeeId(employeeId);
+    public List<RoleModel> getRolesOfEmployee(@PathVariable("id") Long employeeId) {
+        return roleService.findByEmployeeId(employeeId).stream().map(this::convertToDTO).collect(Collectors.toList());
     }
 
     @Transactional
     @RequestMapping(value = "/employees/{id}/roles", method = RequestMethod.POST)
-    public void postRoles(@PathVariable("id") Long employeeId, @RequestBody List<Role> roles) {
-        saveRoles(roles, employeeId);
+    public void postRoles(@PathVariable("id") Long employeeId, @RequestBody List<RoleModel> roles) {
+        saveRoles(roles.stream().map(this::convertToRole).collect(Collectors.toList()), employeeId);
     }
 
     @Transactional
     @RequestMapping(value = "/employees/{id}/roles", method = RequestMethod.PUT)
-    public void updateRoles(@PathVariable("id") Long employeeId, @Valid @RequestBody List<Role> roles) {
+    public void updateRoles(@PathVariable("id") Long employeeId, @Valid @RequestBody List<RoleModel> roles) {
         roleService.deleteByEmployeeId(employeeId);
-        saveRoles(roles, employeeId);
+        saveRoles(roles.stream().map(this::convertToRole).collect(Collectors.toList()), employeeId);
     }
 
     @RequestMapping(value = "/roles/{id}", method = RequestMethod.DELETE)
@@ -63,9 +63,26 @@ public class RoleController {
 
     private void saveRoles(List<Role> roles, Long employeeId) {
         roleService.saveRoles(roles.stream()
-                .map(f -> {
-                    f.setEmployeeId(employeeId);
-                    return f;
-                }).collect(Collectors.toList()));
+                .peek(f -> f.setEmployeeId(employeeId)).collect(Collectors.toList()));
+    }
+
+    private RoleModel convertToDTO(Role role) {
+        RoleModel model = new RoleModel();
+        model.setDescription(role.getDescription());
+        model.setEmployeeId(role.getEmployeeId());
+        model.setId(role.getId());
+        model.setStart(role.getStart());
+        model.setEnding(role.getEnding());
+        model.setTitle(role.getTitle());
+        return model;
+    }
+
+     private Role convertToRole(RoleModel model) {
+        Role role = new Role();
+        role.setTitle(model.getTitle());
+        role.setDescription(model.getDescription());
+        role.setStart(model.getStart());
+        role.setEnding(model.getEnding());
+        return role;
     }
 }

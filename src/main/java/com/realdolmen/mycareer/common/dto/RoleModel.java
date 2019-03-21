@@ -1,31 +1,18 @@
-package com.realdolmen.mycareer.domain;
+package com.realdolmen.mycareer.common.dto;
 
-import javax.persistence.*;
 import java.util.Date;
-import java.util.Objects;
-import javax.validation.constraints.NotNull;
 
-@Entity
-public class Role
-{
-    private static final long serialVersionUID = 1L;
+public class RoleModel {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
-    @NotNull
     private Long employeeId;
-    @NotNull
     private String title;
-    @NotNull
     private String description;
-
     private Date start;
-
     private Date ending;
 
-    public Role() { }
+    public RoleModel() {
+    }
 
     public Long getId() {
         return id;
@@ -74,8 +61,6 @@ public class Role
     public void setEnding(Date ending) {
         this.ending = ending;
     }
-
-    public boolean isCurrent() {
-        return Objects.isNull(getEnding());
-    }
+    
+    
 }

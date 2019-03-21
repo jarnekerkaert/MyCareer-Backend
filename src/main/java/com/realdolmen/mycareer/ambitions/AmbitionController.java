@@ -2,9 +2,7 @@ package com.realdolmen.mycareer.ambitions;
 
 import com.realdolmen.mycareer.common.ResourceNotFoundException;
 import com.realdolmen.mycareer.common.ValidationException;
-import com.realdolmen.mycareer.domain.Ambition;
-import com.realdolmen.mycareer.domain.Employee;
-import com.realdolmen.mycareer.domain.Role;
+import com.realdolmen.mycareer.common.dto.AmbitionModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -32,8 +30,8 @@ public class AmbitionController {
     }
 
     @RequestMapping(value = "/employees/{id}/ambitions", method = RequestMethod.GET)
-    public List<Ambition> getAmbitionsEmployee(@PathVariable("id") Long employeeId) {
-        return ambitionService.findByEmployeeId(employeeId);
+    public List<AmbitionModel> getAmbitionsEmployee(@PathVariable("id") Long employeeId) {
+        return ambitionService.findByEmployeeId(employeeId).stream().map(a -> convertToDTO(a)).collect(Collectors.toList());
     }
 
     @Transactional
@@ -50,9 +48,10 @@ public class AmbitionController {
 
     @Transactional
     @RequestMapping(value = "/employees/{id}/ambitions", method = RequestMethod.PUT)
-    public void updateAmbitions(@PathVariable("id") Long employeeId, @Valid @RequestBody List<Ambition> ambitions) {
-        ambitionService.deleteByEmployeeId(employeeId);
-        ambitionService.saveAmbitions(ambitions);
+    public void updateAmbitions(@PathVariable("id") Long employeeId, @Valid @RequestBody List<AmbitionModel> ambitions)
+    {
+            ambitionService.deleteByEmployeeId(employeeId);
+            saveAmbitions(ambitions.stream().map(a -> convertToAmbition(a)).collect(Collectors.toList()),employeeId);
     }
 
     private void saveAmbitions(List<Ambition> ambitions, Long employeeId) {
@@ -61,5 +60,23 @@ public class AmbitionController {
                     a.setEmployeeId(employeeId);
                     return a;
                 }).collect(Collectors.toList()));
+    }
+
+    private AmbitionModel convertToDTO(Ambition ambition) {
+        AmbitionModel model = new AmbitionModel();
+        model.setTitle(ambition.getTitle());
+        model.setMotivation(ambition.getMotivation());
+        model.setEmployeeId(ambition.getEmployeeId());
+        model.setId(ambition.getId());
+        model.setTerm(ambition.getTerm());
+        return model;
+    }
+
+    private Ambition convertToAmbition(AmbitionModel model) {
+        Ambition ambition = new Ambition();
+        ambition.setTerm(model.getTerm());
+        ambition.setMotivation(model.getMotivation());
+        ambition.setTitle(model.getTitle());
+        return ambition;
     }
 }

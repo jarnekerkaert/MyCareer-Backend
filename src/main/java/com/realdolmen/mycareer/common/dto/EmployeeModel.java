@@ -1,10 +1,5 @@
 package com.realdolmen.mycareer.common.dto;
 
-import com.realdolmen.mycareer.domain.Ambition;
-import com.realdolmen.mycareer.domain.Employee;
-import com.realdolmen.mycareer.domain.Role;
-import com.realdolmen.mycareer.domain.Quality;
-
 import java.util.Date;
 import java.util.List;
 
@@ -14,20 +9,13 @@ public class EmployeeModel {
     private String lastname;
     private String email;
     private Date birthdate;
-    private List<Role> roles;
-    private List<Quality> qualities;
-    private List<Ambition> ambitions;
+    private List<RoleModel> roles;
+    private List<QualityModel> qualities;
+    private List<AmbitionModel> ambitions;
+    //private List<Ambition> ambitions;
 
     public EmployeeModel() {
 
-    }
-
-    public EmployeeModel(Employee employee) {
-        this.id = employee.getId();
-        this.firstname = employee.getFirstname();
-        this.lastname = employee.getLastname();
-        this.email = employee.getEmail();
-        this.birthdate = employee.getBirthdate();
     }
 
     public Long getId() {
@@ -70,27 +58,27 @@ public class EmployeeModel {
         this.email = email;
     }
 
-    public List<Role> getRoles() {
+    public List<RoleModel> getRoles() {
         return roles;
     }
 
-    public void setRoles(List<Role> roles) {
+    public void setRoles(List<RoleModel> roles) {
         this.roles = roles;
     }
 
-    public List<Quality> getQualities() {
+    public List<QualityModel> getQualities() {
         return qualities;
     }
 
-    public void setQualities(List<Quality> qualities) {
+    public void setQualities(List<QualityModel> qualities) {
         this.qualities = qualities;
     }
 
-    public List<Ambition> getAmbitions() {
+    public List<AmbitionModel> getAmbitions() {
         return ambitions;
     }
 
-    public void setAmbitions(List<Ambition> ambitions) {
+    public void setAmbitions(List<AmbitionModel> ambitions) {
         this.ambitions = ambitions;
     }
 }

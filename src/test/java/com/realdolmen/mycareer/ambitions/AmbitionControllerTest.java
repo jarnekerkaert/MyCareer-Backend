@@ -1,11 +1,12 @@
 package com.realdolmen.mycareer.ambitions;
 
-import com.realdolmen.mycareer.domain.Ambition;
-import com.realdolmen.mycareer.domain.Employee;
-import com.realdolmen.mycareer.domain.Term;
+import com.realdolmen.mycareer.common.Term;
+import com.realdolmen.mycareer.common.dto.AmbitionModel;
+import com.realdolmen.mycareer.common.dto.EmployeeModel;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentMatchers;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
@@ -21,15 +22,15 @@ public class AmbitionControllerTest {
     @Mock
     private AmbitionService serviceMock;
     private AmbitionController controller;
-    private Employee emp;
     private List<Ambition> ambitions;
+    private List<AmbitionModel> ambitionModels;
 
     @Before
     public void setUp() {
         controller = new AmbitionController(serviceMock);
 
-        makeEmployee();
-        makeAmbitions();
+        ambitions = makeAmbitions();
+        ambitionModels = makeAmbitionModels();
     }
 
     @Test
@@ -41,24 +42,13 @@ public class AmbitionControllerTest {
 
     @Test
     public void updateAmbitionsOfEmployee() {
-        controller.updateAmbitions(1L, ambitions);
+        controller.updateAmbitions(1L, ambitionModels);
 
         Mockito.verify(serviceMock).deleteByEmployeeId(1L);
-        Mockito.verify(serviceMock).saveAmbitions(ambitions);
-
+        Mockito.verify(serviceMock).saveAmbitions(ArgumentMatchers.refEq(ambitions));
     }
 
-    private void makeEmployee() {
-        emp = new Employee();
-        emp.setFirstname("Nathan");
-        emp.setLastname("Westerlinck");
-        emp.setEmail("test@test.com");
-        emp.setBirthdate(new Date());
-        emp.setPassword("plaintext");
-        emp.setId(1L);
-    }
-
-    private void makeAmbitions() {
+    private List<Ambition> makeAmbitions() {
         Ambition ambition1 = new Ambition();
         ambition1.setTitle("title1");
         ambition1.setMotivation("description1");
@@ -73,7 +63,24 @@ public class AmbitionControllerTest {
         ambition2.setId(201L);
         ambition2.setEmployeeId(1L);
 
-        ambitions = new ArrayList<>();
-        ambitions.addAll(Arrays.asList(ambition1, ambition2));
+        return new ArrayList<>(Arrays.asList(ambition1, ambition2));
+    }
+
+    private List<AmbitionModel> makeAmbitionModels() {
+        AmbitionModel ambition1 = new AmbitionModel();
+        ambition1.setTitle("title1");
+        ambition1.setMotivation("description1");
+        ambition1.setTerm(Term.LONG);
+        ambition1.setId(200L);
+        ambition1.setEmployeeId(1L);
+
+        AmbitionModel ambition2 = new AmbitionModel();
+        ambition2.setTitle("title1");
+        ambition2.setMotivation("description1");
+        ambition2.setTerm(Term.SHORT);
+        ambition2.setId(201L);
+        ambition2.setEmployeeId(1L);
+
+        return new ArrayList<>(Arrays.asList(ambition1, ambition2));
     }
 }

@@ -2,7 +2,7 @@
 package com.realdolmen.mycareer.employees;
 
 import com.realdolmen.mycareer.common.ResourceNotFoundException;
-import com.realdolmen.mycareer.domain.Employee;
+import com.realdolmen.mycareer.common.dto.EmployeeModel;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -28,11 +28,13 @@ public class EmployeeControllerTest {
 
     private EmployeeController controller;
     
-    private Employee emp;
-    private Employee badEmpDummy;
+    private Employee employee;
+    private EmployeeModel employeeModel;
+    private Employee badEmployee;
+    private EmployeeModel badEmployeeModel;
+    private Employee updatedEmployee;
+    private EmployeeModel updatedEmployeeModel;
     private Validator validator;
-    private Employee empDummy;
-    private Employee updatedEmployeeDummy;
 
     @Before
     public void setUp() {
@@ -41,12 +43,13 @@ public class EmployeeControllerTest {
         validator = Validation.buildDefaultValidatorFactory().getValidator();
           
         Mockito.when(serviceMock.findById(Mockito.any())).thenReturn(Optional.of(new Employee()));
-        
-        makeEmployee();
-        makeEmployeeDummy();
-        makeBadEmployeeDummy();
-        makeUpdatedEmployeeDummy();
-        
+
+        employee = makeEmployee();
+        employeeModel = makeEmployeeModel();
+        badEmployee = makeBadEmployee();
+        badEmployeeModel = makeBadEmployeeModel();
+        updatedEmployee = makeUpdatedEmployee();
+        updatedEmployeeModel = makeUpdatedEmployeeModel();
     }
 
     @Test
@@ -65,69 +68,82 @@ public class EmployeeControllerTest {
     
     @Test
     public void createEmployee() {
-        controller.createEmployee(empDummy);
+        employeeModel = makeEmployeeModel();
+        controller.createEmployee(employeeModel);
 
-        Mockito.verify(serviceMock).save(empDummy);
+        Mockito.verify(serviceMock).save(employee);
     }
     
     @Test
-    public void createEmployee_badInput() {
-        controller.createEmployee(badEmpDummy);
+    public void createEmployee_badInput_throwException() {
+        controller.createEmployee(badEmployeeModel);
 
-        Set<ConstraintViolation<Employee>> violations = validator.validate(badEmpDummy);
+        Set<ConstraintViolation<Employee>> violations = validator.validate(badEmployee);
         assertThat(violations.size()).isEqualTo(3);
-
-        Mockito.verifyZeroInteractions(serviceMock);
-    }
+}
     
     @Test 
     public void updateEmployee(){
-        controller.updateEmployee(1L, updatedEmployeeDummy);
+        controller.updateEmployee(1L, updatedEmployeeModel);
          
-         Mockito.verify(serviceMock).save(updatedEmployeeDummy);
+         Mockito.verify(serviceMock).save(updatedEmployee);
          
-         Mockito.when(serviceMock.findById(1L)).thenReturn(Optional.of(updatedEmployeeDummy));
-         assertEquals(serviceMock.findById(1L).get().getFirstname(),updatedEmployeeDummy.getFirstname());
+         Mockito.when(serviceMock.findById(1L)).thenReturn(Optional.of(updatedEmployee));
+         assertEquals(serviceMock.findById(1L).get().getFirstname(),updatedEmployee.getFirstname());
     }
     
     @Test(expected = ResourceNotFoundException.class)
     public void updateEmployee_NonExistent(){
         Mockito.when(serviceMock.findById(123L)).thenThrow(new ResourceNotFoundException());
 
-        controller.updateEmployee(123L, updatedEmployeeDummy);
+        controller.updateEmployee(123L, updatedEmployeeModel);
     }
 
-    private void makeEmployee(){
-        emp = new Employee();
+    private Employee makeEmployee(){
+        Employee emp = new Employee();
         emp.setFirstname("Nathan");
         emp.setLastname("Westerlinck");
         emp.setEmail("test@test.com");
         emp.setBirthdate(new Date());
         emp.setPassword("plaintext");
         emp.setId(1L);
-        controller.createEmployee(emp);
+        return emp;
     }
 
-    private void makeEmployeeDummy(){
-        empDummy = new Employee();
-        empDummy.setFirstname("Nathan");
-        empDummy.setLastname("Westerlinck");
-        empDummy.setEmail("test@test.com");
-        empDummy.setBirthdate(new Date());
-        empDummy.setPassword("plaintext");
-        empDummy.setId(3L);
+    private EmployeeModel makeEmployeeModel(){
+        EmployeeModel emp = new EmployeeModel();
+        emp.setFirstname("Nathan");
+        emp.setLastname("Westerlinck");
+        emp.setEmail("test@test.com");
+        emp.setBirthdate(new Date());
+        emp.setId(1L);
+        return emp;
     }
 
-    private void makeBadEmployeeDummy(){
-        badEmpDummy = new Employee();
+    private Employee makeBadEmployee(){
+        return new Employee();
     }
 
-    private void makeUpdatedEmployeeDummy(){
-        updatedEmployeeDummy = new Employee();
-        updatedEmployeeDummy.setFirstname("Jarne");
-        updatedEmployeeDummy.setLastname("Kerkaert");
-        updatedEmployeeDummy.setEmail("test@test.com");
-        updatedEmployeeDummy.setBirthdate(new Date());
-        updatedEmployeeDummy.setPassword("plaintext");
+    private EmployeeModel makeBadEmployeeModel(){
+        return new EmployeeModel();
+    }
+
+    private Employee makeUpdatedEmployee(){
+        Employee emp = new Employee();
+        emp.setFirstname("Jarne");
+        emp.setLastname("Kerkaert");
+        emp.setEmail("test@test.com");
+        emp.setBirthdate(new Date());
+        emp.setPassword("plaintext");
+        return emp;
+    }
+
+    private EmployeeModel makeUpdatedEmployeeModel(){
+        EmployeeModel emp = new EmployeeModel();
+        emp.setFirstname("Jarne");
+        emp.setLastname("Kerkaert");
+        emp.setEmail("test@test.com");
+        emp.setBirthdate(new Date());
+        return emp;
     }
 }

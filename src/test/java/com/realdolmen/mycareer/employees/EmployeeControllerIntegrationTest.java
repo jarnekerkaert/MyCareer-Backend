@@ -1,13 +1,9 @@
 package com.realdolmen.mycareer.employees;
 
-import com.realdolmen.mycareer.domain.Employee;
-import com.realdolmen.mycareer.employees.EmployeeController;
-import com.realdolmen.mycareer.employees.EmployeeService;
-import com.realdolmen.mycareer.domain.Role;
-import com.realdolmen.mycareer.roles.RoleService;
-import com.realdolmen.mycareer.domain.Quality;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.realdolmen.mycareer.common.dto.RoleModel;
+import com.realdolmen.mycareer.roles.RoleService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -43,37 +39,14 @@ public class EmployeeControllerIntegrationTest {
     RoleService roleService;
 
     private Employee empDummy;
-    private Role currentrole;
-    private Role prevrole;
-    private List<Role> listCurrentroles;
-    private List<Role> listPrevroles;
-    private List<Quality> listStrongQualities;
-    private List<Quality> listWeakQualities;
-    private Quality weakquality1;
-    private Quality strongquality1;
-    private List<Role> listRoles;
-    private List<Role> listCurrentRoles;
-    private List<Role> listPrevRoles;
-
-    public EmployeeControllerIntegrationTest() {
-    }
+    private List<RoleModel> roleModels;
 
     @Before
     public void before() {
-        // to get employee by id
-        empDummy = new Employee();
-        empDummy.setFirstname("Nathan");
-        empDummy.setLastname("Westerlinck");
-        empDummy.setEmail("test@test.com");
-        empDummy.setBirthdate(new Date());
-        empDummy.setPassword("plaintext");
-        empDummy.setId(1L);
+        empDummy = makeEmployee();
+
     }
 
-    /**
-     * Test for the GET API call getEmployee(Long employeeId) with an existing employeeId
-     * @throws Exception 
-     */
     @Test
     // TODO check datum
     public void getEmployee() throws Exception {
@@ -90,30 +63,15 @@ public class EmployeeControllerIntegrationTest {
                 .andExpect(jsonPath("email", is(empDummy.getEmail())));
     }
 
-    /**
-     * Test for the GET API call getEmployee(Long employeeId) with an nonexisting employeeId
-     * @throws Exception 
-     */
     @Test
     public void employeeNotFound() throws Exception {
         //mvc.perform(get("/employee/25663").accept(MediaType.APPLICATION_JSON_VALUE)).andExpect(status().isNotFound());        
         mvc.perform(get("/employees/25663")
                 .accept(MediaType.APPLICATION_JSON_VALUE))
-                .andExpect(status().isNotFound())
-                //.andExpect(content().string("Employee not found with id : '25663'"))
-                ;
+                .andExpect(status().isNotFound());
+                //.andExpect(content().string("Employee not found with id : '25663'"));
     }
 
-// ----------------------------------------------------------------------------------------------------------------------------------------------
-
-    // HELPMETHODS
-    /**
-     * Method to convert objects to JSON's
-     * @param obj an object is given as a parameter and this object will be
-     * converted to a JSON
-     * @return
-     * @throws JsonProcessingException
-     */
     protected String mapToJson(Object obj) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
         return objectMapper.writeValueAsString(obj);
@@ -130,5 +88,15 @@ public class EmployeeControllerIntegrationTest {
     private void createEmployee(){
         given(service.findById(1L)).willReturn(of(empDummy));
     }
-    
+
+    private Employee makeEmployee() {
+        Employee emp = new Employee();
+        emp.setFirstname("Nathan");
+        emp.setLastname("Westerlinck");
+        emp.setEmail("test@test.com");
+        emp.setBirthdate(new Date());
+        emp.setPassword("plaintext");
+        emp.setId(1L);
+        return emp;
+    }
 }
