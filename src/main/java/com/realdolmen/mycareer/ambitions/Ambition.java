@@ -1,5 +1,6 @@
-package com.realdolmen.mycareer.domain;
+package com.realdolmen.mycareer.ambitions;
 
+import com.realdolmen.mycareer.common.Term;
 import com.realdolmen.mycareer.common.PostgreSQLEnumType;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
@@ -12,7 +13,7 @@ import javax.validation.constraints.NotNull;
         typeClass = PostgreSQLEnumType.class
 )
 @Entity
-public class Ambition {
+class Ambition {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

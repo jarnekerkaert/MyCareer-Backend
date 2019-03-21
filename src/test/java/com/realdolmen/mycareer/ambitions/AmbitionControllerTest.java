@@ -1,9 +1,8 @@
 package com.realdolmen.mycareer.ambitions;
 
-import com.realdolmen.mycareer.domain.Ambition;
-import com.realdolmen.mycareer.domain.Employee;
-import com.realdolmen.mycareer.domain.Role;
-import com.realdolmen.mycareer.domain.Term;
+import com.realdolmen.mycareer.common.Term;
+import com.realdolmen.mycareer.employees.Employee;
+import com.realdolmen.mycareer.roles.Role;
 import com.realdolmen.mycareer.roles.RoleService;
 import java.util.ArrayList;
 import java.util.Arrays;

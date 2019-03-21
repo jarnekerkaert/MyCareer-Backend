@@ -3,9 +3,7 @@ package com.realdolmen.mycareer.qualities;
 
 import com.realdolmen.mycareer.common.ResourceNotFoundException;
 import com.realdolmen.mycareer.common.ValidationException;
-import com.realdolmen.mycareer.domain.Ambition;
-import com.realdolmen.mycareer.domain.Employee;
-import com.realdolmen.mycareer.domain.Quality;
+import com.realdolmen.mycareer.common.dto.QualityModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -28,8 +26,8 @@ public class QualityController {
     }
 
     @RequestMapping(value = "/employees/{id}/qualities", method = RequestMethod.GET)
-    public List<Quality> getAllQualitiesEmployee(@PathVariable("id") Long employeeId) {
-        return qualityService.findByEmployeeId(employeeId);
+    public List<QualityModel> getAllQualitiesEmployee(@PathVariable("id") Long employeeId) {
+        return qualityService.findByEmployeeId(employeeId).stream().map(q -> convertToDTO(q)).collect(Collectors.toList());
     }
 
 //    @RequestMapping(value = "/employees/{id}/strongqualities", method = RequestMethod.GET)
@@ -56,12 +54,12 @@ public class QualityController {
 
     @Transactional
     @RequestMapping(value = "/employees/{id}/qualities", method = RequestMethod.PUT)
-    public void updateQualities(@PathVariable("id") Long employeeId, @Valid @RequestBody List<Quality> qualities) //throws ValidationException
+    public void updateQualities(@PathVariable("id") Long employeeId, @Valid @RequestBody List<QualityModel> qualities) //throws ValidationException
     {
 //        try{
         qualityService.deleteByEmployeeId(employeeId);
         //qualityService.saveQualities(qualities);
-        saveQualities(qualities, employeeId);
+        saveQualities(qualities.stream().map(q -> convertToQuality(q)).collect(Collectors.toList()), employeeId);
 //        }catch(ConstraintViolationException|HttpServerErrorException e){
 //            throw new ValidationException();
 //        }
@@ -89,5 +87,23 @@ public class QualityController {
                     q.setEmployeeId(employeeId);
                     return q;
                 }).collect(Collectors.toList()));
+    }
+    
+    private QualityModel convertToDTO(Quality quality) {
+        QualityModel model = new QualityModel();
+        model.setDescription(quality.getDescription());
+        model.setEmployeeId(quality.getEmployeeId());
+        model.setId(quality.getId());
+        model.setType(quality.getType());
+        return model;
+    }
+    
+        private Quality convertToQuality(QualityModel model) {
+        Quality quality = new Quality();
+//        quality.setId(model.getId());
+//        quality.setEmployeeId(model.getEmployeeId());
+        quality.setType(model.getType());
+        quality.setDescription(model.getDescription());
+        return quality;
     }
 }

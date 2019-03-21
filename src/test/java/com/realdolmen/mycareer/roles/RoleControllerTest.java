@@ -1,8 +1,7 @@
 package com.realdolmen.mycareer.roles;
 
 import com.realdolmen.mycareer.common.ResourceNotFoundException;
-import com.realdolmen.mycareer.domain.Employee;
-import com.realdolmen.mycareer.domain.Role;
+import com.realdolmen.mycareer.employees.Employee;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;

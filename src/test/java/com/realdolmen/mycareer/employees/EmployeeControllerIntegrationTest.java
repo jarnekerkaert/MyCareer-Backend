@@ -1,11 +1,10 @@
 package com.realdolmen.mycareer.employees;
 
-import com.realdolmen.mycareer.domain.Employee;
 import com.realdolmen.mycareer.employees.EmployeeController;
 import com.realdolmen.mycareer.employees.EmployeeService;
-import com.realdolmen.mycareer.domain.Role;
+import com.realdolmen.mycareer.roles.Role;
 import com.realdolmen.mycareer.roles.RoleService;
-import com.realdolmen.mycareer.domain.Quality;
+import com.realdolmen.mycareer.qualities.Quality;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;

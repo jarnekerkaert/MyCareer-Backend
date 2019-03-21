@@ -2,7 +2,6 @@
 package com.realdolmen.mycareer.roles;
 
 
-import com.realdolmen.mycareer.domain.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
