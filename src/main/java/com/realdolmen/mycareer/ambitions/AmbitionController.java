@@ -46,11 +46,11 @@ public class AmbitionController {
 
     @Transactional
     @RequestMapping(value = "/employees/{id}/ambitions", method = RequestMethod.PUT)
-    public void updateAmbitions(@PathVariable("id") Long employeeId, @Valid @RequestBody List<Ambition> ambitions) //throws ValidationException
+    public void updateAmbitions(@PathVariable("id") Long employeeId, @Valid @RequestBody List<AmbitionModel> ambitions) //throws ValidationException
     {
 //        try {
             ambitionService.deleteByEmployeeId(employeeId);
-            saveAmbitions(ambitions,employeeId);
+            saveAmbitions(ambitions.stream().map(a -> convertToAmbition(a)).collect(Collectors.toList()),employeeId);
 //        } catch (ConstraintViolationException | HttpServerErrorException e) {
 //            throw new ValidationException();
 //        }
@@ -73,5 +73,14 @@ public class AmbitionController {
     private AmbitionModel convertToDTO(Ambition ambition) {
         AmbitionModel model = new AmbitionModel(ambition);
         return model;
+    }
+    
+    private Ambition convertToAmbition(AmbitionModel model) {
+        Ambition ambition = new Ambition();
+        ambition.setTerm(model.getTerm());
+        ambition.setMotivation(model.getMotivation());
+        ambition.setTitle(model.getTitle());
+//        ambition.setId(model.getId());
+        return ambition;
     }
 }

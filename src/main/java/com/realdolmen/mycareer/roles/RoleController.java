@@ -86,10 +86,10 @@ public class RoleController {
 
     @Transactional
     @RequestMapping(value = "/employees/{id}/roles", method = RequestMethod.PUT)
-    public void updateRoles(@PathVariable("id") Long employeeId, @Valid @RequestBody List<Role> roles) {
+    public void updateRoles(@PathVariable("id") Long employeeId, @Valid @RequestBody List<RoleModel> roles) {
         //        try{
         roleService.deleteByEmployeeId(employeeId);
-        saveRoles(roles, employeeId);
+        saveRoles(roles.stream().map(r -> convertToRole(r)).collect(Collectors.toList()), employeeId);
 //        }catch(ConstraintViolationException|HttpServerErrorException e){
 //            throw new ValidationException();
 //        }
@@ -116,5 +116,16 @@ public class RoleController {
     private RoleModel convertToDTO(Role role) {
         RoleModel model = new RoleModel(role);
         return model;
+    }
+    
+     private Role convertToRole(RoleModel model) {
+        Role role = new Role();
+//        role.setId(model.getId());
+//        role.setEmployeeId(model.getEmployeeId());
+        role.setTitle(model.getTitle());
+        role.setDescription(model.getDescription());
+        role.setStart(model.getStart());
+        role.setEnding(model.getEnding());
+        return role;
     }
 }

@@ -57,12 +57,12 @@ public class QualityController {
 
     @Transactional
     @RequestMapping(value = "/employees/{id}/qualities", method = RequestMethod.PUT)
-    public void updateQualities(@PathVariable("id") Long employeeId, @Valid @RequestBody List<Quality> qualities) //throws ValidationException
+    public void updateQualities(@PathVariable("id") Long employeeId, @Valid @RequestBody List<QualityModel> qualities) //throws ValidationException
     {
 //        try{
         qualityService.deleteByEmployeeId(employeeId);
         //qualityService.saveQualities(qualities);
-        saveQualities(qualities, employeeId);
+        saveQualities(qualities.stream().map(q -> convertToQuality(q)).collect(Collectors.toList()), employeeId);
 //        }catch(ConstraintViolationException|HttpServerErrorException e){
 //            throw new ValidationException();
 //        }
@@ -95,5 +95,14 @@ public class QualityController {
     private QualityModel convertToDTO(Quality quality) {
         QualityModel model = new QualityModel(quality);
         return model;
+    }
+    
+        private Quality convertToQuality(QualityModel model) {
+        Quality quality = new Quality();
+//        quality.setId(model.getId());
+//        quality.setEmployeeId(model.getEmployeeId());
+        quality.setType(model.getType());
+        quality.setDescription(model.getDescription());
+        return quality;
     }
 }
