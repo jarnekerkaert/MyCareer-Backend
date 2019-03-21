@@ -66,7 +66,6 @@ public class EmployeeControllerIntegrationTest {
         empDummy.setLastname("Westerlinck");
         empDummy.setEmail("test@test.com");
         empDummy.setBirthdate(new Date());
-        empDummy.setCv_filepath("leeg");
         empDummy.setPassword("plaintext");
         empDummy.setId(1L);
     }
@@ -88,9 +87,7 @@ public class EmployeeControllerIntegrationTest {
                 // .andExpect(content().string(containsString("Hello World")));
                 .andExpect(jsonPath("firstname", is(empDummy.getFirstname())))
                 .andExpect(jsonPath("lastname", is(empDummy.getLastname())))
-                .andExpect(jsonPath("email", is(empDummy.getEmail())))
-                .andExpect(jsonPath("cv_filepath", is(empDummy.getCv_filepath()))) //.andExpect(jsonPath("birthdate", is(empDummy.getBirthdate())))
-                ;
+                .andExpect(jsonPath("email", is(empDummy.getEmail())));
     }
 
     /**

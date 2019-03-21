@@ -3,25 +3,22 @@ package com.realdolmen.mycareer.employees;
 
 import com.realdolmen.mycareer.common.ResourceNotFoundException;
 import com.realdolmen.mycareer.domain.Employee;
-import java.util.Date;
-import java.util.Optional;
-import java.util.Set;
-import javax.validation.ConstraintViolation;
-import javax.validation.Validation;
-import javax.validation.Validator;
-import static org.assertj.core.api.Assertions.assertThat;
-import org.hibernate.exception.ConstraintViolationException;
-import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
-import org.mockito.runners.*;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
-import org.springframework.web.client.HttpClientErrorException;
+import org.mockito.junit.MockitoJUnitRunner;
+
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import java.util.Date;
+import java.util.Optional;
+import java.util.Set;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertEquals;
 
 @RunWith(MockitoJUnitRunner.class)
 public class EmployeeControllerTest {
@@ -51,43 +48,6 @@ public class EmployeeControllerTest {
         makeUpdatedEmployeeDummy();
         
     }
-    
-    private void makeEmployee(){
-        emp = new Employee();
-        emp.setFirstname("Nathan");
-        emp.setLastname("Westerlinck");
-        emp.setEmail("test@test.com");
-        emp.setBirthdate(new Date());
-        emp.setCv_filepath("leeg");
-        emp.setPassword("plaintext");
-        emp.setId(1L);
-        controller.createEmployee(emp);
-    }
-    
-    private void makeEmployeeDummy(){
-        empDummy = new Employee();
-        empDummy.setFirstname("Nathan");
-        empDummy.setLastname("Westerlinck");
-        empDummy.setEmail("test@test.com");
-        empDummy.setBirthdate(new Date());
-        empDummy.setCv_filepath("leeg");
-        empDummy.setPassword("plaintext");
-        empDummy.setId(3L);
-    }
-    
-    private void makeBadEmployeeDummy(){
-        badEmpDummy = new Employee();
-    }
-    
-    private void makeUpdatedEmployeeDummy(){
-        updatedEmployeeDummy = new Employee();
-        updatedEmployeeDummy.setFirstname("Jarne");
-        updatedEmployeeDummy.setLastname("Kerkaert");
-        updatedEmployeeDummy.setEmail("test@test.com");
-        updatedEmployeeDummy.setBirthdate(new Date());
-        updatedEmployeeDummy.setCv_filepath("leeg");
-        updatedEmployeeDummy.setPassword("plaintext");
-    }
 
     @Test
     public void getEmployee() {
@@ -116,9 +76,8 @@ public class EmployeeControllerTest {
 
         Set<ConstraintViolation<Employee>> violations = validator.validate(badEmpDummy);
         assertThat(violations.size()).isEqualTo(3);
-        
-        //verify(serviceMock, never()).save(badEmpDummy);
-        //Mockito.verifyZeroInteractions(serviceMock);
+
+        Mockito.verifyZeroInteractions(serviceMock);
     }
     
     @Test 
@@ -136,5 +95,39 @@ public class EmployeeControllerTest {
         Mockito.when(serviceMock.findById(123L)).thenThrow(new ResourceNotFoundException());
 
         controller.updateEmployee(123L, updatedEmployeeDummy);
+    }
+
+    private void makeEmployee(){
+        emp = new Employee();
+        emp.setFirstname("Nathan");
+        emp.setLastname("Westerlinck");
+        emp.setEmail("test@test.com");
+        emp.setBirthdate(new Date());
+        emp.setPassword("plaintext");
+        emp.setId(1L);
+        controller.createEmployee(emp);
+    }
+
+    private void makeEmployeeDummy(){
+        empDummy = new Employee();
+        empDummy.setFirstname("Nathan");
+        empDummy.setLastname("Westerlinck");
+        empDummy.setEmail("test@test.com");
+        empDummy.setBirthdate(new Date());
+        empDummy.setPassword("plaintext");
+        empDummy.setId(3L);
+    }
+
+    private void makeBadEmployeeDummy(){
+        badEmpDummy = new Employee();
+    }
+
+    private void makeUpdatedEmployeeDummy(){
+        updatedEmployeeDummy = new Employee();
+        updatedEmployeeDummy.setFirstname("Jarne");
+        updatedEmployeeDummy.setLastname("Kerkaert");
+        updatedEmployeeDummy.setEmail("test@test.com");
+        updatedEmployeeDummy.setBirthdate(new Date());
+        updatedEmployeeDummy.setPassword("plaintext");
     }
 }

@@ -84,7 +84,7 @@ public class PublicEmployeeController {
 //            throw new ResourceNotFoundException("Employee", "id", employeeId);
 //        }
         try {
-            template.put(url + serviceUrl + employeeId, convertToEmployee(Optional.of(employeeId), emp));
+            template.put(url + serviceUrl + employeeId, convertToEmployee(employeeId, emp));
             template.put(url + serviceUrl + employeeId + "/roles", emp.getRoles());
             template.put(url + serviceUrl + employeeId + "/qualities", emp.getQualities());
             template.put(url + serviceUrl + employeeId + "/ambitions", emp.getAmbitions());
@@ -103,14 +103,13 @@ public class PublicEmployeeController {
         return model;
     }
 
-    private Employee convertToEmployee(Optional<Long> id, EmployeeModel model) {
+    private Employee convertToEmployee(Long id, EmployeeModel model) {
         Employee emp = new Employee();
-        emp.setId(id.get());
+        emp.setId(id);
         emp.setFirstname(model.getFirstname());
         emp.setLastname(model.getLastname());
         emp.setEmail(model.getEmail());
         emp.setBirthdate(model.getBirthdate());
-        emp.setCv_filepath(model.getCv_filepath());
         return emp;
     }
 

@@ -13,7 +13,6 @@ public class EmployeeModel {
     private String firstname;
     private String lastname;
     private String email;
-    private String cv_filepath;
     private Date birthdate;
     private List<Role> roles;
     private List<Quality> qualities;
@@ -28,7 +27,6 @@ public class EmployeeModel {
         this.firstname = employee.getFirstname();
         this.lastname = employee.getLastname();
         this.email = employee.getEmail();
-        this.cv_filepath = employee.getCv_filepath();
         this.birthdate = employee.getBirthdate();
     }
 
@@ -38,14 +36,6 @@ public class EmployeeModel {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getCv_filepath() {
-        return cv_filepath;
-    }
-
-    public void setCv_filepath(String cv_filepath) {
-        this.cv_filepath = cv_filepath;
     }
 
     public String getFirstname() {

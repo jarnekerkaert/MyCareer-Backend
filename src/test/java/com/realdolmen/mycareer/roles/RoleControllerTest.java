@@ -1,22 +1,18 @@
 package com.realdolmen.mycareer.roles;
 
-import com.realdolmen.mycareer.common.ResourceNotFoundException;
 import com.realdolmen.mycareer.domain.Employee;
 import com.realdolmen.mycareer.domain.Role;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.junit.MockitoJUnitRunner;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import static org.junit.Assert.*;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.runners.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class RoleControllerTest {
@@ -47,7 +43,6 @@ public class RoleControllerTest {
         emp.setLastname("Westerlinck");
         emp.setEmail("test@test.com");
         emp.setBirthdate(new Date());
-        emp.setCv_filepath("leeg");
         emp.setPassword("plaintext");
         emp.setId(1L);
     }

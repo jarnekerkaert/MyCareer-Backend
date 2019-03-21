@@ -20,7 +20,6 @@ public class Employee implements Serializable {
     private String email;
     //@NotNull
     private String password;
-    private String cv_filepath;
     //@NotNull
     private Date birthdate;
 
@@ -30,14 +29,6 @@ public class Employee implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getCv_filepath() {
-        return cv_filepath;
-    }
-
-    public void setCv_filepath(String cv_filepath) {
-        this.cv_filepath = cv_filepath;
     }
 
     public String getFirstname() {
