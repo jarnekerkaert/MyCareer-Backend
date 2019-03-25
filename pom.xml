@@ -70,6 +70,8 @@
         <module>ambition-service</module>
         <module>publicemployee-service</module>
         <module>eureka-server</module>
+
+        <module>common-library</module>
     </modules>
 
     <dependencyManagement>

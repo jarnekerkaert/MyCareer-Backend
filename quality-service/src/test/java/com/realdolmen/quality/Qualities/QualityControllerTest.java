@@ -1,8 +1,8 @@
 
 package com.realdolmen.quality.Qualities;
 
-import com.realdolmen.mycareer.common.QualityType;
-import com.realdolmen.mycareer.common.dto.QualityModel;
+import com.realdolmen.mycareer.CommonLibrary.common.QualityType;
+import com.realdolmen.mycareer.CommonLibrary.common.dto.QualityModel;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

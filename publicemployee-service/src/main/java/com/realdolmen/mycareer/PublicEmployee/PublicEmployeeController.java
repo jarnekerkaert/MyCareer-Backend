@@ -1,11 +1,12 @@
 package com.realdolmen.mycareer.PublicEmployee;
 
-import com.realdolmen.mycareer.common.ResourceNotFoundException;
-import com.realdolmen.mycareer.common.ValidationException;
-import com.realdolmen.mycareer.common.dto.AmbitionModel;
-import com.realdolmen.mycareer.common.dto.QualityModel;
-import com.realdolmen.mycareer.common.dto.RoleModel;
-import com.realdolmen.mycareer.common.dto.EmployeeModel;
+
+import com.realdolmen.mycareer.CommonLibrary.common.ResourceNotFoundException;
+import com.realdolmen.mycareer.CommonLibrary.common.ValidationException;
+import com.realdolmen.mycareer.CommonLibrary.common.dto.AmbitionModel;
+import com.realdolmen.mycareer.CommonLibrary.common.dto.EmployeeModel;
+import com.realdolmen.mycareer.CommonLibrary.common.dto.QualityModel;
+import com.realdolmen.mycareer.CommonLibrary.common.dto.RoleModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
