@@ -28,6 +28,11 @@ public class PublicEmployeeController {
 
     private final RestTemplate template;
 
+    private final EmployeeClient employeeClient;
+    private final RoleClient roleClient;
+    private final QualityClient qualityClient;
+    private final AmbitionClient ambitionClient;
+
     private static Logger logger = LoggerFactory.getLogger(PublicEmployeeController.class);
 
     @Value("${app.backend.url}")
@@ -38,8 +43,12 @@ public class PublicEmployeeController {
     private final String serviceUrl = "employees";
 
     @Autowired
-    public PublicEmployeeController(RestTemplate template, Environment environment) {
+    public PublicEmployeeController(RestTemplate template, EmployeeClient employeeClient, RoleClient roleClient, QualityClient qualityClient, AmbitionClient ambitionClient, Environment environment) {
         this.template = template;
+        this.employeeClient = employeeClient;
+        this.roleClient = roleClient;
+        this.qualityClient = qualityClient;
+        this.ambitionClient = ambitionClient;
         this.environment = environment;
     }
 
@@ -48,35 +57,41 @@ public class PublicEmployeeController {
     public EmployeeModel getEmployeeById(@PathVariable("id") Long employeeId) throws ResourceNotFoundException {
         EmployeeModel emp;
         try {
-            emp = template.getForObject(buildUrl(url, environment.getProperty("app.backend.employee.port"), serviceUrl)
-                     + employeeId, EmployeeModel.class);
+//            emp = template.getForObject(buildUrl(url, environment.getProperty("app.backend.employee.port"), serviceUrl)
+//                     + employeeId, EmployeeModel.class);
+            emp = employeeClient.getEmployee(employeeId);
+
         } catch (HttpClientErrorException e) {
             logger.error("Resource not found", new ResourceNotFoundException("Employee", "id", employeeId));
             throw new ResourceNotFoundException("Employee", "id", employeeId);
         }
 
-        ResponseEntity<List<RoleModel>> roles = template.exchange(buildUrl(url, environment.getProperty("app.backend.role.port")
-                        , serviceUrl) + employeeId + "/roles",
-                HttpMethod.GET, null, new ParameterizedTypeReference<List<RoleModel>>() {
-                });
-        ResponseEntity<List<QualityModel>> qualities = template.exchange(buildUrl(url, environment.getProperty("app.backend.quality.port")
-                , serviceUrl) + employeeId + "/qualities",
-                HttpMethod.GET, null, new ParameterizedTypeReference<List<QualityModel>>() {
-                });
-        ResponseEntity<List<AmbitionModel>> ambitions = template.exchange(buildUrl(url, environment.getProperty("app.backend.ambition.port")
-                , serviceUrl) + employeeId + "/ambitions",
-                HttpMethod.GET, null, new ParameterizedTypeReference<List<AmbitionModel>>() {
-                });
+//        ResponseEntity<List<RoleModel>> roles = template.exchange(buildUrl(url, environment.getProperty("app.backend.role.port")
+//                        , serviceUrl) + employeeId + "/roles",
+//                HttpMethod.GET, null, new ParameterizedTypeReference<List<RoleModel>>() {
+//                });
+        List<RoleModel> roles = roleClient.getRolesOfEmployee(employeeId);
+//        ResponseEntity<List<QualityModel>> qualities = template.exchange(buildUrl(url, environment.getProperty("app.backend.quality.port")
+//                , serviceUrl) + employeeId + "/qualities",
+//                HttpMethod.GET, null, new ParameterizedTypeReference<List<QualityModel>>() {
+//                });
+        List<QualityModel> qualities = qualityClient.getAllQualitiesEmployee(employeeId);
+//        ResponseEntity<List<AmbitionModel>> ambitions = template.exchange(buildUrl(url, environment.getProperty("app.backend.ambition.port")
+//                , serviceUrl) + employeeId + "/ambitions",
+//                HttpMethod.GET, null, new ParameterizedTypeReference<List<AmbitionModel>>() {
+//                });
+        List<AmbitionModel> ambitions = ambitionClient.getAmbitionsEmployee(employeeId);
 
-        return this.fillDTO(emp, roles.getBody(), qualities.getBody(), ambitions.getBody());
+        return this.fillDTO(emp, roles, qualities, ambitions);
     }
 
     @Transactional
     @RequestMapping(value = "", method = RequestMethod.POST)
     public void createEmployee(@RequestBody EmployeeModel emp) throws ValidationException {
         try {
-            template.postForObject(buildUrl(url, environment.getProperty("app.backend.employee.port")
-                    , serviceUrl), emp, EmployeeModel.class);
+//            template.postForObject(buildUrl(url, environment.getProperty("app.backend.employee.port")
+//                    , serviceUrl), emp, EmployeeModel.class);
+            employeeClient.createEmployee(emp);
         } catch (HttpServerErrorException | HttpClientErrorException e) {
             e.printStackTrace();
             throw new ValidationException("Something went wrong...");
@@ -96,14 +111,18 @@ public class PublicEmployeeController {
 //        }
 
         try {
-            template.put(buildUrl(url, environment.getProperty("app.backend.employee.port")
-                    , serviceUrl) + employeeId, emp);
-            template.put(buildUrl(url, environment.getProperty("app.backend.role.port")
-                    , serviceUrl) + employeeId + "/roles", emp.getRoles());
-            template.put(buildUrl(url, environment.getProperty("app.backend.quality.port")
-                    , serviceUrl) + employeeId + "/qualities", emp.getQualities());
-            template.put(buildUrl(url, environment.getProperty("app.backend.ambition.port")
-                    , serviceUrl) + employeeId + "/ambitions", emp.getAmbitions());
+//            template.put(buildUrl(url, environment.getProperty("app.backend.employee.port")
+//                    , serviceUrl) + employeeId, emp);
+            employeeClient.updateEmployee(employeeId,emp);
+//            template.put(buildUrl(url, environment.getProperty("app.backend.role.port")
+//                    , serviceUrl) + employeeId + "/roles", emp.getRoles());
+            roleClient.updateRoles(employeeId,emp.getRoles());
+//            template.put(buildUrl(url, environment.getProperty("app.backend.quality.port")
+//                    , serviceUrl) + employeeId + "/qualities", emp.getQualities());
+            qualityClient.updateQualities(employeeId, emp.getQualities());
+//            template.put(buildUrl(url, environment.getProperty("app.backend.ambition.port")
+//                    , serviceUrl) + employeeId + "/ambitions", emp.getAmbitions());
+            ambitionClient.updateAmbitions(employeeId, emp.getAmbitions());
         } catch (HttpServerErrorException | HttpClientErrorException e) {
             e.printStackTrace();
             throw new ValidationException("Something went wrong...");
