@@ -69,6 +69,7 @@
         <module>quality-service</module>
         <module>ambition-service</module>
         <module>publicemployee-service</module>
+        <module>eureka-server</module>
     </modules>
 
     <dependencyManagement>
