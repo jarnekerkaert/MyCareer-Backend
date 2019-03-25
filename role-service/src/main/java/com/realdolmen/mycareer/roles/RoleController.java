@@ -2,8 +2,8 @@
 package com.realdolmen.mycareer.roles;
 
 
-import com.realdolmen.mycareer.commonlibrary.common.ResourceNotFoundException;
-import com.realdolmen.mycareer.commonlibrary.common.dto.RoleModel;
+import com.realdolmen.mycareer.common.ResourceNotFoundException;
+import com.realdolmen.mycareer.common.dto.RoleModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;

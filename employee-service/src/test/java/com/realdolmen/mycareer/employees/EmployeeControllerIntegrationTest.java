@@ -2,7 +2,7 @@ package com.realdolmen.mycareer.employees;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.realdolmen.mycareer.commonlibrary.common.dto.RoleModel;
+import com.realdolmen.mycareer.common.dto.RoleModel;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

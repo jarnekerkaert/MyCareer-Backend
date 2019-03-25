@@ -1,6 +1,6 @@
 package com.realdolmen.mycareer.roles;
 
-import com.realdolmen.mycareer.commonlibrary.common.dto.RoleModel;
+import com.realdolmen.mycareer.common.dto.RoleModel;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

@@ -1,7 +1,7 @@
 package com.realdolmen.mycareer.publicemployee;
 
-import com.realdolmen.mycareer.commonlibrary.common.ResourceNotFoundException;
-import com.realdolmen.mycareer.commonlibrary.common.dto.EmployeeModel;
+import com.realdolmen.mycareer.common.ResourceNotFoundException;
+import com.realdolmen.mycareer.common.dto.EmployeeModel;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

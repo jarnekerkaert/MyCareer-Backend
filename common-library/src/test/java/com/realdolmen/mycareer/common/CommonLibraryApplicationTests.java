@@ -1,4 +1,4 @@
-package com.realdolmen.mycareer.commonlibrary;
+package com.realdolmen.mycareer.common;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

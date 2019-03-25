@@ -1,13 +1,13 @@
 package com.realdolmen.mycareer.publicemployee;
 
-import com.realdolmen.mycareer.commonlibrary.common.dto.EmployeeModel;
+import com.realdolmen.mycareer.common.dto.EmployeeModel;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @FeignClient("employees")
-public interface EmployeeClient {
+interface EmployeeClient {
 
     @RequestMapping(value = "/employees/{id}", method = RequestMethod.GET)
     EmployeeModel getEmployee(@PathVariable("id") Long id);

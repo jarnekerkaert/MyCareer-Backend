@@ -1,11 +1,11 @@
 package com.realdolmen.mycareer.publicemployee;
 
-import com.realdolmen.mycareer.commonlibrary.common.ResourceNotFoundException;
-import com.realdolmen.mycareer.commonlibrary.common.ValidationException;
-import com.realdolmen.mycareer.commonlibrary.common.dto.AmbitionModel;
-import com.realdolmen.mycareer.commonlibrary.common.dto.EmployeeModel;
-import com.realdolmen.mycareer.commonlibrary.common.dto.QualityModel;
-import com.realdolmen.mycareer.commonlibrary.common.dto.RoleModel;
+import com.realdolmen.mycareer.common.ResourceNotFoundException;
+import com.realdolmen.mycareer.common.ValidationException;
+import com.realdolmen.mycareer.common.dto.AmbitionModel;
+import com.realdolmen.mycareer.common.dto.EmployeeModel;
+import com.realdolmen.mycareer.common.dto.QualityModel;
+import com.realdolmen.mycareer.common.dto.RoleModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

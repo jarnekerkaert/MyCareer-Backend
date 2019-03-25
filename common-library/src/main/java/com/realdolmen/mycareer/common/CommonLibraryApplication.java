@@ -1,4 +1,4 @@
-package com.realdolmen.mycareer.commonlibrary;
+package com.realdolmen.mycareer.common;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
