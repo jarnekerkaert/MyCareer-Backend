@@ -37,10 +37,11 @@ public class EmployeeController {
         Employee emp = employeeService.findById(employeeId)
                 .map(e -> {
                     e = convertToEmployee(employee);
+                    employeeService.save(e);
                     return e;
                 })
                 .orElseThrow(() -> new ResourceNotFoundException("Employee", "id", employeeId));
-        employeeService.save(emp);
+
     }
 
     private Employee convertToEmployee(EmployeeModel model) {

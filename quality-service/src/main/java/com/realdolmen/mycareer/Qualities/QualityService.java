@@ -1,5 +1,5 @@
 
-package com.realdolmen.quality.Qualities;
+package com.realdolmen.mycareer.Qualities;
 
 import com.realdolmen.mycareer.CommonLibrary.common.QualityType;
 import org.springframework.beans.factory.annotation.Autowired;

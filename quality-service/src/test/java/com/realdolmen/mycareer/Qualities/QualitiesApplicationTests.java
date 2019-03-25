@@ -1,4 +1,4 @@
-package com.realdolmen.quality.Qualities;
+package com.realdolmen.mycareer.Qualities;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

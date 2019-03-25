@@ -1,4 +1,4 @@
-package com.realdolmen.quality.Qualities;
+package com.realdolmen.mycareer.Qualities;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
