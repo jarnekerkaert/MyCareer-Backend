@@ -9,16 +9,10 @@ import com.realdolmen.mycareer.common.dto.RoleModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.core.env.Environment;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
-import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 
@@ -26,21 +20,20 @@ import java.util.List;
 @RequestMapping(value = "/api/employees")
 public class PublicEmployeeController {
 
-    private final RestTemplate template;
+    private final EmployeeClient employeeClient;
+    private final RoleClient roleClient;
+    private final QualityClient qualityClient;
+    private final AmbitionClient ambitionClient;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PublicEmployeeController.class);
 
-    @Value("${app.backend.url}")
-    private String url;
-
-    private final Environment environment;
-
-    private final String serviceUrl = "employees";
-
     @Autowired
-    public PublicEmployeeController(RestTemplate template, Environment environment) {
-        this.template = template;
-        this.environment = environment;
+    public PublicEmployeeController(EmployeeClient employeeClient, RoleClient roleClient,
+                                    QualityClient qualityClient, AmbitionClient ambitionClient) {
+        this.employeeClient = employeeClient;
+        this.roleClient = roleClient;
+        this.qualityClient = qualityClient;
+        this.ambitionClient = ambitionClient;
     }
 
     @Transactional
@@ -49,37 +42,25 @@ public class PublicEmployeeController {
         LOGGER.info("STARTING GET employee with id: {}", employeeId);
         EmployeeModel emp;
         try {
-            emp = template.getForObject(buildUrl(url, environment.getProperty("app.backend.employee.port"), serviceUrl)
-                    + employeeId, EmployeeModel.class);
+            emp = employeeClient.getEmployee(employeeId);
             LOGGER.info("GET employee with id: {} SUCCESS", employeeId);
         } catch (HttpClientErrorException e) {
             LOGGER.error("{} at GET employee with id: {}", e.getMessage(), employeeId);
             throw new ResourceNotFoundException("Employee", "id", employeeId);
         }
 
-        ResponseEntity<List<RoleModel>> roles = template.exchange(buildUrl(url, environment.getProperty("app.backend.role.port")
-                , serviceUrl) + employeeId + "/roles",
-                HttpMethod.GET, null, new ParameterizedTypeReference<List<RoleModel>>() {
-                });
+        List<RoleModel> roles = roleClient.getRolesOfEmployee(employeeId);
+        List<QualityModel> qualities = qualityClient.getAllQualitiesEmployee(employeeId);
+        List<AmbitionModel> ambitions = ambitionClient.getAmbitionsEmployee(employeeId);
 
-        ResponseEntity<List<QualityModel>> qualities = template.exchange(buildUrl(url, environment.getProperty("app.backend.quality.port")
-                , serviceUrl) + employeeId + "/quality",
-                HttpMethod.GET, null, new ParameterizedTypeReference<List<QualityModel>>() {
-                });
-        ResponseEntity<List<AmbitionModel>> ambitions = template.exchange(buildUrl(url, environment.getProperty("app.backend.ambition.port")
-                , serviceUrl) + employeeId + "/ambitions",
-                HttpMethod.GET, null, new ParameterizedTypeReference<List<AmbitionModel>>() {
-                });
-
-        return this.fillDTO(emp, roles.getBody(), qualities.getBody(), ambitions.getBody());
+        return this.fillDTO(emp, roles, qualities, ambitions);
     }
 
     @Transactional
     @RequestMapping(value = "", method = RequestMethod.POST)
     public void createEmployee(@RequestBody EmployeeModel emp) throws ValidationException {
         try {
-            template.postForObject(buildUrl(url, environment.getProperty("app.backend.employee.port")
-                    , serviceUrl), emp, EmployeeModel.class);
+            employeeClient.createEmployee(emp);
         } catch (HttpServerErrorException | HttpClientErrorException e) {
             e.printStackTrace();
             throw new ValidationException("Something went wrong...");
@@ -89,24 +70,11 @@ public class PublicEmployeeController {
     @Transactional
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public void updateEmployee(@PathVariable("id") Long employeeId, @RequestBody EmployeeModel emp) throws Exception {
-
-//        try {
-//            EmployeeModel getEmp = template.getForObject(buildUrl(url, environment.getProperty("app.backend.employee.port")
-//                    , serviceUrl) + employeeId, EmployeeModel.class);
-//        } catch (HttpClientErrorException e) {
-//            e.printStackTrace();
-//            throw new ResourceNotFoundException("Employee", "id", employeeId);
-//        }
-
         try {
-            template.put(buildUrl(url, environment.getProperty("app.backend.employee.port")
-                    , serviceUrl) + employeeId, emp);
-            template.put(buildUrl(url, environment.getProperty("app.backend.role.port")
-                    , serviceUrl) + employeeId + "/roles", emp.getRoles());
-            template.put(buildUrl(url, environment.getProperty("app.backend.quality.port")
-                    , serviceUrl) + employeeId + "/quality", emp.getQualities());
-            template.put(buildUrl(url, environment.getProperty("app.backend.ambition.port")
-                    , serviceUrl) + employeeId + "/ambitions", emp.getAmbitions());
+            employeeClient.updateEmployee(employeeId,emp);
+            roleClient.updateRoles(employeeId,emp.getRoles());
+            qualityClient.updateQualities(employeeId, emp.getQualities());
+            ambitionClient.updateAmbitions(employeeId, emp.getAmbitions());
         } catch (HttpServerErrorException | HttpClientErrorException e) {
             e.printStackTrace();
             throw new ValidationException("Something went wrong...");
@@ -119,14 +87,5 @@ public class PublicEmployeeController {
         emp.setAmbitions(ambitions);
         emp.setQualities(qualities);
         return emp;
-    }
-
-    private String buildUrl(String host, String port, String service) {
-        return host +
-                ":" +
-                port +
-                "/" +
-                service +
-                "/";
     }
 }
