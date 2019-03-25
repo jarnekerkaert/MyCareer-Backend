@@ -15,6 +15,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
@@ -28,7 +29,7 @@ public class PublicEmployeeController {
 
     private final RestTemplate template;
 
-    private static Logger logger = LoggerFactory.getLogger(PublicEmployeeController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(PublicEmployeeController.class);
 
     @Value("${app.backend.url}")
     private String url;
@@ -46,19 +47,22 @@ public class PublicEmployeeController {
     @Transactional
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public EmployeeModel getEmployeeById(@PathVariable("id") Long employeeId) throws ResourceNotFoundException {
+        LOGGER.info("STARTING GET employee with id: {}", employeeId);
         EmployeeModel emp;
         try {
             emp = template.getForObject(buildUrl(url, environment.getProperty("app.backend.employee.port"), serviceUrl)
-                     + employeeId, EmployeeModel.class);
+                    + employeeId, EmployeeModel.class);
+            LOGGER.info("GET employee with id: {} SUCCESS", employeeId);
         } catch (HttpClientErrorException e) {
-            logger.error("Resource not found", new ResourceNotFoundException("Employee", "id", employeeId));
+            LOGGER.error("{} at GET employee with id: {}", e.getMessage(), employeeId);
             throw new ResourceNotFoundException("Employee", "id", employeeId);
         }
 
         ResponseEntity<List<RoleModel>> roles = template.exchange(buildUrl(url, environment.getProperty("app.backend.role.port")
-                        , serviceUrl) + employeeId + "/roles",
+                , serviceUrl) + employeeId + "/roles",
                 HttpMethod.GET, null, new ParameterizedTypeReference<List<RoleModel>>() {
                 });
+
         ResponseEntity<List<QualityModel>> qualities = template.exchange(buildUrl(url, environment.getProperty("app.backend.quality.port")
                 , serviceUrl) + employeeId + "/qualities",
                 HttpMethod.GET, null, new ParameterizedTypeReference<List<QualityModel>>() {
@@ -111,7 +115,7 @@ public class PublicEmployeeController {
     }
 
     private EmployeeModel fillDTO(EmployeeModel emp, List<RoleModel> roles, List<QualityModel> qualities,
-                                 List<AmbitionModel> ambitions) {
+                                  List<AmbitionModel> ambitions) {
         emp.setRoles(roles);
         emp.setAmbitions(ambitions);
         emp.setQualities(qualities);
