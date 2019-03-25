@@ -67,6 +67,12 @@
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
 		</dependency>
+
+		<dependency>
+			<groupId>Realdolmen</groupId>
+			<artifactId>CommonLibrary</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 	</dependencies>
 
 	<dependencyManagement>

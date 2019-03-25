@@ -1,8 +1,8 @@
 
 package com.realdolmen.mycareer.Qualities;
 
-import com.realdolmen.mycareer.common.QualityType;
-import com.realdolmen.mycareer.common.PostgreSQLEnumType;
+import com.realdolmen.mycareer.CommonLibrary.common.QualityType;
+import com.realdolmen.mycareer.CommonLibrary.common.PostgreSQLEnumType;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 
